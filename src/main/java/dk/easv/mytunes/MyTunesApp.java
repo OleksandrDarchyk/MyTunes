@@ -7,12 +7,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Main extends Application {
+public class MyTunesApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("MyTunes.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MyTunesApp.class.getResource("MyTunes.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("My Tunesbl<2222");
+        stage.setTitle("My Tunes");
         stage.setScene(scene);
         stage.show();
     }

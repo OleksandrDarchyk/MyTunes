@@ -1,0 +1,7 @@
+.root {
+    -fx-background-color: #d3d3d3; /* Light gray background */
+    -fx-background-image: url("/dk/easv/mytunes/view/Pictures/image.jpg");
+    -fx-background-size: cover; /* Adjusts image size to cover entire area */
+    -fx-background-repeat: no-repeat; /* Avoid repeating the image */
+
+}

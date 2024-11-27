@@ -10,7 +10,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="878.0" stylesheets="@view/Style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.controllers.SongEditorController.MyTunesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="878.0" stylesheets="@view/Style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.controllers.MyTunesController">
    <children>
       <ListView layoutX="14.0" layoutY="143.0" opacity="0.2" prefHeight="381.0" prefWidth="200.0" />
       <ListView layoutX="239.0" layoutY="143.0" opacity="0.2" prefHeight="381.0" prefWidth="200.0" />

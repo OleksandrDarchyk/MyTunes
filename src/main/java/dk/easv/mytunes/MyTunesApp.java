@@ -9,12 +9,12 @@ import java.io.IOException;
 
 public class MyTunesApp extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage primaryStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MyTunesApp.class.getResource("MyTunes.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("My Tunes");
-        stage.setScene(scene);
-        stage.show();
+        primaryStage.setTitle("My Tunes");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public static void main(String[] args) {

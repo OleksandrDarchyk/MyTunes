@@ -1,45 +1,36 @@
 package dk.easv.mytunes.gui.controllers;
 
-import javafx.fxml.FXMLLoader;import javafx.scene.Scene;import javafx.scene.control.Button;import javafx.stage.Stage;import java.awt.event.ActionEvent;import java.io.IOException;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 
 public class SongEditorController {
+    @FXML
+    private Button btnChoose;
+    @FXML
+    private Button btnCancel;
+    @FXML
+    private Button btnSave;
+
     private MyTunesController myTunesController;
 
-    public static void setParentController(MyTunesController myTunesController) {
-        //this.myTunesController = myTunesController;
-    }
-public static class MyTunesController {
-
-
-    public Button btnEditSong;
-    public Button btnAddSong;
-    public Button btnEditPlaylist;
-    public Button btnAddPlaylist;
-
-    public void onEditSongClick(ActionEvent actionEvent) throws IOException {
-
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SongEditor.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        //SongEditorController songEditorController = fxmlLoader.getController();
-
-        setParentController(this);
-
-        Stage stage = new Stage();
-        stage.setTitle("New/Edit Song");
-        stage.setScene(scene);
-        stage.show();
-
+    public void setParentController(MyTunesController myTunesController) {
+        this.myTunesController = myTunesController;
+        System.out.println("Parent controller set successfully: " + myTunesController);
     }
 
-    public void onEditSongClick(javafx.event.ActionEvent actionEvent) {
+
+
+
+    public void onLoadMoreClick(ActionEvent actionEvent) {
     }
 
-    public void onAddSongClick(javafx.event.ActionEvent actionEvent) {
+    public void onChooseClick(ActionEvent actionEvent) {
     }
 
-    public void onEditPlaylistClick(javafx.event.ActionEvent actionEvent) {
+    public void onSaveClick(ActionEvent actionEvent) {
     }
 
-    public void onAddPlaylistClick(javafx.event.ActionEvent actionEvent) {
+    public void onCancelClick(ActionEvent actionEvent) {
     }
-}}
+}

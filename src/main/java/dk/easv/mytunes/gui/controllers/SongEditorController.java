@@ -16,11 +16,7 @@ public class SongEditorController {
 
     public void setParentController(MyTunesController myTunesController) {
         this.myTunesController = myTunesController;
-        System.out.println("Parent controller set successfully: " + myTunesController);
     }
-
-
-
 
     public void onLoadMoreClick(ActionEvent actionEvent) {
     }

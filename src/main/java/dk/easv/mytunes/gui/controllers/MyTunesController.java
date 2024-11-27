@@ -1,18 +1,17 @@
 package dk.easv.mytunes.gui.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 public class MyTunesController {
 
-    @FXML
-    private Button btnEditSong;
+
     @FXML
     private Button btnAddSong;
     @FXML
@@ -20,24 +19,35 @@ public class MyTunesController {
     @FXML
     private Button btnAddPlaylist;
 
-    public void onEditSongClick(javafx.event.ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SongEditor.fxml"));
+    private void openEditor(String fxmlPath, String title, Object parentController) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
         Scene scene = new Scene(fxmlLoader.load());
-        SongEditorController songEditorController = fxmlLoader.getController();
-        songEditorController.setParentController(this);
-
+        // Set the parent controller
+        Object controller = fxmlLoader.getController();
+        if (controller instanceof SongEditorController) {
+            ((SongEditorController) controller).setParentController((MyTunesController) parentController);
+        } else if (controller instanceof PlaylistEditorController) {
+            ((PlaylistEditorController) controller).setParentController((MyTunesController) parentController);
+        }
         Stage stage = new Stage();
-        stage.setTitle("New/Edit Song");
+        stage.setTitle(title);
         stage.setScene(scene);
         stage.show();
     }
 
-    public void onAddSongClick(javafx.event.ActionEvent actionEvent) {
+    public void onEditPlaylistClick(ActionEvent actionEvent) throws IOException {
+        openEditor("/dk/easv/mytunes/PlaylistEditor.fxml", "New/Edit Playlist", this);
     }
 
-    public void onEditPlaylistClick(javafx.event.ActionEvent actionEvent) {
+    public void onAddPlaylistClick(ActionEvent actionEvent) throws IOException {
+        openEditor("/dk/easv/mytunes/PlaylistEditor.fxml", "New/Edit Playlist", this);
     }
 
-    public void onAddPlaylistClick(javafx.event.ActionEvent actionEvent) {
+    public void onEditSongClick(ActionEvent actionEvent) throws IOException {
+        openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
+    }
+
+    public void onAddSongClick(ActionEvent actionEvent) throws IOException {
+        openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
     }
 }

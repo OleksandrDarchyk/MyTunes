@@ -33,7 +33,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TextField alignment="CENTER" prefHeight="26.0" prefWidth="250.0">
+                  <TextField fx:id="txtTitle" alignment="CENTER" prefHeight="26.0" prefWidth="250.0">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -53,7 +53,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TextField alignment="CENTER" prefHeight="26.0" prefWidth="250.0">
+                  <TextField fx:id="txtArtist" alignment="CENTER" prefHeight="26.0" prefWidth="250.0">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -73,8 +73,8 @@
                         <Font size="19.0" />
                      </font>
                   </Text>
-                  <ComboBox prefHeight="26.0" prefWidth="152.0" promptText="Pop" />
-                  <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="66.0" text="More">
+                  <ComboBox fx:id="comboBox" prefHeight="26.0" prefWidth="152.0" promptText="Pop" />
+                  <Button fx:id="btnMore" mnemonicParsing="false" onAction="#onLoadMoreClick" prefHeight="26.0" prefWidth="66.0" text="More">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
@@ -96,7 +96,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TextField alignment="CENTER" prefHeight="31.0" prefWidth="155.0">
+                  <TextField fx:id="txtTime" alignment="CENTER" prefHeight="31.0" prefWidth="155.0">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -116,12 +116,12 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TextField alignment="CENTER" prefHeight="31.0" prefWidth="250.0">
+                  <TextField fx:id="txtFile" alignment="CENTER" prefHeight="31.0" prefWidth="250.0">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </TextField>
-                  <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="66.0" text="Choose">
+                  <Button fx:id="btnChoose" mnemonicParsing="false" onAction="#onChooseClick" prefHeight="26.0" prefWidth="66.0" text="Choose">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -136,12 +136,12 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="97.0" prefWidth="594.0" spacing="20.0">
                <children>
-                  <Button mnemonicParsing="false" text="Cancel">
+                  <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onCancelClick" text="Cancel">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="62.0" text="Save">
+                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onSaveClick" prefHeight="30.0" prefWidth="62.0" text="Save">
                      <font>
                         <Font size="14.0" />
                      </font>

@@ -28,7 +28,7 @@ public class SongDAODB implements ISongDAO {
                 String artist = rs.getString("artist");
                 String category = rs.getString("category");
                 String time = rs.getString("time");
-                Song song = new Song(id,title,artist,category,time);
+                Song song = new Song(title,artist,category,time);
                 songs.add(song);
             }
         } catch (SQLException e) {

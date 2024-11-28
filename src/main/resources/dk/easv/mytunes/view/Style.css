@@ -10,36 +10,6 @@
 
     }
 
-.play-button
-    {
-    -fx-background-image:("dk/easv/mytunes/view/Pictures/play-button.png");
-    -fx-pref-width: 25px;
-    -fx-background-size: contain;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    }
-.forward
-    {
-    -fx-background-image:("dk/easv/mytunes/view/Pictures/forward.png");
-    -fx-pref-width: 25px;
-    -fx-background-size: contain;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    }
-.back
-    {
-    -fx-background-image:("dk/easv/mytunes/view/Pictures/back.png");
-    -fx-pref-width: 25px;
-    -fx-background-size: contain;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    }
-
-.search
-    {
-    -fx-background-image:("dk/easv/mytunes/view/Pictures/search.png");
-    -fx-pref-width: 25px;
-    -fx-background-size: contain;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    }
+  .radio-button{
+      -fx-background-radius: 30 30 30 30;
+  }

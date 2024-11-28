@@ -7,14 +7,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Main extends Application {
+public class MyTunesApp extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("MyTunes.fxml"));
+    public void start(Stage primaryStage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MyTunesApp.class.getResource("MyTunes.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("My Tunesbl<2222");
-        stage.setScene(scene);
-        stage.show();
+        primaryStage.setTitle("My Tunes");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public static void main(String[] args) {

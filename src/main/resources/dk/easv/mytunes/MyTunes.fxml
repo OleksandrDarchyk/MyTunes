@@ -11,21 +11,21 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="878.0" stylesheets="@view/Style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="878.0" stylesheets="@view/Style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.controllers.MyTunesController">
    <children>
       <ListView layoutX="14.0" layoutY="143.0" opacity="0.2" prefHeight="381.0" prefWidth="200.0" />
       <ListView layoutX="239.0" layoutY="143.0" opacity="0.2" prefHeight="381.0" prefWidth="200.0" />
       <ListView layoutX="546.0" layoutY="143.0" opacity="0.2" prefHeight="381.0" prefWidth="318.0" />
       <Button layoutX="789.0" layoutY="532.0" mnemonicParsing="false" text="Close" />
       <Button layoutX="679.0" layoutY="532.0" mnemonicParsing="false" text="Delete" />
-      <Button layoutX="604.0" layoutY="532.0" mnemonicParsing="false" text="Edit" />
-      <Button layoutX="546.0" layoutY="532.0" mnemonicParsing="false" text="New" />
+      <Button layoutX="604.0" layoutY="532.0" mnemonicParsing="false" onAction="#onEditSongClick" text="Edit" />
+      <Button fx:id="btnAddSong" layoutX="546.0" layoutY="532.0" mnemonicParsing="false" onAction="#onAddSongClick" text="New" />
       <Button layoutX="355.0" layoutY="532.0" mnemonicParsing="false" text="Delete" />
       <Button layoutX="278.0" layoutY="532.0" mnemonicParsing="false" text="↓" />
       <Button layoutX="239.0" layoutY="532.0" mnemonicParsing="false" text="↑" />
       <Button layoutX="107.0" layoutY="532.0" mnemonicParsing="false" text="Delete" />
-      <Button layoutX="62.0" layoutY="532.0" mnemonicParsing="false" text="Edit" />
-      <Button layoutX="14.0" layoutY="532.0" mnemonicParsing="false" text="New" />
+      <Button fx:id="btnEditPlaylist" layoutX="62.0" layoutY="532.0" mnemonicParsing="false" onAction="#onEditPlaylistClick" text="Edit" />
+      <Button fx:id="btnAddPlaylist" layoutX="14.0" layoutY="532.0" mnemonicParsing="false" onAction="#onAddPlaylistClick" text="New" />
       <Button layoutX="453.0" layoutY="143.0" mnemonicParsing="false" text="←" />
       <Button layoutX="788.0" layoutY="59.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-image: url(&quot;dk/easv/mytunes/view/Pictures/search.png&quot;);;" stylesheets="@view/Style.css" />
       <TextField layoutX="630.0" layoutY="59.0" opacity="0.2" />

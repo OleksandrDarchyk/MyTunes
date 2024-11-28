@@ -13,11 +13,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="878.0" stylesheets="@view/Style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.controllers.MyTunesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="888.0" stylesheets="@view/Style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.controllers.MyTunesController">
    <children>
       <ListView fx:id="lstPlaylists" layoutX="14.0" layoutY="143.0" opacity="0.2" prefHeight="381.0" prefWidth="200.0" />
       <ListView layoutX="239.0" layoutY="143.0" opacity="0.2" prefHeight="381.0" prefWidth="200.0" />
-      <Button layoutX="814.0" layoutY="532.0" mnemonicParsing="false" opacity="0.71" text="Close" />
+      <Button layoutX="825.0" layoutY="532.0" mnemonicParsing="false" opacity="0.76" text="Close" />
       <Button layoutX="617.0" layoutY="532.0" mnemonicParsing="false" opacity="0.71" text="Delete" />
       <Button fx:id="btnEditSong" layoutX="554.0" layoutY="532.0" mnemonicParsing="false" onAction="#onEditSongClick" opacity="0.71" text="Edit" />
       <Button fx:id="btnAddSong" layoutX="495.0" layoutY="532.0" mnemonicParsing="false" onAction="#onAddSongClick" opacity="0.71" text="New" />
@@ -57,7 +57,7 @@
          </styleClass></Button>
       <Button layoutX="181.0" layoutY="51.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="38.0" styleClass="radio-button" stylesheets="@view/Style.css" text="⏭" />
       <Label layoutX="19.0" layoutY="122.0" prefHeight="17.0" prefWidth="161.0" text="Playlists" textFill="WHITE" />
-      <TableView fx:id="lstSongs" layoutX="496.0" layoutY="142.0" prefHeight="382.0" prefWidth="367.0">
+      <TableView fx:id="lstSongs" layoutX="496.0" layoutY="142.0" opacity="0.75" prefHeight="382.0" prefWidth="374.0">
         <columns>
           <TableColumn fx:id="titleColumn" prefWidth="129.60003662109375" text="Title" />
           <TableColumn fx:id="artistColumn" prefWidth="110.4000244140625" text="Artist" />

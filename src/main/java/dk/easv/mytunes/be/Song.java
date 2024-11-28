@@ -1,7 +1,6 @@
 package dk.easv.mytunes.be;
 
 public class Song {
-
     private String title;
     private String artist;
     private String category;

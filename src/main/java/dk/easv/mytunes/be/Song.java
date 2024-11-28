@@ -1,17 +1,26 @@
 package dk.easv.mytunes.be;
 
 public class Song {
+    private int id;
     private String title;
     private String artist;
     private String category;
     private String time;
 
-    public Song(String title, String artist, String category, String time) {
-
+    public Song(int id, String title, String artist, String category, String time) {
+        this.id = id;
         this.title = title;
         this.artist = artist;
         this.category = category;
         this.time = time;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -48,6 +57,6 @@ public class Song {
 
     @Override
     public String toString() {
-        return title + "\t" + artist + "\t" + category + "\t" + time;
+        return id + "," + title + "," + artist + "," + category + "," + time;
     }
 }

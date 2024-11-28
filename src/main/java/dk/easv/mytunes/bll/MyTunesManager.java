@@ -11,7 +11,6 @@ import java.util.List;
 public class MyTunesManager {
     private final SongDAO songDAO = new SongDAO();
 
-
     // Get all songs
     public List<Song> getSongs() throws IOException {
         return songDAO.getAll();

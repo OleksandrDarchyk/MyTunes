@@ -23,11 +23,12 @@ public class SongDAODB implements ISongDAO {
             PreparedStatement ps = c.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
+                int id = rs.getInt("id");
                 String title = rs.getString("title");
                 String artist = rs.getString("artist");
                 String category = rs.getString("category");
                 String time = rs.getString("time");
-                Song song = new Song(title,artist,category,time);
+                Song song = new Song(id,title,artist,category,time);
                 songs.add(song);
             }
         } catch (SQLException e) {

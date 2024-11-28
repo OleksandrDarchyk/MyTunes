@@ -11,13 +11,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SongDAO implements ISongDAO {
+public class SongDAO {
     private final String splitChar = ";";
     private final Path filePath;
     public SongDAO() {filePath = Paths.get("songs.csv");}
 
     // Load songs from csv file
-    @Override
     public List<Song> getAll() throws IOException {
         List<Song> songs = new ArrayList<>();
         if (Files.exists(filePath)) {
@@ -27,20 +26,20 @@ public class SongDAO implements ISongDAO {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            for (String line : lines)
-            {
+            for (String line : lines) {
                 String[] parts = line.split(splitChar);
-                if (parts.length == 4){
+                if (parts.length == 5){
                     try{
+                        int id = Integer.parseInt(parts[0].trim());
                         String title = parts[0].trim();
                         String artist = parts[1].trim();
                         String category = parts[2].trim();
                         String time = parts[3].trim();
-                        songs.add(new Song(title, artist, category, time));
+                        songs.add(new Song(id, title, artist, category, time));
                         System.out.println("Getting all songs");
                     } catch (NumberFormatException e){
                         // Log the error instead of printing it
-                        Logger.getLogger(SongDAO.class.getName()).log(Level.WARNING,"Invalid user ID format: " + parts[0],e);
+                        Logger.getLogger(SongDAO.class.getName()).log(Level.WARNING,"Invalid title: " + parts[0],e);
                     }
                 } else {
                     Logger.getLogger(SongDAO.class.getName()).log(Level.WARNING,"Invalid line format: " + line);
@@ -56,7 +55,23 @@ public class SongDAO implements ISongDAO {
         for (Song song : songs) {
             lines.add(song.getTitle() + splitChar + song.getArtist() + splitChar + song.getCategory() + splitChar + song.getTime());
         }
-        Files.write(filePath, lines); // Overwrites the file
+        try {
+            Files.write(filePath, lines); // Overwrites the file
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Get the next available user ID
+    private int getNextId() throws IOException {
+        List<Song> songs = getAll();
+        int maxId = 0;
+        for (Song song : songs) {
+            if (song.getId() > maxId) {
+                maxId = song.getId();
+            }
+        }
+        return maxId + 1;
     }
 
 

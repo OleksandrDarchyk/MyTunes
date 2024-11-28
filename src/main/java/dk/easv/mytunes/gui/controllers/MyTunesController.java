@@ -34,6 +34,7 @@ public class MyTunesController implements Initializable {
         lstSongs.setItems(myTunesModel.getSongs());
     }
 
+    // Click new and edit button, dialogs show up.
     private void openEditor(String fxmlPath, String title, Object parentController) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
         Scene scene = new Scene(fxmlLoader.load());

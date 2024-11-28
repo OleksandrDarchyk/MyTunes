@@ -8,6 +8,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,9 +19,18 @@ import java.util.ResourceBundle;
 
 public class MyTunesController implements Initializable {
     @FXML
+    private TableColumn artistColumn;
+    @FXML
+    private TableColumn categoryColumn;
+    @FXML
+    private TableColumn timeColumn;
+    @FXML
+    private TableColumn titleColumn;
+
+    @FXML
     private ListView lstPlaylists;
     @FXML
-    private ListView lstSongs;
+    private TableView lstSongs;
     @FXML
     private Button btnEditSong;
     @FXML
@@ -31,7 +43,14 @@ public class MyTunesController implements Initializable {
     private final MyTunesModel myTunesModel = new MyTunesModel();
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        lstSongs.getItems().clear();
         lstSongs.setItems(myTunesModel.getSongs());
+
+        // For TableView columns, set the cell value factories
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        artistColumn.setCellValueFactory(new PropertyValueFactory<>("artist"));
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
     }
 
     // Click new and edit button, dialogs show up.

@@ -2,6 +2,7 @@ package dk.easv.mytunes.gui.models;
 
 import dk.easv.mytunes.be.Song;
 import dk.easv.mytunes.bll.MyTunesManager;
+import dk.easv.mytunes.gui.controllers.MyTunesController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

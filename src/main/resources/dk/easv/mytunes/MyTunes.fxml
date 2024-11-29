@@ -46,7 +46,7 @@
       <TextField layoutX="14.0" layoutY="143.0" opacity="0.71" prefHeight="26.0" prefWidth="200.0" text="Name             Songs         Time" />
       <Label layoutX="238.0" layoutY="122.0" prefHeight="17.0" prefWidth="161.0" text="Songs on Playlist" textFill="WHITE" />
       <Label layoutX="496.0" layoutY="122.0" prefHeight="17.0" prefWidth="253.0" text="Songs on Playlist" textFill="WHITE" />
-      <Button layoutX="127.0" layoutY="36.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="38.0" styleClass="radio-button" stylesheets="@view/Style.css" text="⏯">
+      <Button fx:id="btnPlay" layoutX="127.0" layoutY="36.0" mnemonicParsing="false" onAction="#onPlayButtonClick" prefHeight="36.0" prefWidth="38.0" styleClass="radio-button" stylesheets="@view/Style.css" text="⏯">
          <font>
             <Font size="14.0" />
          </font></Button>

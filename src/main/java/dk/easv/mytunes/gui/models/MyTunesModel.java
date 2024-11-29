@@ -17,7 +17,7 @@ public class MyTunesModel {
     public ObservableList<Song> getSongs() {
         try {
             List<Song> songList = myTunesManager.getSongs();
-            System.out.println("Loaded songs: " + songList.size());
+
             songs.setAll(songList);  // Update the ObservableList with the loaded songs
         } catch (IOException e) {
             System.out.println("Error loading songs: " + e.getMessage());

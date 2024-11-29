@@ -32,13 +32,13 @@
       <TextField layoutX="630.0" layoutY="59.0" opacity="0.2" />
       <Label layoutX="591.0" layoutY="63.0" text="Filter" textFill="#fffefe" />
       <TextField layoutX="319.0" layoutY="51.0" opacity="0.2" text="(...) is playing" />
-      <Slider layoutX="76.0" layoutY="90.0" />
+      <Slider layoutX="65.0" layoutY="91.0" prefHeight="1.0" prefWidth="136.0" />
       <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="290.0" layoutY="54.0">
          <image>
             <Image url="@view/Pictures/download.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="39.0" layoutY="82.0">
+      <ImageView fx:id="volume" fitHeight="20.0" fitWidth="20.0" layoutX="36.0" layoutY="89.0">
          <image>
             <Image url="@view/Pictures/volume-up.png" />
          </image>
@@ -46,18 +46,21 @@
       <TextField layoutX="14.0" layoutY="143.0" opacity="0.71" prefHeight="26.0" prefWidth="200.0" text="Name             Songs         Time" />
       <Label layoutX="238.0" layoutY="122.0" prefHeight="17.0" prefWidth="161.0" text="Songs on Playlist" textFill="WHITE" />
       <Label layoutX="496.0" layoutY="122.0" prefHeight="17.0" prefWidth="253.0" text="Songs on Playlist" textFill="WHITE" />
-      <Button fx:id="btnPlay" layoutX="127.0" layoutY="36.0" mnemonicParsing="false" onAction="#onPlayButtonClick" prefHeight="36.0" prefWidth="38.0" styleClass="radio-button" stylesheets="@view/Style.css" text="⏯">
+      <Button fx:id="btnPlay" contentDisplay="CENTER" layoutX="95.0" layoutY="31.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onPlayButtonClick" opacity="0.85" prefHeight="45.0" prefWidth="45.0" styleClass="radio-button" stylesheets="@view/Style.css" text="⏯" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font></Button>
-      <Button layoutX="73.0" layoutY="51.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="38.0" stylesheets="@view/Style.css" text="⏮">
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="33.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onPreviousButtonClick" opacity="0.85" prefHeight="40.0" prefWidth="40.0" stylesheets="@view/Style.css" text="⏮" textAlignment="CENTER">
          <styleClass>
             <String fx:value="back" />
             <String fx:value="radio-button" />
          </styleClass></Button>
-      <Button layoutX="181.0" layoutY="51.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="38.0" styleClass="radio-button" stylesheets="@view/Style.css" text="⏭" />
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="161.0" layoutY="33.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#NextButtonClick" opacity="0.85" prefHeight="40.0" prefWidth="40.0" styleClass="radio-button" stylesheets="@view/Style.css" text="⏭" textAlignment="CENTER">
+         <font>
+            <Font size="9.0" />
+         </font></Button>
       <Label layoutX="19.0" layoutY="122.0" prefHeight="17.0" prefWidth="161.0" text="Playlists" textFill="WHITE" />
-      <TableView fx:id="lstSongs" layoutX="496.0" layoutY="142.0" opacity="0.75" prefHeight="382.0" prefWidth="374.0">
+      <TableView fx:id="lstSongs" layoutX="496.0" layoutY="142.0" opacity="0.65" prefHeight="382.0" prefWidth="374.0">
         <columns>
           <TableColumn fx:id="titleColumn" prefWidth="129.60003662109375" text="Title" />
           <TableColumn fx:id="artistColumn" prefWidth="110.4000244140625" text="Artist" />

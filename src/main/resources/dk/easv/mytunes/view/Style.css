@@ -7,9 +7,32 @@
     -fx-background-image: url("/dk/easv/mytunes/view/Pictures/image.jpg");
     -fx-background-size: cover; /* Adjusts image size to cover entire area */
     -fx-background-repeat: no-repeat; /* Avoid repeating the image */
-
     }
 
-  .radio-button{
-      -fx-background-radius: 30 30 30 30;
+  .radio-button {
+    -fx-background-radius: 50%;
+    -fx-text-fill: white;
+    -fx-font-size: 10px;
+    -fx-alignment: center;
+    -fx-border-color: transparent;
+    -fx-border-radius: 50%;
+    -fx-padding: 0px;
+    -fx-content-display: center;
   }
+
+  .radio-button:hover {
+    -fx-background-color: rgba(98, 0, 234, 0.1);
+  }
+
+  .radio-button:pressed {
+    -fx-background-color: rgba(81, 45, 168, 0.1); /* Pressed effect */
+    -fx-background-color: #512da8; /* Darker purple when pressed */
+  }
+  .radio-button .text {
+    -fx-font-family: "FontAwesome";
+    -fx-font-size: 20px;
+    -fx-alignment: center;
+    -fx-content-display: center;
+  }
+
+

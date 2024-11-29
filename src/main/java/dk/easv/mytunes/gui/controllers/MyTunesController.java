@@ -7,10 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -59,66 +56,103 @@ public class MyTunesController implements Initializable {
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
     }
 
-    // Click new and edit button, dialogs show up.
-    private void openEditor(String fxmlPath, String title, Object parentController) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
-        Scene scene = new Scene(fxmlLoader.load());
-        // Set the parent controller
-        Object controller = fxmlLoader.getController();
-        if (controller instanceof SongEditorController) {
-            ((SongEditorController) controller).setParentController((MyTunesController) parentController);
-        } else if (controller instanceof PlaylistEditorController) {
-            ((PlaylistEditorController) controller).setParentController((MyTunesController) parentController);
-        }
-        Stage stage = new Stage();
-        stage.setTitle(title);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void onEditPlaylistClick(ActionEvent actionEvent) throws IOException {
-        openEditor("/dk/easv/mytunes/PlaylistEditor.fxml", "New/Edit Playlist", this);
-    }
-
-    public void onAddPlaylistClick(ActionEvent actionEvent) throws IOException {
-        openEditor("/dk/easv/mytunes/PlaylistEditor.fxml", "New/Edit Playlist", this);
-    }
-
-    public void onEditSongClick(ActionEvent actionEvent) throws IOException {
-        openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
-    }
-
-    public void onAddSongClick(ActionEvent actionEvent) throws IOException {
-        openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
-    }
-
     // Make play btn to play music
     public void onPlayButtonClick(ActionEvent actionEvent) {
         Song selectedSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
-
         if (selectedSong != null) {
-            //mediaPlayer.setAutoPlay(true);
-            System.out.println("Selected song: " + selectedSong.getTitle() + " with path: " + selectedSong.getFilePath());
-            // Get the path to the audio file (you may want to adjust the path handling based on your project structure)
-            String songPath = selectedSong.getFilePath();  // Ensure Song class has the getSongPath method
+            String songPath = selectedSong.getFilePath(); // Ensure Song class has the getFilePath method
 
-            // Check if the path is valid
             if (songPath != null && !songPath.isEmpty()) {
-                System.out.println("Playing song from path: " + songPath);
-                //String musicFile = "1.mp3";
-                Media media = new Media(new File(songPath).toURI().toString());
-                MediaPlayer mediaPlayer = new MediaPlayer(media);
-
-                mediaPlayer.play();
+                if (mediaPlayer != null) {
+                    switch (mediaPlayer.getStatus()) {
+                        case PLAYING -> mediaPlayer.pause();
+                        case PAUSED -> mediaPlayer.play();
+                        case STOPPED, READY, HALTED -> {
+                            mediaPlayer.dispose();
+                            playSong(songPath);
+                        }
+                    }
+                } else {
+                    playSong(songPath);
+                }
             } else {
-                System.out.println("Invalid song path.");
+                showWarningDialog("Invalid Song Path", "The selected song's file path is invalid or empty.");
             }
         } else {
-            System.out.println("No song selected.");
+            showWarningDialog("No Song Selected", "Please select a song from the list before playing.");
         }
-
     }
 
+    private void playSong(String songPath) {
+        try {
+            Media media = new Media(new File(songPath).toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.play();
 
+            // Automatically play the next song when the current one ends
+            mediaPlayer.setOnEndOfMedia(this::playNextSong);
+        } catch (Exception e) {
+            showWarningDialog("Playback Error", "Unable to play the selected song.");
+        }
+    }
+
+    private void showWarningDialog(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Warning");
+        alert.setHeaderText(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void playNextSong() {
+        int currentIndex = lstSongs.getSelectionModel().getSelectedIndex();
+        if (currentIndex >= 0 && currentIndex < lstSongs.getItems().size() - 1) {
+            lstSongs.getSelectionModel().select(currentIndex + 1);
+            Song nextSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
+            if (nextSong != null) {
+                playSong(nextSong.getFilePath());
+            }
+        }
+        }
+
+
+        // Click new and edit button, dialogs show up.
+        private void openEditor (String fxmlPath, String title, Object parentController) throws IOException {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Scene scene = new Scene(fxmlLoader.load());
+            // Set the parent controller
+            Object controller = fxmlLoader.getController();
+            if (controller instanceof SongEditorController) {
+                ((SongEditorController) controller).setParentController((MyTunesController) parentController);
+            } else if (controller instanceof PlaylistEditorController) {
+                ((PlaylistEditorController) controller).setParentController((MyTunesController) parentController);
+            }
+            Stage stage = new Stage();
+            stage.setTitle(title);
+            stage.setScene(scene);
+            stage.show();
+        }
+
+        public void onEditPlaylistClick (ActionEvent actionEvent) throws IOException {
+            openEditor("/dk/easv/mytunes/PlaylistEditor.fxml", "New/Edit Playlist", this);
+        }
+
+        public void onAddPlaylistClick (ActionEvent actionEvent) throws IOException {
+            openEditor("/dk/easv/mytunes/PlaylistEditor.fxml", "New/Edit Playlist", this);
+        }
+
+        public void onEditSongClick (ActionEvent actionEvent) throws IOException {
+            openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
+        }
+
+        public void onAddSongClick (ActionEvent actionEvent) throws IOException {
+            openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
+        }
+
+    public void onPreviousButtonClick(ActionEvent actionEvent) {
+    }
+
+    public void NextButtonClick(ActionEvent actionEvent) {
+    }
 }
 

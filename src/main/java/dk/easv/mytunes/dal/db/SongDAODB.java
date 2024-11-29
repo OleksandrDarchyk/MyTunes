@@ -29,7 +29,7 @@ public class SongDAODB implements ISongDAO {
                 String category = rs.getString("category");
                 String time = rs.getString("time");
                 String filePath = rs.getString("file_path");
-                Song song = new Song(title,artist,category,time,filePath);
+                Song song = new Song(id,title,artist,category,time,filePath);
                 songs.add(song);
             }
         } catch (SQLException e) {

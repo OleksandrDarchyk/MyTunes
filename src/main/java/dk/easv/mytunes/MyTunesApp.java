@@ -15,12 +15,9 @@ public class MyTunesApp extends Application {
         primaryStage.setTitle("My Tunes");
         primaryStage.setScene(scene);
         primaryStage.show();
-
     }
 
     public static void main(String[] args) {
         launch();
     }
-
-
 }

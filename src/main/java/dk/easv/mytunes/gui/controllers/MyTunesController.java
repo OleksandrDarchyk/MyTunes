@@ -1,5 +1,6 @@
 package dk.easv.mytunes.gui.controllers;
 
+import dk.easv.mytunes.be.Song;
 import dk.easv.mytunes.gui.models.MyTunesModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,8 +12,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -41,6 +45,8 @@ public class MyTunesController implements Initializable {
     private Button btnAddPlaylist;
 
     private final MyTunesModel myTunesModel = new MyTunesModel();
+
+    private MediaPlayer mediaPlayer;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         lstSongs.getItems().clear();
@@ -85,4 +91,34 @@ public class MyTunesController implements Initializable {
     public void onAddSongClick(ActionEvent actionEvent) throws IOException {
         openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
     }
+
+    // Make play btn to play music
+    public void onPlayButtonClick(ActionEvent actionEvent) {
+        Song selectedSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
+
+        if (selectedSong != null) {
+            //mediaPlayer.setAutoPlay(true);
+            System.out.println("Selected song: " + selectedSong.getTitle() + " with path: " + selectedSong.getFilePath());
+            // Get the path to the audio file (you may want to adjust the path handling based on your project structure)
+            String songPath = selectedSong.getFilePath();  // Ensure Song class has the getSongPath method
+
+            // Check if the path is valid
+            if (songPath != null && !songPath.isEmpty()) {
+                System.out.println("Playing song from path: " + songPath);
+                //String musicFile = "1.mp3";
+                Media media = new Media(new File(songPath).toURI().toString());
+                MediaPlayer mediaPlayer = new MediaPlayer(media);
+
+                mediaPlayer.play();
+            } else {
+                System.out.println("Invalid song path.");
+            }
+        } else {
+            System.out.println("No song selected.");
+        }
+
+    }
+
+
 }
+

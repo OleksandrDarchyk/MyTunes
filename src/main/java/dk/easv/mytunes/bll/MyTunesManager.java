@@ -13,6 +13,8 @@ public class MyTunesManager {
 
     // Get all songs
     public List<Song> getSongs() throws IOException {
+
+        System.out.println("Songs retrieved from DAO Manager");
         return songDAO.getAll();
 
     }

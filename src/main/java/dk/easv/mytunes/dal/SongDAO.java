@@ -21,17 +21,21 @@ public class SongDAO {
     public List<Song> getAll() throws IOException {
         List<Song> songs = new ArrayList<>();
         if (Files.exists(filePath)) {
+            System.out.println("File exists at: " + filePath.toAbsolutePath());
             List<String> lines = Files.readAllLines(filePath);
+            System.out.println("Number of lines read from file: " + lines.size());
             for (String line : lines) {
                 String[] parts = line.split(splitChar);
-                if (parts.length == 4) {
+                if (parts.length == 5) {
                     try {
 
                         String title = parts[0].trim();
                         String artist = parts[1].trim();
                         String category = parts[2].trim();
                         String time = parts[3].trim();
-                        songs.add(new Song(title, artist, category, time));
+                        String songPath = parts[4].trim();
+
+                        songs.add(new Song(title, artist, category, time, songPath));
                     } catch (NumberFormatException e){
                         // Log the error instead of printing it
                         Logger.getLogger(SongDAO.class.getName()).log(Level.WARNING,"Invalid title: " + parts[0],e);
@@ -41,6 +45,7 @@ public class SongDAO {
                 }
             }
         }
+        System.out.println("Total songs loaded from file: " + songs.size());
         return songs;
     }
 

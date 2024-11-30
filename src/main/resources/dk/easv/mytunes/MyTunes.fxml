@@ -55,7 +55,7 @@
             <String fx:value="back" />
             <String fx:value="radio-button" />
          </styleClass></Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="161.0" layoutY="33.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#NextButtonClick" opacity="0.85" prefHeight="40.0" prefWidth="40.0" styleClass="radio-button" stylesheets="@view/Style.css" text="⏭" textAlignment="CENTER">
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="161.0" layoutY="33.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onNextButtonClick" opacity="0.85" prefHeight="40.0" prefWidth="40.0" styleClass="radio-button" stylesheets="@view/Style.css" text="⏭" textAlignment="CENTER">
          <font>
             <Font size="9.0" />
          </font></Button>

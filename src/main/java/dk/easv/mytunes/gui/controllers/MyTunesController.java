@@ -61,7 +61,6 @@ public class MyTunesController implements Initializable {
         Song selectedSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
         if (selectedSong != null) {
             String songPath = selectedSong.getFilePath(); // Ensure Song class has the getFilePath method
-
             if (songPath != null && !songPath.isEmpty()) {
                 if (mediaPlayer != null) {
                     switch (mediaPlayer.getStatus()) {
@@ -105,54 +104,68 @@ public class MyTunesController implements Initializable {
     }
 
     private void playNextSong() {
+        //  Get the current index of the selected song
         int currentIndex = lstSongs.getSelectionModel().getSelectedIndex();
+
+        // Ensure there is a song selected and have at least two songs in the list
         if (currentIndex >= 0 && currentIndex < lstSongs.getItems().size() - 1) {
-            lstSongs.getSelectionModel().select(currentIndex + 1);
-            Song nextSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
+            lstSongs.getSelectionModel().select(currentIndex + 1); //Select the next song in the list
+            Song nextSong = (Song) lstSongs.getSelectionModel().getSelectedItem(); // Get the next song
             if (nextSong != null) {
                 playSong(nextSong.getFilePath());
             }
         }
-        }
 
-
-        // Click new and edit button, dialogs show up.
-        private void openEditor (String fxmlPath, String title, Object parentController) throws IOException {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Scene scene = new Scene(fxmlLoader.load());
-            // Set the parent controller
-            Object controller = fxmlLoader.getController();
-            if (controller instanceof SongEditorController) {
-                ((SongEditorController) controller).setParentController((MyTunesController) parentController);
-            } else if (controller instanceof PlaylistEditorController) {
-                ((PlaylistEditorController) controller).setParentController((MyTunesController) parentController);
+        // I wanna the playlist to restart from the beginning after the last song is played.
+        if (currentIndex == lstSongs.getItems().size() - 1) {
+            lstSongs.getSelectionModel().select(0); // Restart from the 1st song
+            Song firstSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
+            if (firstSong != null) {
+                playSong(firstSong.getFilePath());
             }
-            Stage stage = new Stage();
-            stage.setTitle(title);
-            stage.setScene(scene);
-            stage.show();
         }
-
-        public void onEditPlaylistClick (ActionEvent actionEvent) throws IOException {
-            openEditor("/dk/easv/mytunes/PlaylistEditor.fxml", "New/Edit Playlist", this);
-        }
-
-        public void onAddPlaylistClick (ActionEvent actionEvent) throws IOException {
-            openEditor("/dk/easv/mytunes/PlaylistEditor.fxml", "New/Edit Playlist", this);
-        }
-
-        public void onEditSongClick (ActionEvent actionEvent) throws IOException {
-            openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
-        }
-
-        public void onAddSongClick (ActionEvent actionEvent) throws IOException {
-            openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
-        }
+    }
 
     public void onPreviousButtonClick(ActionEvent actionEvent) {
+
     }
 
-    public void NextButtonClick(ActionEvent actionEvent) {
+    public void onNextButtonClick(ActionEvent actionEvent) {
     }
+
+    // Click new and edit button, dialogs show up.
+    private void openEditor (String fxmlPath, String title, Object parentController) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
+        Scene scene = new Scene(fxmlLoader.load());
+        // Set the parent controller
+        Object controller = fxmlLoader.getController();
+        if (controller instanceof SongEditorController) {
+            ((SongEditorController) controller).setParentController((MyTunesController) parentController);
+        } else if (controller instanceof PlaylistEditorController) {
+            ((PlaylistEditorController) controller).setParentController((MyTunesController) parentController);
+        }
+        Stage stage = new Stage();
+        stage.setTitle(title);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void onEditPlaylistClick (ActionEvent actionEvent) throws IOException {
+        openEditor("/dk/easv/mytunes/PlaylistEditor.fxml", "New/Edit Playlist", this);
+    }
+
+    public void onAddPlaylistClick (ActionEvent actionEvent) throws IOException {
+        openEditor("/dk/easv/mytunes/PlaylistEditor.fxml", "New/Edit Playlist", this);
+    }
+
+    public void onEditSongClick (ActionEvent actionEvent) throws IOException {
+        openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
+    }
+
+    public void onAddSongClick (ActionEvent actionEvent) throws IOException {
+        openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
+    }
+
+
 }
 

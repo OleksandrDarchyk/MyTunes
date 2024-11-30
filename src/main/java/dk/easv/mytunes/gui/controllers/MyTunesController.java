@@ -126,11 +126,21 @@ public class MyTunesController implements Initializable {
         }
     }
 
-    public void onPreviousButtonClick(ActionEvent actionEvent) {
+    public void onREWClick(ActionEvent actionEvent) {
+        int currentIndex = lstSongs.getSelectionModel().getSelectedIndex();
+        if (currentIndex > 0){
+            lstSongs.getSelectionModel().select(currentIndex - 1);
+            Song previousSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
+            if (previousSong != null) {
+                playSong(previousSong.getFilePath());
+            }
+        } else {
+            showWarningDialog("Playback error", "No previous song. You are at the start of the playlist.");
+        }
 
     }
 
-    public void onNextButtonClick(ActionEvent actionEvent) {
+    public void onFFClick(ActionEvent actionEvent) {
     }
 
     // Click new and edit button, dialogs show up.

@@ -131,9 +131,10 @@ public class MyTunesController implements Initializable {
 
     public void onREWClick(ActionEvent actionEvent) {
         int currentIndex = lstSongs.getSelectionModel().getSelectedIndex();
-        if (currentIndex > 0){
-            lstSongs.getSelectionModel().select(currentIndex - 1);
-            Song previousSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
+        if (currentIndex > 0) // Ensure the current song is not the 1st one
+        {
+            lstSongs.getSelectionModel().select(currentIndex - 1); // Select the previous song in list
+            Song previousSong = (Song) lstSongs.getSelectionModel().getSelectedItem(); // Get the previous song
             if (previousSong != null) {
                 playSong(previousSong.getFilePath());
             }
@@ -144,6 +145,18 @@ public class MyTunesController implements Initializable {
     }
 
     public void onFFClick(ActionEvent actionEvent) {
+        int currentIndex = lstSongs.getSelectionModel().getSelectedIndex();
+        if (currentIndex < lstSongs.getItems().size() - 1) // Ensure the current song is not the last one
+        {
+            lstSongs.getSelectionModel().select(currentIndex + 1);
+            Song nextSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
+            if (nextSong != null) {
+                playSong(nextSong.getFilePath());
+            }
+        } else {
+            showWarningDialog("Playback error", "No next song. You are at the end of the playlist.");
+        }
+
     }
 
     // Click new and edit button, dialogs show up.

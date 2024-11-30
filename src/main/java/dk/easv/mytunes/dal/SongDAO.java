@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SongDAO {
+public class SongDAO implements ISongDAO{
     private final String splitChar = ";";
     private final Path filePath;
     public SongDAO()

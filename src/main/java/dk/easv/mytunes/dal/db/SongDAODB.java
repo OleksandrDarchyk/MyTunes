@@ -17,8 +17,7 @@ public class SongDAODB implements ISongDAO {
     @Override
     public List<Song> getAll() throws IOException{
         List<Song> songs = new ArrayList<Song>();
-        try {
-            Connection c = con.getConnection();
+        try  (Connection c = con.getConnection()){
             String sql = "SELECT * FROM users";
             PreparedStatement ps = c.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();

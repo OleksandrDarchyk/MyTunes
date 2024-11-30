@@ -19,6 +19,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MyTunesController implements Initializable {
+    public Label lblFilter;
     @FXML
     private TableColumn artistColumn;
     @FXML
@@ -193,5 +194,7 @@ public class MyTunesController implements Initializable {
     }
 
 
+    public void onFilterBtnClick(ActionEvent actionEvent) {
+    }
 }
 

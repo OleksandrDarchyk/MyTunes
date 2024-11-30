@@ -83,13 +83,16 @@ public class MyTunesController implements Initializable {
     }
 
     private void playSong(String songPath) {
+        // Stop the current song if one is playing
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.dispose(); // Release resources of the old player
+        }
         try {
             Media media = new Media(new File(songPath).toURI().toString());
             mediaPlayer = new MediaPlayer(media);
             mediaPlayer.play();
-
-            // Automatically play the next song when the current one ends
-            mediaPlayer.setOnEndOfMedia(this::playNextSong);
+            mediaPlayer.setOnEndOfMedia(this::playNextSong); // Automatically play the next song when the current one ends
         } catch (Exception e) {
             showWarningDialog("Playback Error", "Unable to play the selected song.");
         }

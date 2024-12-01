@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -16,10 +17,18 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MyTunesController implements Initializable {
-    public Label lblFilter;
+    @FXML
+    private Button btnClear;
+    @FXML
+    private Button btnFilter;
+    @FXML
+    private TextField txtQuery;
+    @FXML
+    private Label lblFilter;
     @FXML
     private TableColumn artistColumn;
     @FXML
@@ -43,10 +52,10 @@ public class MyTunesController implements Initializable {
     private Button btnAddPlaylist;
 
     private final MyTunesModel myTunesModel = new MyTunesModel();
-
     private MediaPlayer mediaPlayer;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        btnClear.setDisable(true);
         lstSongs.getItems().clear();
         lstSongs.setItems(myTunesModel.getSongs());
 
@@ -55,6 +64,7 @@ public class MyTunesController implements Initializable {
         artistColumn.setCellValueFactory(new PropertyValueFactory<>("artist"));
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+
     }
 
     // Make play btn to play music
@@ -142,7 +152,6 @@ public class MyTunesController implements Initializable {
         } else {
             showWarningDialog("Playback error", "No previous song. You are at the start of the playlist.");
         }
-
     }
 
     public void onFFClick(ActionEvent actionEvent) {
@@ -157,10 +166,47 @@ public class MyTunesController implements Initializable {
         } else {
             showWarningDialog("Playback error", "No next song. You are at the end of the playlist.");
         }
-
     }
 
-    // Click new and edit button, dialogs show up.
+    // Filter function starts from here
+    public void onFilterBtnClick(ActionEvent actionEvent) {
+        String query = txtQuery.getText().trim().toLowerCase(); // Get and trim the query text
+        List<Song> filteredSongs = myTunesModel.getFilteredSongs(query);
+        // If query is empty, show a warning
+        if (query.isEmpty()) {
+            showWarningDialog("Error", "Please input what you want to search!");
+            return;
+        }
+        try {
+            // Perform the filtering
+            if (filteredSongs.isEmpty()) {
+                btnClear.setDisable(false);
+                btnClear.setText("Clear");
+            } else {
+                showWarningDialog("No Results", "No songs match the query: " + query);
+                btnClear.setText("Filter");
+                btnClear.setDisable(true);
+            }
+
+        } catch (Exception e) {
+            showWarningDialog("Error", "An error occurred while filtering songs.");
+        }
+    }
+
+    // Method for the Clear button click action
+    public void onClearBtnClick(ActionEvent actionEvent) {
+        // Only allow clearing if the button is enabled (i.e., when the filter is active)
+        if (!btnClear.isDisable()) {
+            btnClear.setText("Filter");
+            btnClear.setDisable(true);  // Disable the Clear button
+            txtQuery.clear();
+            lstSongs.getItems().clear();
+            lstSongs.setItems(myTunesModel.getSongs());
+        }
+    }
+
+
+    // Show New/Edit dialog by clicking btn new and btn edit.
     private void openEditor (String fxmlPath, String title, Object parentController) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
         Scene scene = new Scene(fxmlLoader.load());
@@ -192,9 +238,6 @@ public class MyTunesController implements Initializable {
     public void onAddSongClick (ActionEvent actionEvent) throws IOException {
         openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
     }
-
-
-    public void onFilterBtnClick(ActionEvent actionEvent) {
-    }
 }
+
 

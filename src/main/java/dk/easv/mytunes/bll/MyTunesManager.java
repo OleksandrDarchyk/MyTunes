@@ -9,14 +9,16 @@ import java.io.IOException;
 import java.util.List;
 
 public class MyTunesManager {
-    private final ISongDAO songDAO = new SongDAO();
+    private final SongDAO songDAO = new SongDAO();
 
     // Get all songs
     public List<Song> getSongs() throws IOException {
-
-        System.out.println("Songs retrieved from DAO Manager");
         return songDAO.getAll();
-
     }
 
+    // Get filtered songs based on a query
+    public List<Song> getFilteredSongs(String query) throws IOException {
+        List<Song> filteredSongs = songDAO.filteredSongs(query);
+        return filteredSongs;
+    }
 }

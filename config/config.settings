@@ -1,5 +1,4 @@
-DatabaseName="PlayerMP3"
+Server="EASV-DB4"
+Database="PlayerMP3"
 User="CSe2024b_e_22"
 Password="CSe2024bE22!24"
-Server="EASV-DB4"
-Port="1433"

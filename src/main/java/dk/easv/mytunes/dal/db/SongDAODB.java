@@ -12,7 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SongDAODB implements ISongDAO {
-    private DBConnection con = new DBConnection();
+    private DBConnection con;
+
+    {
+        try {
+            con = new DBConnection();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public List<Song> getAll() throws IOException{

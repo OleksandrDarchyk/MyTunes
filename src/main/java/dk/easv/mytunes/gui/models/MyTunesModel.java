@@ -25,15 +25,15 @@ public class MyTunesModel {
     }
 
     // Get observable List of filtered songs
-    public ObservableList<Song> getFilteredSongs(String query) {
+    /*public ObservableList<Song> getFilteredSongs(String query) {
         try {
             List<Song> filteredSong = myTunesManager.getFilteredSongs(query);
             songs.setAll(filteredSong);
         } catch (IOException e) {
             System.out.println("Error loading filtered songs: " + e.getMessage());
         }
-        //System.out.println(filteredSongs);
-        return filteredSongs;
+
+        return filteredSongs;*/
 
 
     }
@@ -41,4 +41,4 @@ public class MyTunesModel {
 
 
 
-}
+

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MyTunesController implements Initializable {
+    public Label lblTitle;
     @FXML
     private Button btnClear;
     @FXML
@@ -169,7 +170,7 @@ public class MyTunesController implements Initializable {
     }
 
     // Filter function starts from here
-    public void onFilterBtnClick(ActionEvent actionEvent) {
+    /*public void onFilterBtnClick(ActionEvent actionEvent) {
         String query = txtQuery.getText().trim().toLowerCase(); // Get and trim the query text
         List<Song> filteredSongs = myTunesModel.getFilteredSongs(query);
         // If query is empty, show a warning
@@ -203,7 +204,7 @@ public class MyTunesController implements Initializable {
             lstSongs.getItems().clear();
             lstSongs.setItems(myTunesModel.getSongs());
         }
-    }
+    }*/
 
 
     // Show New/Edit dialog by clicking btn new and btn edit.
@@ -237,6 +238,12 @@ public class MyTunesController implements Initializable {
 
     public void onAddSongClick (ActionEvent actionEvent) throws IOException {
         openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
+    }
+
+    public void onClearBtnClick(ActionEvent actionEvent) {
+    }
+
+    public void onFilterBtnClick(ActionEvent actionEvent) {
     }
 }
 

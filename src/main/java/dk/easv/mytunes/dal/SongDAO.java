@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class SongDAO implements ISongDAO{
+public abstract class SongDAO implements ISongDAO{
     private final String splitChar = ";";
     private final Path filePath;
     private List<Song> songs;
@@ -50,7 +50,7 @@ public class SongDAO implements ISongDAO{
     }
 
     // Get filtered songs based on the query
-    public List<Song> filteredSongs(String query) throws IOException {
+    /*public List<Song> filteredSongs(String query) throws IOException {
         List<Song> matchingSongs = new ArrayList<>();  // To store songs that match the query
         List<Song> all = getAll();  // Get all songs
         for (Song song : all) {
@@ -61,43 +61,8 @@ public class SongDAO implements ISongDAO{
             }
         }
         return matchingSongs;  // Return the list of matching songs
-    }
-
-
-    // Get the next available user ID
-    /*private int getNextId() throws IOException {
-        List<Song> songs = getAll();
-        int maxId = 0;
-        for (Song song : songs) {
-            if (song.getId() > maxId) {
-                maxId = song.getId();
-            }
-        }
-        return maxId + 1;
     }*/
 
-    /*public List<Song> filteredSongs(String query) {
-        return songs.stream()
-                .filter(song -> song.getTitle().toLowerCase().contains(query) ||
-                        song.getArtist().toLowerCase().contains(query))
-                .collect(Collectors.toList());
-    }*/
-
-
-
-    // Save (overwrite) the entire user list to the CSV file
-    /*public void clearAndSave(List<Song> songs) throws IOException {
-        List<String> lines = new ArrayList<>();
-        for (Song song : songs) {
-            lines.add(song.getId() + splitChar + song.getTitle() + splitChar + song.getArtist() + splitChar +
-                    song.getCategory() + splitChar + song.getTime());
-        }
-        try {
-            Files.write(filePath, lines); // Overwrites the file
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }*/
 
 
 

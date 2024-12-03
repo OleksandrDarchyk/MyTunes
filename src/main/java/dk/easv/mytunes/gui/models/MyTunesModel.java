@@ -14,9 +14,9 @@ public class MyTunesModel {
     private final ObservableList<Song> filteredSongs = FXCollections.observableArrayList();
 
     // Get observable list of songs
-    public ObservableList<Song> getSongs() {
+    public ObservableList<Song> getAllSongs() {
         try {
-            List<Song> songList = myTunesManager.getSongs();
+            List<Song> songList = myTunesManager.getAllSongs();
             songs.setAll(songList);  // Update the ObservableList with the loaded songs
         } catch (IOException e) {
             System.out.println("Error loading songs: " + e.getMessage());
@@ -24,19 +24,18 @@ public class MyTunesModel {
         return songs;
     }
 
-    // Get observable List of filtered songs
-    /*public ObservableList<Song> getFilteredSongs(String query) {
+    public ObservableList<Song> getFilteredSongs(String query) {
         try {
-            List<Song> filteredSong = myTunesManager.getFilteredSongs(query);
-            songs.setAll(filteredSong);
+            List<Song> filterResult = myTunesManager.filterSongs(query); // Filter songs based on query
+            System.out.println("Songs after filtering in model: " + filterResult); // Log the filtered results
+            filteredSongs.setAll(filterResult); // Update observable list with filtered songs
         } catch (IOException e) {
-            System.out.println("Error loading filtered songs: " + e.getMessage());
+            System.out.println("Error filtering songs: " + e.getMessage());
         }
-
-        return filteredSongs;*/
-
+        return filteredSongs;
 
     }
+}
 
 
 

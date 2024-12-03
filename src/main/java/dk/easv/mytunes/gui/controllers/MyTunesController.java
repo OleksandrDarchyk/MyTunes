@@ -38,7 +38,6 @@ public class MyTunesController implements Initializable {
     private TableColumn timeColumn;
     @FXML
     private TableColumn titleColumn;
-
     @FXML
     private ListView lstPlaylists;
     @FXML
@@ -58,7 +57,7 @@ public class MyTunesController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         btnClear.setDisable(true);
         lstSongs.getItems().clear();
-        lstSongs.setItems(myTunesModel.getSongs());
+        lstSongs.setItems(myTunesModel.getAllSongs());
 
         // For TableView columns, set the cell value factories
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -170,9 +169,9 @@ public class MyTunesController implements Initializable {
     }
 
     // Filter function starts from here
-    /*public void onFilterBtnClick(ActionEvent actionEvent) {
+    public void onFilterBtnClick(ActionEvent actionEvent) throws IOException {
         String query = txtQuery.getText().trim().toLowerCase(); // Get and trim the query text
-        List<Song> filteredSongs = myTunesModel.getFilteredSongs(query);
+
         // If query is empty, show a warning
         if (query.isEmpty()) {
             showWarningDialog("Error", "Please input what you want to search!");
@@ -180,15 +179,12 @@ public class MyTunesController implements Initializable {
         }
         try {
             // Perform the filtering
-            if (filteredSongs.isEmpty()) {
-                btnClear.setDisable(false);
-                btnClear.setText("Clear");
-            } else {
-                showWarningDialog("No Results", "No songs match the query: " + query);
-                btnClear.setText("Filter");
-                btnClear.setDisable(true);
-            }
-
+            myTunesModel.getFilteredSongs(query); // Apply filter
+            System.out.println("Filtered songs in TableView: " + lstSongs.getItems()); // Log the items in the TableView
+            lstSongs.setItems(myTunesModel.getFilteredSongs(query));  // Update TableView with filtered songs
+            lstSongs.refresh();
+            btnClear.setText("Clear");
+            btnClear.setDisable(false);
         } catch (Exception e) {
             showWarningDialog("Error", "An error occurred while filtering songs.");
         }
@@ -201,11 +197,10 @@ public class MyTunesController implements Initializable {
             btnClear.setText("Filter");
             btnClear.setDisable(true);  // Disable the Clear button
             txtQuery.clear();
-            lstSongs.getItems().clear();
-            lstSongs.setItems(myTunesModel.getSongs());
+            lstSongs.refresh();
+            lstSongs.setItems(myTunesModel.getAllSongs());
         }
-    }*/
-
+    }
 
     // Show New/Edit dialog by clicking btn new and btn edit.
     private void openEditor (String fxmlPath, String title, Object parentController) throws IOException {
@@ -240,11 +235,6 @@ public class MyTunesController implements Initializable {
         openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
     }
 
-    public void onClearBtnClick(ActionEvent actionEvent) {
-    }
-
-    public void onFilterBtnClick(ActionEvent actionEvent) {
-    }
 }
 
 

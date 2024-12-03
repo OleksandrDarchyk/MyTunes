@@ -17,14 +17,11 @@ public class SongDAODB implements ISongDAO {
     @Override
     public List<Song> getAll() throws IOException{
         List<Song> songs = new ArrayList<>();
-        System.out.println("Attempting to fetch all songs from the database...");
         try {
             Connection c = con.getConnection();
             String sql = "SELECT * FROM songs";
             PreparedStatement ps = c.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-
-            System.out.println("Query executed successfully. Processing results...");
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String title = rs.getString("title");
@@ -34,40 +31,12 @@ public class SongDAODB implements ISongDAO {
                 String filePath = rs.getString("file_path");
                 Song song = new Song(id,title,artist,category,time,filePath);
                 songs.add(song);
-                System.out.println("All songs fetched successfully. Total songs: " + songs.size());
             }
         } catch (SQLException e) {
-            System.err.println("Error fetching songs from the database: " + e.getMessage());
-            e.printStackTrace();
+           e.printStackTrace();
             throw new IOException("Error fetching songs from the database: " + e.getMessage(), e);
         }
         return songs;
     }
-
-
-
-    /*@Override
-    public Song getFilteredSong(int query) throws IOException {
-        try {
-            Connection c = con.getConnection();
-            String sql = "SELECT * FROM songs WHERE query = ?";
-            PreparedStatement stmt = c.prepareStatement(sql);
-            stmt.setInt
-
-            song.getTitle().trim().toLowerCase().contains(query.toLowerCase()) ||
-                    song.getArtist().trim().toLowerCase().contains(query.toLowerCase()))
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){ // while there are rows
-                int id = rs.getInt("id");
-                String username = rs.getString("username");
-                User user = new User(id, username);
-                return user;
-            }
-
-        } catch (SQLException e) {
-            throw new WorkoutException(e);
-        }
-        throw new WorkoutException("User not found: " + userId);
-    }*/
 
 }

@@ -23,13 +23,11 @@ public class PlaylistDAODB implements IPlaylistDAO {
             while (rs.next()){ // while there are rows
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
-
-
                 Playlist playlist = new Playlist(id, name);
                 playlists.add(playlist);
             }
         } catch (SQLException e) {
-            throw new IOException(e);
+            throw new IOException("Couldn't get all playlists from SQL database",e);
         }
         return playlists;
 

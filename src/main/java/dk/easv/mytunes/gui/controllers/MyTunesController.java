@@ -1,10 +1,7 @@
 package dk.easv.mytunes.gui.controllers;
 
 import dk.easv.mytunes.be.Song;
-import dk.easv.mytunes.bll.MyTunesManager;
 import dk.easv.mytunes.gui.models.MyTunesModel;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -20,7 +16,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class MyTunesController implements Initializable {
@@ -80,7 +75,11 @@ public class MyTunesController implements Initializable {
 
         // set the tableview columns for playlists.
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        songsColumn.setCellValueFactory(new PropertyValueFactory<>("songs"));
+        durationColumn.setCellValueFactory(new PropertyValueFactory<>("totalDuration"));
+
     }
+
 
     // Make play btn to play music
     public void onPlayButtonClick(ActionEvent actionEvent) {

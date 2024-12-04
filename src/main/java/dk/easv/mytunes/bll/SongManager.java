@@ -9,10 +9,9 @@ import dk.easv.mytunes.dal.db.PlaylistDAODB;
 import dk.easv.mytunes.dal.db.SongDAODB;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-public class MyTunesManager {
+public class SongManager {
     private final ISongDAO songDAO = new SongDAODB();
     private SongFilter songFilter = new SongFilter();
     private final IPlaylistDAO playlistDAO = new PlaylistDAODB();
@@ -25,14 +24,8 @@ public class MyTunesManager {
     // Get filtered songs based on a query
     public List<Song> filterSongs(String query) throws IOException {
         List<Song> allSongs = getAllSongs();
-        System.out.println("Total songs before filtering: " + allSongs.size());
-
         List<Song> filterResult = songFilter.filter(allSongs,query);
         return filterResult;
     }
-
-    public List<Playlist> getAllPlaylists() throws IOException {
-        return playlistDAO.getAllPlaylists();
-}
 
 }

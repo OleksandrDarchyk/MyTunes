@@ -11,11 +11,11 @@ public class Playlist {
     private Time totalDuration;
 
 
-    public Playlist(int id, String name) {
+    public Playlist(int id, String name, int songs, String totalDuration) {
         this.name = name;
         this.id = id;
         this.songs = new ArrayList<Song>();
-        this.totalDuration = totalDuration;
+        this.totalDuration = this.totalDuration;
     }
 
     public int getId() {return id;}

@@ -15,7 +15,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="888.0" stylesheets="@view/Style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.controllers.MyTunesController">
    <children>
-      <ListView layoutX="245.0" layoutY="143.0" opacity="0.2" prefHeight="381.0" prefWidth="200.0" />
+      <ListView fx:id="lstSongOnPlaylist" layoutX="245.0" layoutY="143.0" opacity="0.65" prefHeight="381.0" prefWidth="200.0" />
       <Button layoutX="819.0" layoutY="537.0" mnemonicParsing="false" opacity="0.76" text="Close" />
       <Button layoutX="617.0" layoutY="537.0" mnemonicParsing="false" opacity="0.71" text="Delete" />
       <Button fx:id="btnEditSong" layoutX="554.0" layoutY="537.0" mnemonicParsing="false" onAction="#onEditSongClick" opacity="0.71" text="Edit" />

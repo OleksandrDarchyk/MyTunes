@@ -1,7 +1,11 @@
 package dk.easv.mytunes.gui.controllers;
 
+import dk.easv.mytunes.be.Playlist;
 import dk.easv.mytunes.be.Song;
+import dk.easv.mytunes.be.SongOfPlaylist;
 import dk.easv.mytunes.gui.models.MyTunesModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,10 +20,13 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MyTunesController implements Initializable {
 
+    @FXML
+    private ListView lstSongOnPlaylist;
     @FXML
     private TableView lstPlaylist;
     @FXML
@@ -59,6 +66,7 @@ public class MyTunesController implements Initializable {
 
     private final MyTunesModel myTunesModel = new MyTunesModel();
     private MediaPlayer mediaPlayer;
+    private Playlist selectedPlaylist;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         btnClear.setDisable(true);
@@ -66,6 +74,7 @@ public class MyTunesController implements Initializable {
         lstSongs.setItems(myTunesModel.getAllSongs());
         lstPlaylist.getItems().clear();
         lstPlaylist.setItems(myTunesModel.getAllPlaylists());
+        //lstSongOnPlaylist.setItems(myTunesModel.getSongsOnPlaylist(selectedPlaylist.getId()));
 
         // set the tableview columns for songs.
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -76,8 +85,17 @@ public class MyTunesController implements Initializable {
         // set the tableview columns for playlists.
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         songsColumn.setCellValueFactory(new PropertyValueFactory<>("songs"));
-        durationColumn.setCellValueFactory(new PropertyValueFactory<>("totalDuration"));
+        //durationColumn.setCellValueFactory(new PropertyValueFactory<>("totalDuration"));
+    }
 
+    public void initializePlaylistSelection(){
+        lstSongOnPlaylist.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                selectedPlaylist = (Playlist) lstPlaylist.getSelectionModel().getSelectedItem();
+                ObservableList<SongOfPlaylist> songs = myTunesModel.getSongsOnPlaylist(selectedPlaylist.getId());
+                lstSongOnPlaylist.setItems(FXCollections.observableArrayList(songs));
+            }
+        });
     }
 
 

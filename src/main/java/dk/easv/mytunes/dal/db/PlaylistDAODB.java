@@ -18,12 +18,21 @@ public class PlaylistDAODB implements IPlaylistDAO {
         try {
             Connection c = con.getConnection();
             String sql = "SELECT * FROM playlist";
+            /*String sql = "SELECT p.id, p.name, COUNT(sp.song_id) AS Songs, " +
+                    "SEC_TO_TIME(SUM(TIME_TO_SEC(s.duration))) AS totalDuration " +
+                    "FROM Playlist p " +
+                    "LEFT JOIN SongOfPlaylist sp ON p.id = sp.playlist_id " +
+                    "LEFT JOIN Song s ON sp.song_id = s.id " +
+                    "GROUP BY p.id";*/
             PreparedStatement stmt = c.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){ // while there are rows
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
-                Playlist playlist = new Playlist(id, name);
+                int songs = rs.getInt("Songs");
+                String totalDuration = rs.getString("totalDuration");
+
+                Playlist playlist = new Playlist(id, name, songs,totalDuration);
                 playlists.add(playlist);
             }
         } catch (SQLException e) {
@@ -31,32 +40,6 @@ public class PlaylistDAODB implements IPlaylistDAO {
         }
         return playlists;
 
-
-
-
-
-
-        /*List<Playlist> playlists = new ArrayList<>();
-        String sql = "SELECT p.PlaylistID AS playlist_id, p.name AS playlist_name, " +
-                "ps.song_id, s.Artist, s.Category, s.FilePath, s.Time " +
-                "FROM dbo.Playlists p " +
-                "LEFT JOIN SongsOfPlaylist ps ON p.PlaylistID = ps.playlist_id " +
-                "JOIN Songs s ON ps.song_id = s.SongID " +
-                "ORDER BY p.PlaylistID;";
-        try (Connection connection = con.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery(sql)){
-            while (rs.next()){
-                Playlist playlist = new Playlist(
-                        rs.getInt("id"),
-                        rs.getString("name")
-                );
-                playlists.add(playlist);
-            }
-        }catch (SQLException e){
-            throw new RuntimeException(e);
-        }
-            return playlists;*/
     }
 
     @Override

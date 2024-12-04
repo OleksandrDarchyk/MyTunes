@@ -71,7 +71,7 @@
         <columns>
           <TableColumn fx:id="nameColumn" prefWidth="83.20001220703125" text="Name" />
           <TableColumn fx:id="songsColumn" prefWidth="60.79998779296875" text="Songs" />
-            <TableColumn fx:id="timeColumn" prefWidth="76.79998779296875" text="Time" />
+            <TableColumn fx:id="durationColumn" prefWidth="76.79998779296875" text="Time" />
         </columns>
       </TableView>
    </children>

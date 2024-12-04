@@ -3,23 +3,18 @@ package dk.easv.mytunes.be;
 import java.util.List;
 
 public class Playlist {
-    private  int id;
+    private int id;
     private String name;
     private List<Song> songs;
     private int totalDuration;
 
 
-    public Playlist(int id, String name, List<Song> songs, int totalDuration) {
+    public Playlist(int id, String name) {
         this.name = name;
-        this.totalDuration = totalDuration;
-        this.songs = songs;
+        ;
         this.id = id;
     }
-    public Playlist(int id ,String name) {
-        this.name = name;
-        this.id = id;
 
-    }
     public int getId() {return id;}
     public void setId(int id) {this.id = id;}
 
@@ -31,4 +26,9 @@ public class Playlist {
 
     public void setTotalDuration(int totalDuration) {this.totalDuration = totalDuration;}
     public int totalDuration() {return totalDuration;}
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

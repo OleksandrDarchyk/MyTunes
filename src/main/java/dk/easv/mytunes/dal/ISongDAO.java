@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface ISongDAO {
     List<Song> getAll() throws IOException;
-   //void filteredSongs(Song song) throws IOException;
 
 }

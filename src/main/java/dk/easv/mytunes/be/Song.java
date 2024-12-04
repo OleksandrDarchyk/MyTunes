@@ -25,14 +25,6 @@ public class Song {
         this.id = id;
     }
 
-    public String getFilePath() {
-        return songPath;
-    }
-
-    public void setFilePath(String songPath) {
-        this.songPath = songPath;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -63,6 +55,14 @@ public class Song {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getSongPath() {
+        return songPath;
+    }
+
+    public void setSongPath(String songPath) {
+        this.songPath = songPath;
     }
 
     @Override

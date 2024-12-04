@@ -1,7 +1,9 @@
 package dk.easv.mytunes.gui.controllers;
 
 import dk.easv.mytunes.be.Song;
+import dk.easv.mytunes.bll.MyTunesManager;
 import dk.easv.mytunes.gui.models.MyTunesModel;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +23,17 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MyTunesController implements Initializable {
-    public Label lblTitle;
+
+    @FXML
+    private TableView lstPlaylist;
+    @FXML
+    private TableColumn nameColumn;
+    @FXML
+    private TableColumn songsColumn;
+    @FXML
+    private TableColumn durationColumn;
+    @FXML
+    private Label lblTitle;
     @FXML
     private Button btnClear;
     @FXML
@@ -38,8 +50,6 @@ public class MyTunesController implements Initializable {
     private TableColumn timeColumn;
     @FXML
     private TableColumn titleColumn;
-    @FXML
-    private ListView lstPlaylists;
     @FXML
     private TableView lstSongs;
     @FXML
@@ -58,6 +68,8 @@ public class MyTunesController implements Initializable {
         btnClear.setDisable(true);
         lstSongs.getItems().clear();
         lstSongs.setItems(myTunesModel.getAllSongs());
+        lstPlaylist.getItems().clear();
+        lstPlaylist.setItems(myTunesModel.getAllPlaylists());
 
         // For TableView columns, set the cell value factories
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -65,13 +77,14 @@ public class MyTunesController implements Initializable {
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
 
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
     }
 
     // Make play btn to play music
     public void onPlayButtonClick(ActionEvent actionEvent) {
         Song selectedSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
         if (selectedSong != null) {
-            String songPath = selectedSong.getFilePath(); // Ensure Song class has the getFilePath method
+            String songPath = selectedSong.getSongPath(); // Ensure Song class has the getFilePath method
             if (songPath != null && !songPath.isEmpty()) {
                 if (mediaPlayer != null) {
                     switch (mediaPlayer.getStatus()) {
@@ -126,7 +139,7 @@ public class MyTunesController implements Initializable {
             lstSongs.getSelectionModel().select(currentIndex + 1); //Select the next song in the list
             Song nextSong = (Song) lstSongs.getSelectionModel().getSelectedItem(); // Get the next song
             if (nextSong != null) {
-                playSong(nextSong.getFilePath());
+                playSong(nextSong.getSongPath());
             }
         }
 
@@ -135,7 +148,7 @@ public class MyTunesController implements Initializable {
             lstSongs.getSelectionModel().select(0); // Restart from the 1st song
             Song firstSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
             if (firstSong != null) {
-                playSong(firstSong.getFilePath());
+                playSong(firstSong.getSongPath());
             }
         }
     }
@@ -147,7 +160,7 @@ public class MyTunesController implements Initializable {
             lstSongs.getSelectionModel().select(currentIndex - 1); // Select the previous song in list
             Song previousSong = (Song) lstSongs.getSelectionModel().getSelectedItem(); // Get the previous song
             if (previousSong != null) {
-                playSong(previousSong.getFilePath());
+                playSong(previousSong.getSongPath());
             }
         } else {
             showWarningDialog("Playback error", "No previous song. You are at the start of the playlist.");
@@ -161,7 +174,7 @@ public class MyTunesController implements Initializable {
             lstSongs.getSelectionModel().select(currentIndex + 1);
             Song nextSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
             if (nextSong != null) {
-                playSong(nextSong.getFilePath());
+                playSong(nextSong.getSongPath());
             }
         } else {
             showWarningDialog("Playback error", "No next song. You are at the end of the playlist.");

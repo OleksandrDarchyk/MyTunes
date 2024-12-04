@@ -13,8 +13,32 @@ public class PlaylistDAODB implements IPlaylistDAO {
     private DBConnection con = new DBConnection();
 
     @Override
-    public List<Playlist> getAllPlaylists() {
+    public List<Playlist> getAllPlaylists() throws IOException{
         List<Playlist> playlists = new ArrayList<>();
+        try {
+            Connection c = con.getConnection();
+            String sql = "SELECT * FROM playlist";
+            PreparedStatement stmt = c.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){ // while there are rows
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+
+
+                Playlist playlist = new Playlist(id, name);
+                playlists.add(playlist);
+            }
+        } catch (SQLException e) {
+            throw new IOException(e);
+        }
+        return playlists;
+
+
+
+
+
+
+        /*List<Playlist> playlists = new ArrayList<>();
         String sql = "SELECT p.PlaylistID AS playlist_id, p.name AS playlist_name, " +
                 "ps.song_id, s.Artist, s.Category, s.FilePath, s.Time " +
                 "FROM dbo.Playlists p " +
@@ -34,7 +58,7 @@ public class PlaylistDAODB implements IPlaylistDAO {
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-            return playlists;
+            return playlists;*/
     }
 
     @Override
@@ -86,9 +110,11 @@ public class PlaylistDAODB implements IPlaylistDAO {
     @Override
     public List<Song> getSongInPlaylist(int playlistID) {
         List<Song> songs = new ArrayList<>();
-        String sql = "SELECT s.* FROM Songs s " +
+        String sql = "SELECT * FROM playlist";
+
+        /*String sql = "SELECT s.* FROM Songs s " +
                 "JOIN SongsOfPlaylist sop ON s.SongID = sop.song_id " +
-                "WHERE sop.playlist_id = ?";
+                "WHERE sop.playlist_id = ?";*/
         try (Connection connection = con.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, playlistID);

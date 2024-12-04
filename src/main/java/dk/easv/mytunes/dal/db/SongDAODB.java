@@ -19,7 +19,7 @@ public class SongDAODB implements ISongDAO {
         List<Song> songs = new ArrayList<>();
         try {
             Connection c = con.getConnection();
-            String sql = "SELECT * FROM songs";
+            String sql = "SELECT * FROM song";
             PreparedStatement ps = c.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -28,8 +28,8 @@ public class SongDAODB implements ISongDAO {
                 String artist = rs.getString("artist");
                 String category = rs.getString("category");
                 String time = rs.getString("time");
-                String filePath = rs.getString("file_path");
-                Song song = new Song(id,title,artist,category,time,filePath);
+                String songPath = rs.getString("songPath");
+                Song song = new Song(id,title,artist,category,time,songPath);
                 songs.add(song);
             }
         } catch (SQLException e) {

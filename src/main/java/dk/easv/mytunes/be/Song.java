@@ -1,14 +1,16 @@
 package dk.easv.mytunes.be;
 
+import java.sql.Time;
+
 public class Song {
     private int id;
     private String title;
     private String artist;
     private String category;
-    private String time;
+    private Time time;
     private String songPath;
 
-    public Song(int id, String title, String artist, String category, String time, String songPath) {
+    public Song(int id, String title, String artist, String category, Time time, String songPath) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -49,11 +51,11 @@ public class Song {
         this.category = category;
     }
 
-    public String getTime() {
+    public Time getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Time time) {
         this.time = time;
     }
 
@@ -64,6 +66,7 @@ public class Song {
     public void setSongPath(String songPath) {
         this.songPath = songPath;
     }
+
 
     @Override
     public String toString() {

@@ -125,7 +125,7 @@ public class PlaylistDAODB implements IPlaylistDAO {
                         rs.getString("Title"),
                         rs.getString("Artist"),
                         rs.getString("Category"),
-                        rs.getString("Time"),
+                        rs.getTime("Time"),
                         rs.getString("FilePath")
                 ));
             }

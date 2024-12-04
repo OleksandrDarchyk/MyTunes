@@ -3,6 +3,7 @@ package dk.easv.mytunes.gui.controllers;
 import dk.easv.mytunes.be.Song;
 import dk.easv.mytunes.bll.MyTunesManager;
 import dk.easv.mytunes.gui.models.MyTunesModel;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -71,12 +72,13 @@ public class MyTunesController implements Initializable {
         lstPlaylist.getItems().clear();
         lstPlaylist.setItems(myTunesModel.getAllPlaylists());
 
-        // For TableView columns, set the cell value factories
+        // set the tableview columns for songs.
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         artistColumn.setCellValueFactory(new PropertyValueFactory<>("artist"));
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
 
+        // set the tableview columns for playlists.
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
     }
 

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -34,7 +35,8 @@ public abstract class SongDAO implements ISongDAO{
                         String title = parts[1].trim();
                         String artist = parts[2].trim();
                         String category = parts[3].trim();
-                        String time = parts[4].trim();
+                        Time time = Time.valueOf(parts[4].trim());
+                        //Time time = parts[4].trim();
                         String songPath = parts[5].trim();
                         songs.add(new Song(id, title, artist, category, time, songPath));
                     } catch (NumberFormatException e){

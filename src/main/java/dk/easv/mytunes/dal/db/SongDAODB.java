@@ -4,10 +4,7 @@ import dk.easv.mytunes.be.Song;
 import dk.easv.mytunes.dal.ISongDAO;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +24,7 @@ public class SongDAODB implements ISongDAO {
                 String title = rs.getString("title");
                 String artist = rs.getString("artist");
                 String category = rs.getString("category");
-                String time = rs.getString("time");
+                Time time = rs.getTime("time");
                 String songPath = rs.getString("songPath");
                 Song song = new Song(id,title,artist,category,time,songPath);
                 songs.add(song);

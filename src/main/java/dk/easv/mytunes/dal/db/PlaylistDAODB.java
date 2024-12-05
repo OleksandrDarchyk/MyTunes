@@ -31,6 +31,7 @@ public class PlaylistDAODB implements IPlaylistDAO {
                     "LEFT JOIN SongOfPlaylist sp ON p.id = sp.playlist_id\n" +
                     "LEFT JOIN Song s ON sp.song_id = s.id\n" +
                     "GROUP BY p.id, p.name;";
+
             PreparedStatement stmt = c.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             System.out.println("Query executed successfully.");
@@ -38,7 +39,7 @@ public class PlaylistDAODB implements IPlaylistDAO {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
                 int songs = rs.getInt("Songs");
-                String totalDuration = rs.getString("totalDuration");
+                Time totalDuration = rs.getTime("totalDuration");
                 System.out.printf("Playlist: id=%d, name=%s, songs=%d, duration=%s%n", id, name, songs, totalDuration);
                 Playlist playlist = new Playlist(id, name, songs,totalDuration);
                 playlists.add(playlist);
@@ -48,7 +49,6 @@ public class PlaylistDAODB implements IPlaylistDAO {
             throw new IOException("Couldn't get all playlists from SQL database",e);
         }
         return playlists;
-
     }
 
     @Override

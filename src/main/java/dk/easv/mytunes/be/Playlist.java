@@ -8,14 +8,14 @@ public class Playlist {
     private int id;
     private String name;
     private int songs;
-    private String totalDuration;
+    private Time totalDuration;
 
 
-    public Playlist(int id, String name, int songs, String totalDuration) {
+    public Playlist(int id, String name, int songs, Time totalDuration) {
         this.name = name;
         this.id = id;
         this.songs = songs;
-        this.totalDuration = this.totalDuration;
+        this.totalDuration = totalDuration;
     }
 
     public int getId() {return id;}
@@ -32,11 +32,11 @@ public class Playlist {
         this.songs = songs;
     }
 
-    public String getTotalDuration() {
+    public Time getTotalDuration() {
         return totalDuration;
     }
 
-    public void setTotalDuration(String totalDuration) {
+    public void setTotalDuration(Time totalDuration) {
         this.totalDuration = totalDuration;
     }
 

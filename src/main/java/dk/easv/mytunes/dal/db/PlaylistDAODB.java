@@ -17,25 +17,34 @@ public class PlaylistDAODB implements IPlaylistDAO {
         List<Playlist> playlists = new ArrayList<>();
         try {
             Connection c = con.getConnection();
-            String sql = "SELECT * FROM playlist";
-            /*String sql = "SELECT p.id, p.name, COUNT(sp.song_id) AS Songs, " +
-                    "SEC_TO_TIME(SUM(TIME_TO_SEC(s.duration))) AS totalDuration " +
-                    "FROM Playlist p " +
-                    "LEFT JOIN SongOfPlaylist sp ON p.id = sp.playlist_id " +
-                    "LEFT JOIN Song s ON sp.song_id = s.id " +
-                    "GROUP BY p.id";*/
+            System.out.println("Connected to the database.");
+            //String sql = "SELECT * FROM playlist";
+            String sql = "SELECT \n" +
+                    "    p.id,\n" +
+                    "    p.name,\n" +
+                    "    COUNT(sp.song_id) AS Songs,\n" +
+                    "    FORMAT(\n" +
+                    "        DATEADD(SECOND, SUM(DATEDIFF(SECOND, '00:00:00', s.time)), '00:00:00'), \n" +
+                    "        'HH:mm:ss'\n" +
+                    "    ) AS totalDuration\n" +
+                    "FROM Playlist p\n" +
+                    "LEFT JOIN SongOfPlaylist sp ON p.id = sp.playlist_id\n" +
+                    "LEFT JOIN Song s ON sp.song_id = s.id\n" +
+                    "GROUP BY p.id, p.name;";
             PreparedStatement stmt = c.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
+            System.out.println("Query executed successfully.");
             while (rs.next()){ // while there are rows
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
                 int songs = rs.getInt("Songs");
                 String totalDuration = rs.getString("totalDuration");
-
+                System.out.printf("Playlist: id=%d, name=%s, songs=%d, duration=%s%n", id, name, songs, totalDuration);
                 Playlist playlist = new Playlist(id, name, songs,totalDuration);
                 playlists.add(playlist);
             }
         } catch (SQLException e) {
+            System.err.println("SQL Error: " + e.getMessage());
             throw new IOException("Couldn't get all playlists from SQL database",e);
         }
         return playlists;

@@ -85,7 +85,7 @@ public class MyTunesController implements Initializable {
         // set the tableview columns for playlists.
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         songsColumn.setCellValueFactory(new PropertyValueFactory<>("songs"));
-        //durationColumn.setCellValueFactory(new PropertyValueFactory<>("totalDuration"));
+        durationColumn.setCellValueFactory(new PropertyValueFactory<>("totalDuration"));
     }
 
     public void initializePlaylistSelection(){

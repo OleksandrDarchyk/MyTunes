@@ -267,6 +267,8 @@ public class MyTunesController implements Initializable {
         openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
     }
 
+    public void onDeleteSongClick(ActionEvent actionEvent) {
+    }
 }
 
 

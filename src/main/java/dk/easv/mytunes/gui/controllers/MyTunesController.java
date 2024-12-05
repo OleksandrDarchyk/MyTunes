@@ -70,18 +70,24 @@ public class MyTunesController implements Initializable {
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         btnClear.setDisable(true);
+        initializeSongTable();
+        initializePlaylistTable();
+        //getSongOnPlaylist();
+    }
+
+    public void initializeSongTable() {
         lstSongs.getItems().clear();
         lstSongs.setItems(myTunesModel.getAllSongs());
-        lstPlaylist.getItems().clear();
-        lstPlaylist.setItems(myTunesModel.getAllPlaylists());
-        //getSongOnPlaylist();
-
         // set the tableview columns for songs.
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         artistColumn.setCellValueFactory(new PropertyValueFactory<>("artist"));
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+    }
 
+    public void initializePlaylistTable() {
+        lstPlaylist.getItems().clear();
+        lstPlaylist.setItems(myTunesModel.getAllPlaylists());
         // set the tableview columns for playlists.
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         songsColumn.setCellValueFactory(new PropertyValueFactory<>("songs"));

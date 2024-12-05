@@ -17,6 +17,4 @@ public class PlaylistManager {
     public List<Playlist> getAllPlaylists() throws IOException {
         return playlistDAO.getAllPlaylists();
     }
-
-
 }

@@ -74,7 +74,7 @@ public class MyTunesController implements Initializable {
         lstSongs.setItems(myTunesModel.getAllSongs());
         lstPlaylist.getItems().clear();
         lstPlaylist.setItems(myTunesModel.getAllPlaylists());
-        //lstSongOnPlaylist.setItems(myTunesModel.getSongsOnPlaylist(selectedPlaylist.getId()));
+        //getSongOnPlaylist();
 
         // set the tableview columns for songs.
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));

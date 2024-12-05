@@ -20,19 +20,25 @@ public class SongOfPlaylistDAODB implements ISongOfPlaylistDAO {
         List<SongOfPlaylist> songsOnPlaylist = new ArrayList<SongOfPlaylist>();
         try {
             Connection conn = con.getConnection();
-                String sql = "SELECT * FROM songOfPlaylist";
+            //String sql = "SELECT * FROM songOfPlaylist";
+            String sql = "SELECT s.id, s.title, s.artist, s.category, s.time " +
+                    "FROM SongOfPlaylist sp " +
+                    "JOIN Song s ON sp.song_id = s.id " +
+                    "WHERE sp.playlist_id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                int playlistId = rs.getInt("playlist_id");
-                int songId = rs.getInt("song_id");
-                SongOfPlaylist songOfPlaylist = new SongOfPlaylist(playlistId, songId);
-                songsOnPlaylist.add(songOfPlaylist);
+                int id = rs.getInt("id");
+                String title = rs.getString("title");
+                String artist = rs.getString("artist");
+                String category = rs.getString("category");
+                String time = rs.getString("time"); // Assuming time is stored as a string
+                //songsOnPlaylist.add(new SongOfPlaylist(id, title, artist, category, time));
             }
         } catch (SQLServerException e) {
-            throw new RuntimeException(e);
+            throw new IOException("SQL Server Exception occurred", e);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new IOException("SQL Exception occurred", e);
         }
         return songsOnPlaylist;
     }

@@ -14,4 +14,6 @@ public class SongOfPlaylistManager {
     public List<SongOfPlaylist> getSongOfPlaylist() throws IOException{
         return songOfPlaylistDAO.getSongOfPlaylist();
     }
+
+
 }

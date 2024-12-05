@@ -8,4 +8,9 @@ import java.util.List;
 public interface ISongDAO {
     List<Song> getAll() throws IOException;
 
+    void addSong(Song song) throws IOException;
+
+    void deleteSong(Song song) throws IOException;
+
+    void updateSong(Song song) throws IOException;
 }

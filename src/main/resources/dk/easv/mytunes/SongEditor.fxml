@@ -11,13 +11,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.controllers.SongEditorController">
+<AnchorPane prefHeight="342.0" prefWidth="548.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.controllers.SongEditorController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutY="-2.0" prefHeight="400.0" prefWidth="594.0">
+      <VBox alignment="TOP_CENTER" layoutY="-2.0" prefHeight="378.0" prefWidth="548.0">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="173.0" text="New/Edit Song" textAlignment="CENTER">
                <font>
-                  <Font size="21.0" />
+                  <Font size="20.0" />
                </font>
                <VBox.margin>
                   <Insets top="15.0" />
@@ -27,10 +27,10 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Title:" textAlignment="RIGHT" wrappingWidth="82.0">
                      <HBox.margin>
-                        <Insets left="100.0" right="15.0" />
+                        <Insets left="80.0" right="15.0" />
                      </HBox.margin>
                      <font>
-                        <Font size="18.0" />
+                        <Font size="17.0" />
                      </font>
                   </Text>
                   <TextField fx:id="txtTitle" alignment="CENTER" prefHeight="26.0" prefWidth="250.0">
@@ -47,10 +47,10 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Artist:" textAlignment="RIGHT" wrappingWidth="82.0">
                      <HBox.margin>
-                        <Insets left="100.0" right="15.0" />
+                        <Insets left="80.0" right="15.0" />
                      </HBox.margin>
                      <font>
-                        <Font size="18.0" />
+                        <Font size="17.0" />
                      </font>
                   </Text>
                   <TextField fx:id="txtArtist" alignment="CENTER" prefHeight="26.0" prefWidth="250.0">
@@ -67,10 +67,10 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Category:" textAlignment="RIGHT" wrappingWidth="82.0">
                      <HBox.margin>
-                        <Insets left="100.0" right="15.0" />
+                        <Insets left="80.0" right="15.0" />
                      </HBox.margin>
                      <font>
-                        <Font size="19.0" />
+                        <Font size="17.0" />
                      </font>
                   </Text>
                   <ComboBox fx:id="comboBox" prefHeight="26.0" prefWidth="152.0" promptText="Pop" />
@@ -79,7 +79,7 @@
                         <Insets left="20.0" />
                      </HBox.margin>
                      <font>
-                        <Font size="14.0" />
+                        <Font size="13.0" />
                      </font></Button>
                </children>
                <VBox.margin>
@@ -90,10 +90,10 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time:" textAlignment="RIGHT" wrappingWidth="82.0">
                      <HBox.margin>
-                        <Insets left="100.0" right="15.0" />
+                        <Insets left="80.0" right="15.0" />
                      </HBox.margin>
                      <font>
-                        <Font size="18.0" />
+                        <Font size="17.0" />
                      </font>
                   </Text>
                   <TextField fx:id="txtTime" alignment="CENTER" prefHeight="31.0" prefWidth="155.0">
@@ -110,10 +110,10 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="File:" textAlignment="RIGHT" wrappingWidth="82.0">
                      <HBox.margin>
-                        <Insets left="100.0" right="15.0" />
+                        <Insets left="80.0" right="15.0" />
                      </HBox.margin>
                      <font>
-                        <Font size="18.0" />
+                        <Font size="17.0" />
                      </font>
                   </Text>
                   <TextField fx:id="txtFile" alignment="CENTER" prefHeight="31.0" prefWidth="250.0">
@@ -122,31 +122,31 @@
                      </font>
                   </TextField>
                   <Button mnemonicParsing="false" onAction="#onChooseClick" prefHeight="26.0" prefWidth="66.0" text="Choose">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
                   </Button>
                </children>
                <padding>
                   <Insets top="20.0" />
                </padding>
             </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="97.0" prefWidth="594.0" spacing="20.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="80.0" prefWidth="548.0" spacing="20.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#onCancelSongClick" text="Cancel">
+                  <Button fx:id="btnCancelSong" mnemonicParsing="false" onAction="#onCancelSongClick" text="Cancel">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="13.0" />
                      </font>
                   </Button>
                   <Button mnemonicParsing="false" onAction="#onSaveSongClick" prefHeight="30.0" prefWidth="62.0" text="Save">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="13.0" />
                      </font>
                      <HBox.margin>
-                        <Insets right="60.0" />
+                        <Insets right="33.0" />
                      </HBox.margin>
                   </Button>
                </children>

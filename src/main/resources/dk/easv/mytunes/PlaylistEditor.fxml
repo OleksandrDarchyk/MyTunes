@@ -10,39 +10,42 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="199.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.controllers.PlaylistEditorController">
+<AnchorPane prefHeight="199.0" prefWidth="457.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.controllers.PlaylistEditorController">
    <children>
-      <VBox alignment="TOP_CENTER" prefHeight="210.0" prefWidth="500.0">
+      <VBox alignment="TOP_CENTER" prefHeight="194.0" prefWidth="461.0">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="173.0" text="New/Edit Playlist" textAlignment="CENTER">
                <font>
-                  <Font size="21.0" />
+                  <Font size="20.0" />
                </font>
                <VBox.margin>
-                  <Insets top="15.0" />
+                  <Insets top="20.0" />
                </VBox.margin>
             </Label>
             <HBox alignment="CENTER" prefHeight="38.0" prefWidth="400.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" wrappingWidth="82.0">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" textAlignment="CENTER" wrappingWidth="82.0">
                      <HBox.margin>
-                        <Insets right="15.0" />
+                        <Insets />
                      </HBox.margin>
                      <font>
-                        <Font size="18.0" />
+                        <Font size="17.0" />
                      </font>
                   </Text>
                   <TextField fx:id="txtName" alignment="CENTER" prefHeight="31.0" prefWidth="290.0">
                      <font>
                         <Font size="15.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
                   </TextField>
                </children>
                <VBox.margin>
                   <Insets top="30.0" />
                </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="97.0" prefWidth="594.0" spacing="20.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="82.0" prefWidth="500.0" spacing="20.0">
                <children>
                   <Button fx:id="btnCancelPlaylist" mnemonicParsing="false" onAction="#onCancelPlaylistClick" text="Cancel">
                      <font>

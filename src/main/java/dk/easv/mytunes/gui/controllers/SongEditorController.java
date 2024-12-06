@@ -3,8 +3,11 @@ package dk.easv.mytunes.gui.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 public class SongEditorController {
+    @FXML
+    private Button btnCancelSong;
     @FXML
     private Button btnChoose;
     @FXML
@@ -25,6 +28,8 @@ public class SongEditorController {
     }
 
     public void onCancelSongClick(ActionEvent actionEvent) {
+        Stage stage = (Stage) btnCancelSong.getScene().getWindow();
+        stage.close();
     }
 
     public void onSaveSongClick(ActionEvent actionEvent) {

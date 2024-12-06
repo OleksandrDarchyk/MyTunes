@@ -112,16 +112,10 @@ public class MyTunesController implements Initializable {
         // Fetch songs for the selected playlist from the database
             int playlistId = selectedPlaylist.getId();
             List<SongsOnPlaylist> songsOnPlaylist = myTunesModel.getSongsOnPlaylist(playlistId);
-
         for (SongsOnPlaylist song : songsOnPlaylist) {
-
-
             lstSongOnPlaylist.getItems().setAll(songsOnPlaylist);
-
         }
-
     }
-
 
     // Make play btn to play music
     public void onPlayButtonClick(ActionEvent actionEvent) {
@@ -227,7 +221,6 @@ public class MyTunesController implements Initializable {
     // Filter function starts from here
     public void onFilterBtnClick(ActionEvent actionEvent) throws IOException {
         String query = txtQuery.getText().trim().toLowerCase(); // Get and trim the query text
-
         // If query is empty, show a warning
         if (query.isEmpty()) {
             showWarningDialog("Error", "Please input what you want to search!");
@@ -258,6 +251,22 @@ public class MyTunesController implements Initializable {
         }
     }
 
+    public void onEditPlaylistClick (ActionEvent actionEvent) throws IOException {
+        openEditor("/dk/easv/mytunes/PlaylistEditor.fxml", "New/Edit Playlist", this);
+    }
+
+    public void onAddPlaylistClick (ActionEvent actionEvent) throws IOException {
+        openEditor("/dk/easv/mytunes/PlaylistEditor.fxml", "New/Edit Playlist", this);
+    }
+
+    public void onEditSongClick (ActionEvent actionEvent) throws IOException {
+        openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
+    }
+
+    public void onAddSongClick (ActionEvent actionEvent) throws IOException {
+        openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
+    }
+
     // Show New/Edit dialog by clicking btn new and btn edit.
     private void openEditor (String fxmlPath, String title, Object parentController) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
@@ -275,23 +284,26 @@ public class MyTunesController implements Initializable {
         stage.show();
     }
 
-    public void onEditPlaylistClick (ActionEvent actionEvent) throws IOException {
-        openEditor("/dk/easv/mytunes/PlaylistEditor.fxml", "New/Edit Playlist", this);
-    }
-
-    public void onAddPlaylistClick (ActionEvent actionEvent) throws IOException {
-        openEditor("/dk/easv/mytunes/PlaylistEditor.fxml", "New/Edit Playlist", this);
-    }
-
-    public void onEditSongClick (ActionEvent actionEvent) throws IOException {
-        openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
-    }
-
-    public void onAddSongClick (ActionEvent actionEvent) throws IOException {
-        openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
-    }
-
     public void onDeleteSongClick(ActionEvent actionEvent) {
+    }
+
+    public void onCloseBtnClick(ActionEvent actionEvent) {
+    }
+
+
+    public void onDeleteSongsOnPlaylistClick(ActionEvent actionEvent) {
+    }
+
+    public void onMoveDownClick(ActionEvent actionEvent) {
+    }
+
+    public void onMoveUpClick(ActionEvent actionEvent) {
+    }
+
+    public void onDeletePlaylistClick(ActionEvent actionEvent) {
+    }
+
+    public void onMoveFromSonglstToSongsOnPlaylistClick(ActionEvent actionEvent) {
     }
 }
 

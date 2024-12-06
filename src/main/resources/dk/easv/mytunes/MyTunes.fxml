@@ -15,20 +15,26 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="888.0" stylesheets="@view/Style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.controllers.MyTunesController">
    <children>
-      <ListView fx:id="lstSongOnPlaylist" layoutX="245.0" layoutY="143.0" opacity="0.65" prefHeight="381.0" prefWidth="200.0" />
-      <Button layoutX="819.0" layoutY="537.0" mnemonicParsing="false" opacity="0.76" text="Close" />
-      <Button layoutX="617.0" layoutY="537.0" mnemonicParsing="false" onAction="#onDeleteSongClick" opacity="0.71" text="Delete" />
-      <Button fx:id="btnEditSong" layoutX="554.0" layoutY="537.0" mnemonicParsing="false" onAction="#onEditSongClick" opacity="0.71" text="Edit" />
-      <Button fx:id="btnAddSong" layoutX="495.0" layoutY="537.0" mnemonicParsing="false" onAction="#onAddSongClick" opacity="0.71" text="New" />
-      <Button layoutX="355.0" layoutY="537.0" mnemonicParsing="false" opacity="0.71" text="Delete" />
-      <Button layoutX="284.0" layoutY="537.0" mnemonicParsing="false" opacity="0.71" text="↓" />
-      <Button layoutX="245.0" layoutY="537.0" mnemonicParsing="false" opacity="0.71" text="↑" />
-      <Button layoutX="120.0" layoutY="537.0" mnemonicParsing="false" opacity="0.71" text="Delete" />
-      <Button fx:id="btnEditPlaylist" layoutX="71.0" layoutY="537.0" mnemonicParsing="false" onAction="#onEditPlaylistClick" opacity="0.71" text="Edit" />
-      <Button fx:id="btnAddPlaylist" layoutX="20.0" layoutY="537.0" mnemonicParsing="false" onAction="#onAddPlaylistClick" opacity="0.71" text="New" />
-      <Button layoutX="458.0" layoutY="143.0" mnemonicParsing="false" opacity="0.71" text="←" />
-      <Button fx:id="btnFilter" alignment="CENTER" contentDisplay="CENTER" layoutX="820.0" layoutY="31.0" mnemonicParsing="false" onAction="#onFilterBtnClick" prefHeight="26.0" prefWidth="40.0" style="-fx-background-image: url(&quot;dk/easv/mytunes/view/Pictures/search.png&quot;);" styleClass="filter-button" stylesheets="@view/Style.css" textAlignment="CENTER" />
-      <TextField fx:id="txtQuery" layoutX="652.0" layoutY="30.0" opacity="0.79" styleClass="txt-field" stylesheets="@view/Style.css" />
+      <ListView fx:id="lstSongOnPlaylist" layoutX="245.0" layoutY="143.0" opacity="0.65" prefHeight="382.0" prefWidth="200.0" />
+      <Button layoutX="813.0" layoutY="537.0" mnemonicParsing="false" onAction="#onCloseBtnClick" opacity="0.76" prefHeight="26.0" prefWidth="50.0" text="Close" />
+      <Button layoutX="652.0" layoutY="537.0" mnemonicParsing="false" onAction="#onDeleteSongClick" opacity="0.71" prefHeight="26.0" prefWidth="50.0" text="Delete" />
+      <Button fx:id="btnEditSong" layoutX="574.0" layoutY="537.0" mnemonicParsing="false" onAction="#onEditSongClick" opacity="0.71" prefHeight="26.0" prefWidth="50.0" text="Edit" />
+      <Button fx:id="btnAddSong" layoutX="496.0" layoutY="537.0" mnemonicParsing="false" onAction="#onAddSongClick" opacity="0.71" prefHeight="26.0" prefWidth="50.0" text="New" />
+      <Button layoutX="393.0" layoutY="537.0" mnemonicParsing="false" onAction="#onDeleteSongsOnPlaylistClick" opacity="0.71" prefHeight="26.0" prefWidth="50.0" text="Delete" />
+      <Button layoutX="287.0" layoutY="537.0" mnemonicParsing="false" onAction="#onMoveDownClick" opacity="0.71" prefHeight="26.0" prefWidth="26.0" text="↓" />
+      <Button layoutX="245.0" layoutY="537.0" mnemonicParsing="false" onAction="#onMoveUpClick" opacity="0.71" prefHeight="26.0" prefWidth="26.0" text="↑">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button layoutX="178.0" layoutY="537.0" mnemonicParsing="false" onAction="#onDeletePlaylistClick" opacity="0.71" prefHeight="26.0" prefWidth="50.0" text="Delete" />
+      <Button fx:id="btnEditPlaylist" layoutX="100.0" layoutY="537.0" mnemonicParsing="false" onAction="#onEditPlaylistClick" opacity="0.71" prefHeight="26.0" prefWidth="50.0" text="Edit" />
+      <Button fx:id="btnAddPlaylist" layoutX="20.0" layoutY="537.0" mnemonicParsing="false" onAction="#onAddPlaylistClick" opacity="0.71" prefHeight="26.0" prefWidth="50.0" text="New" />
+      <Button layoutX="458.0" layoutY="143.0" mnemonicParsing="false" onAction="#onMoveFromSonglstToSongsOnPlaylistClick" opacity="0.71" text="←">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="btnFilter" alignment="CENTER" contentDisplay="CENTER" layoutX="825.0" layoutY="31.0" mnemonicParsing="false" onAction="#onFilterBtnClick" prefHeight="26.0" prefWidth="40.0" style="-fx-background-image: url(&quot;dk/easv/mytunes/view/Pictures/search.png&quot;);" styleClass="filter-button" stylesheets="@view/Style.css" textAlignment="CENTER" />
+      <TextField fx:id="txtQuery" layoutX="657.0" layoutY="30.0" opacity="0.79" styleClass="txt-field" stylesheets="@view/Style.css" />
       <Slider layoutX="65.0" layoutY="91.0" prefHeight="1.0" prefWidth="136.0" />
       <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="329.0" layoutY="44.0">
          <image>
@@ -64,7 +70,7 @@
             <TableColumn fx:id="timeColumn" prefWidth="66.39998779296877" text="Time" />
         </columns>
       </TableView>
-      <Button fx:id="btnClear" layoutX="601.0" layoutY="32.0" mnemonicParsing="false" onAction="#onClearBtnClick" text="Filter" />
+      <Button fx:id="btnClear" layoutX="606.0" layoutY="32.0" mnemonicParsing="false" onAction="#onClearBtnClick" text="Filter" />
       <Label fx:id="lblTitle" layoutX="362.0" layoutY="45.0" prefHeight="18.0" prefWidth="105.0" text="None" textFill="WHITE" />
       <Label layoutX="362.0" layoutY="68.0" text="is Playing" textFill="WHITE" />
       <TableView fx:id="lstPlaylist" layoutX="20.0" layoutY="143.0" opacity="0.65" prefHeight="382.0" prefWidth="209.0">

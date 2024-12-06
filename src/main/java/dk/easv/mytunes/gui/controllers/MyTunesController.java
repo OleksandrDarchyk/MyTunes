@@ -22,7 +22,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MyTunesController implements Initializable {
-
+    @FXML
+    private Button btnClose;
     @FXML
     private ListView lstSongOnPlaylist;
     @FXML
@@ -288,7 +289,7 @@ public class MyTunesController implements Initializable {
     }
 
     public void onCloseBtnClick(ActionEvent actionEvent) {
-        Stage stage = (Stage) btnClear.getScene().getWindow();
+        Stage stage = (Stage) btnClose.getScene().getWindow();
         stage.close();
     }
 

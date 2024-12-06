@@ -44,12 +44,12 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="97.0" prefWidth="594.0" spacing="20.0">
                <children>
-                  <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onCancelClick" text="Cancel">
+                  <Button fx:id="btnCancelPlaylist" mnemonicParsing="false" onAction="#onCancelPlaylistClick" text="Cancel">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onSaveClick" prefHeight="30.0" prefWidth="62.0" text="Save">
+                  <Button mnemonicParsing="false" onAction="#onSavePlaylistClick" prefHeight="30.0" prefWidth="62.0" text="Save">
                      <font>
                         <Font size="14.0" />
                      </font>

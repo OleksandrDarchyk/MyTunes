@@ -24,9 +24,9 @@ public class SongEditorController {
     public void onChooseClick(ActionEvent actionEvent) {
     }
 
-    public void onSaveClick(ActionEvent actionEvent) {
+    public void onCancelSongClick(ActionEvent actionEvent) {
     }
 
-    public void onCancelClick(ActionEvent actionEvent) {
+    public void onSaveSongClick(ActionEvent actionEvent) {
     }
 }

@@ -16,7 +16,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="888.0" stylesheets="@view/Style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.controllers.MyTunesController">
    <children>
       <ListView fx:id="lstSongOnPlaylist" layoutX="245.0" layoutY="143.0" opacity="0.65" prefHeight="382.0" prefWidth="200.0" />
-      <Button layoutX="813.0" layoutY="537.0" mnemonicParsing="false" onAction="#onCloseBtnClick" opacity="0.76" prefHeight="26.0" prefWidth="50.0" text="Close" />
+      <Button fx:id="btnClose" layoutX="813.0" layoutY="537.0" mnemonicParsing="false" onAction="#onCloseBtnClick" opacity="0.76" prefHeight="26.0" prefWidth="50.0" text="Close" />
       <Button layoutX="652.0" layoutY="537.0" mnemonicParsing="false" onAction="#onDeleteSongClick" opacity="0.71" prefHeight="26.0" prefWidth="50.0" text="Delete" />
       <Button fx:id="btnEditSong" layoutX="574.0" layoutY="537.0" mnemonicParsing="false" onAction="#onEditSongClick" opacity="0.71" prefHeight="26.0" prefWidth="50.0" text="Edit" />
       <Button fx:id="btnAddSong" layoutX="496.0" layoutY="537.0" mnemonicParsing="false" onAction="#onAddSongClick" opacity="0.71" prefHeight="26.0" prefWidth="50.0" text="New" />

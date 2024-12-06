@@ -2,10 +2,10 @@ package dk.easv.mytunes.gui.models;
 
 import dk.easv.mytunes.be.Playlist;
 import dk.easv.mytunes.be.Song;
-import dk.easv.mytunes.be.SongOfPlaylist;
+import dk.easv.mytunes.be.SongsOnPlaylist;
 import dk.easv.mytunes.bll.PlaylistManager;
 import dk.easv.mytunes.bll.SongManager;
-import dk.easv.mytunes.bll.SongOfPlaylistManager;
+import dk.easv.mytunes.bll.SongsOnPlaylistManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -16,11 +16,11 @@ public class MyTunesModel {
 
     private final SongManager songManager = new SongManager();
     private final PlaylistManager playlistManager = new PlaylistManager();
-    private final SongOfPlaylistManager songOfPlaylistManager = new SongOfPlaylistManager();
+    private final SongsOnPlaylistManager songsOnPlaylistManager = new SongsOnPlaylistManager();
     private final ObservableList<Song> songs = FXCollections.observableArrayList();
     private final ObservableList<Song> filteredSongs = FXCollections.observableArrayList();
     private final ObservableList<Playlist> playlists = FXCollections.observableArrayList();
-    private final ObservableList<Song> songsOnPlaylist = FXCollections.observableArrayList();
+    private final ObservableList<SongsOnPlaylist> songsOnPlaylist = FXCollections.observableArrayList();
 
     // Get observable list of songs
     public ObservableList<Song> getAllSongs() {
@@ -53,9 +53,9 @@ public class MyTunesModel {
         return playlists;
     }
 
-    public ObservableList<Song> getSongsOnPlaylist(int playlistId) {
+    public ObservableList<SongsOnPlaylist> getSongsOnPlaylist(int playlistId) {
         try {
-            List<Song> songList = songOfPlaylistManager.getSongOnPlaylist(playlistId);
+            List<SongsOnPlaylist> songList = songsOnPlaylistManager.getSongsOnPlaylist(playlistId);
             System.out.println("Songs fetched from SongOfPlaylistManager:");
             songsOnPlaylist.setAll(songList);
         } catch (IOException e) {

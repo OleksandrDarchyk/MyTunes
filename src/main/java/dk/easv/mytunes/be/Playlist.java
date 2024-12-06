@@ -1,8 +1,6 @@
 package dk.easv.mytunes.be;
 
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Playlist {
     private int id;

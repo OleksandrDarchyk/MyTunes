@@ -2,11 +2,8 @@ package dk.easv.mytunes.gui.controllers;
 
 import dk.easv.mytunes.be.Playlist;
 import dk.easv.mytunes.be.Song;
-import dk.easv.mytunes.be.SongOfPlaylist;
-import dk.easv.mytunes.dal.db.SongOfPlaylistDAODB;
+import dk.easv.mytunes.be.SongsOnPlaylist;
 import dk.easv.mytunes.gui.models.MyTunesModel;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +18,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -115,10 +111,10 @@ public class MyTunesController implements Initializable {
 
         // Fetch songs for the selected playlist from the database
             int playlistId = selectedPlaylist.getId();
-            List<Song> songsOnPlaylist = myTunesModel.getSongsOnPlaylist(playlistId);
+            List<SongsOnPlaylist> songsOnPlaylist = myTunesModel.getSongsOnPlaylist(playlistId);
 
-        for (Song song : songsOnPlaylist) {
-            System.out.println(" - " + song.getTitle() + " by " + song.getArtist());
+        for (SongsOnPlaylist song : songsOnPlaylist) {
+
 
             lstSongOnPlaylist.getItems().setAll(songsOnPlaylist);
 

@@ -28,7 +28,7 @@ public class PlaylistDAODB implements IPlaylistDAO {
                     "        'HH:mm:ss'\n" +
                     "    ) AS totalDuration\n" +
                     "FROM Playlist p\n" +
-                    "LEFT JOIN SongOfPlaylist sp ON p.id = sp.playlist_id\n" +
+                    "LEFT JOIN SongsOnPlaylist sp ON p.id = sp.playlist_id\n" +
                     "LEFT JOIN Song s ON sp.song_id = s.id\n" +
                     "GROUP BY p.id, p.name;";
 

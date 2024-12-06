@@ -1,14 +1,15 @@
 package dk.easv.mytunes.be;
 
-public class SongOfPlaylist {
+public class SongsOnPlaylist {
     private int id;
     private int playlistId;
     private int songId;
+    private String title;
+    private int sequentialId;
 
-    public SongOfPlaylist(int id, int playlistId, int songId) {
+    public SongsOnPlaylist(int id, String title) {
         this.id = id;
-        this.playlistId = playlistId;
-        this.songId = songId;
+        this.title = title;
     }
 
     public int getId() {
@@ -37,6 +38,6 @@ public class SongOfPlaylist {
 
     @Override
     public String toString() {
-        return playlistId + "," + songId;
+        return id + ". " + title;
     }
 }

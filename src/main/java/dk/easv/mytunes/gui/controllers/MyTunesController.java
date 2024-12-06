@@ -288,6 +288,8 @@ public class MyTunesController implements Initializable {
     }
 
     public void onCloseBtnClick(ActionEvent actionEvent) {
+        Stage stage = (Stage) btnClear.getScene().getWindow();
+        stage.close();
     }
 
 

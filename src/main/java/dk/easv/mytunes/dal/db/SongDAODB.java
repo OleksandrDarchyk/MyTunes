@@ -1,5 +1,6 @@
 package dk.easv.mytunes.dal.db;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dk.easv.mytunes.be.Song;
 import dk.easv.mytunes.dal.ISongDAO;
 
@@ -35,6 +36,7 @@ public class SongDAODB implements ISongDAO {
         }
         return songs;
     }
+
     @Override
     public void addSong(Song song) throws IOException {
         String sql = "INSERT INTO Songs (title, artist, category, time, file_path) VALUES (?, ?, ?, ?, ?)";

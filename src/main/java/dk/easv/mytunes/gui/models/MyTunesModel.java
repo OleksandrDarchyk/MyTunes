@@ -13,13 +13,14 @@ import java.io.IOException;
 import java.util.List;
 
 public class MyTunesModel {
+
     private final SongManager songManager = new SongManager();
     private final PlaylistManager playlistManager = new PlaylistManager();
     private final SongOfPlaylistManager songOfPlaylistManager = new SongOfPlaylistManager();
     private final ObservableList<Song> songs = FXCollections.observableArrayList();
     private final ObservableList<Song> filteredSongs = FXCollections.observableArrayList();
     private final ObservableList<Playlist> playlists = FXCollections.observableArrayList();
-    private final ObservableList<SongOfPlaylist> songsOnPlaylist = FXCollections.observableArrayList();
+    private final ObservableList<Song> songsOnPlaylist = FXCollections.observableArrayList();
 
     // Get observable list of songs
     public ObservableList<Song> getAllSongs() {
@@ -35,7 +36,6 @@ public class MyTunesModel {
     public ObservableList<Song> getFilteredSongs(String query) {
         try {
             List<Song> filterResult = songManager.filterSongs(query); // Filter songs based on query
-            System.out.println("Songs after filtering in model: " + filterResult); // Log the filtered results
             filteredSongs.setAll(filterResult); // Update observable list with filtered songs
         } catch (IOException e) {
             System.out.println("Error filtering songs: " + e.getMessage());
@@ -53,10 +53,11 @@ public class MyTunesModel {
         return playlists;
     }
 
-    public ObservableList<SongOfPlaylist> getSongsOnPlaylist(int id) {
+    public ObservableList<Song> getSongsOnPlaylist(int playlistId) {
         try {
-            List<SongOfPlaylist> allSongsOnPlaylist = songOfPlaylistManager.getSongOfPlaylist();
-            songsOnPlaylist.setAll(allSongsOnPlaylist);
+            List<Song> songList = songOfPlaylistManager.getSongOnPlaylist(playlistId);
+            System.out.println("Songs fetched from SongOfPlaylistManager:");
+            songsOnPlaylist.setAll(songList);
         } catch (IOException e) {
             System.out.println("Error loading songs on playlist: " + e.getMessage());
         }

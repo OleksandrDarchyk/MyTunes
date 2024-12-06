@@ -17,7 +17,7 @@ public class PlaylistDAODB implements IPlaylistDAO {
         List<Playlist> playlists = new ArrayList<>();
         try {
             Connection c = con.getConnection();
-            System.out.println("Connected to the database.");
+            //System.out.println("Connected to the database.");
             //String sql = "SELECT * FROM playlist";
             String sql = "SELECT \n" +
                     "    p.id,\n" +
@@ -34,18 +34,18 @@ public class PlaylistDAODB implements IPlaylistDAO {
 
             PreparedStatement stmt = c.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
-            System.out.println("Query executed successfully.");
+            //System.out.println("Query executed successfully.");
             while (rs.next()){ // while there are rows
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
                 int songs = rs.getInt("Songs");
                 Time totalDuration = rs.getTime("totalDuration");
-                System.out.printf("Playlist: id=%d, name=%s, songs=%d, duration=%s%n", id, name, songs, totalDuration);
+                //System.out.printf("Playlist: id=%d, name=%s, songs=%d, duration=%s%n", id, name, songs, totalDuration);
                 Playlist playlist = new Playlist(id, name, songs,totalDuration);
                 playlists.add(playlist);
             }
         } catch (SQLException e) {
-            System.err.println("SQL Error: " + e.getMessage());
+            //System.err.println("SQL Error: " + e.getMessage());
             throw new IOException("Couldn't get all playlists from SQL database",e);
         }
         return playlists;

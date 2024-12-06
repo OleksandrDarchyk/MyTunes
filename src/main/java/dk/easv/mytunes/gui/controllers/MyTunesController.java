@@ -3,6 +3,7 @@ package dk.easv.mytunes.gui.controllers;
 import dk.easv.mytunes.be.Playlist;
 import dk.easv.mytunes.be.Song;
 import dk.easv.mytunes.be.SongOfPlaylist;
+import dk.easv.mytunes.dal.db.SongOfPlaylistDAODB;
 import dk.easv.mytunes.gui.models.MyTunesModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +21,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -66,13 +68,19 @@ public class MyTunesController implements Initializable {
 
     private final MyTunesModel myTunesModel = new MyTunesModel();
     private MediaPlayer mediaPlayer;
-    private Playlist selectedPlaylist;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         btnClear.setDisable(true);
         initializeSongTable();
         initializePlaylistTable();
-        //getSongOnPlaylist();
+        // Add listener for selection changes in the playlist TableView
+        lstPlaylist.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                handlePlaylistSelection();
+            } catch (IOException e) {
+                System.err.println("Error handling playlist selection: " + e.getMessage());
+            }
+        });
     }
 
     public void initializeSongTable() {
@@ -86,6 +94,7 @@ public class MyTunesController implements Initializable {
     }
 
     public void initializePlaylistTable() {
+        System.out.println("Initializing Playlist Table...");
         lstPlaylist.getItems().clear();
         lstPlaylist.setItems(myTunesModel.getAllPlaylists());
         // set the tableview columns for playlists.
@@ -94,14 +103,27 @@ public class MyTunesController implements Initializable {
         durationColumn.setCellValueFactory(new PropertyValueFactory<>("totalDuration"));
     }
 
-    public void initializePlaylistSelection(){
-        lstSongOnPlaylist.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                selectedPlaylist = (Playlist) lstPlaylist.getSelectionModel().getSelectedItem();
-                ObservableList<SongOfPlaylist> songs = myTunesModel.getSongsOnPlaylist(selectedPlaylist.getId());
-                lstSongOnPlaylist.setItems(FXCollections.observableArrayList(songs));
-            }
-        });
+    public void handlePlaylistSelection() throws IOException {
+        System.out.println("handlePlaylistSelection() called");
+        Playlist selectedPlaylist = (Playlist) lstPlaylist.getSelectionModel().getSelectedItem();
+        if (selectedPlaylist == null) {
+            System.out.println("No playlist selected.");
+            lstSongOnPlaylist.getItems().clear(); // Clear the ListView if no playlist is selected
+            return;
+        }
+        System.out.println("Selected Playlist: " + selectedPlaylist.getName() + " (ID: " + selectedPlaylist.getId() + ")");
+
+        // Fetch songs for the selected playlist from the database
+            int playlistId = selectedPlaylist.getId();
+            List<Song> songsOnPlaylist = myTunesModel.getSongsOnPlaylist(playlistId);
+
+        for (Song song : songsOnPlaylist) {
+            System.out.println(" - " + song.getTitle() + " by " + song.getArtist());
+
+            lstSongOnPlaylist.getItems().setAll(songsOnPlaylist);
+
+        }
+
     }
 
 

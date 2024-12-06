@@ -1,12 +1,22 @@
 package dk.easv.mytunes.be;
 
 public class SongOfPlaylist {
+    private int id;
     private int playlistId;
     private int songId;
 
-    public SongOfPlaylist(int playlistId, int songId) {
+    public SongOfPlaylist(int id, int playlistId, int songId) {
+        this.id = id;
         this.playlistId = playlistId;
         this.songId = songId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getPlaylistId() {

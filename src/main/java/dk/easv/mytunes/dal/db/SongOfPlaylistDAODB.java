@@ -1,14 +1,12 @@
 package dk.easv.mytunes.dal.db;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
+import dk.easv.mytunes.be.Song;
 import dk.easv.mytunes.be.SongOfPlaylist;
 import dk.easv.mytunes.dal.ISongOfPlaylistDAO;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,31 +14,35 @@ public class SongOfPlaylistDAODB implements ISongOfPlaylistDAO {
     private DBConnection con = new DBConnection();
 
     @Override
-    public List<SongOfPlaylist> getSongOfPlaylist() throws IOException {
-        List<SongOfPlaylist> songsOnPlaylist = new ArrayList<SongOfPlaylist>();
+    public List<Song> getSongsOnPlaylist(int playlistId) throws IOException{
+        List<Song> songsOnPlaylist = new ArrayList<>();
         try {
-            Connection conn = con.getConnection();
-            //String sql = "SELECT * FROM songOfPlaylist";
-            String sql = "SELECT s.id, s.title, s.artist, s.category, s.time " +
-                    "FROM SongOfPlaylist sp " +
-                    "JOIN Song s ON sp.song_id = s.id " +
+            Connection c = con.getConnection();
+            System.out.println("Executing SQL query for playlist ID: " + playlistId);
+            String sql = "SELECT s.id, s.title FROM Song s " +
+                    "JOIN SongOfPlaylist sp ON s.id = sp.song_id " +
                     "WHERE sp.playlist_id = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, playlistId);
             ResultSet rs = ps.executeQuery();
+            System.out.println("SQL query executed successfully. Processing results...");
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String title = rs.getString("title");
-                String artist = rs.getString("artist");
-                String category = rs.getString("category");
-                String time = rs.getString("time"); // Assuming time is stored as a string
-                //songsOnPlaylist.add(new SongOfPlaylist(id, title, artist, category, time));
+
+                songsOnPlaylist.add(new Song(id,title, "", "", null, ""));
+                System.out.println("Fetched Song: " + title);
             }
-        } catch (SQLServerException e) {
-            throw new IOException("SQL Server Exception occurred", e);
+
         } catch (SQLException e) {
-            throw new IOException("SQL Exception occurred", e);
+            System.out.println("SQL error: " + e.getMessage());
+            throw new IOException("Error fetching songs for playlist", e);
         }
         return songsOnPlaylist;
     }
 
+    @Override
+    public List<SongOfPlaylist> getSongOfPlaylist() throws IOException {
+        return List.of();
+    }
 }

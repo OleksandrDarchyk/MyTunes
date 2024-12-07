@@ -66,6 +66,9 @@ public class MyTunesController implements Initializable {
     private final MyTunesModel myTunesModel = new MyTunesModel();
     private MediaPlayer mediaPlayer;
 
+    public void displayCurrentlyPlayingSong() {
+    }
+
     public void initialize(URL url, ResourceBundle resourceBundle) {
         btnClear.setDisable(true);
         initializeSongTable();
@@ -116,6 +119,7 @@ public class MyTunesController implements Initializable {
         for (SongsOnPlaylist song : songsOnPlaylist) {
             lstSongOnPlaylist.getItems().setAll(songsOnPlaylist);
         }
+
     }
 
     // Make play btn to play music
@@ -143,6 +147,16 @@ public class MyTunesController implements Initializable {
             showWarningDialog("No Song Selected", "Please select a song from the list before playing.");
         }
     }
+
+
+ @FXML
+ private void onMute(ActionEvent actionEvent) {
+        if(mediaPlayer.isMute()){
+            mediaPlayer.setMute(false);
+        }else{
+            mediaPlayer.setMute(true);
+        }
+ }
 
     private void playSong(String songPath) {
         // Stop the current song if one is playing

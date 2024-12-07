@@ -41,7 +41,7 @@
             <Image url="@view/Pictures/download.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="volume" fitHeight="20.0" fitWidth="20.0" layoutX="36.0" layoutY="89.0">
+      <ImageView fx:id="volume" fitHeight="20.0" fitWidth="20.0" layoutX="11.0" layoutY="11.0">
          <image>
             <Image url="@view/Pictures/volume-up.png" />
          </image>
@@ -71,8 +71,7 @@
         </columns>
       </TableView>
       <Button fx:id="btnClear" layoutX="606.0" layoutY="32.0" mnemonicParsing="false" onAction="#onClearBtnClick" text="Filter" />
-      <Label fx:id="lblTitle" layoutX="362.0" layoutY="45.0" prefHeight="18.0" prefWidth="105.0" text="None" textFill="WHITE" />
-      <Label layoutX="362.0" layoutY="68.0" text="is Playing" textFill="WHITE" />
+      <Label fx:id="lblTitle" layoutX="362.0" layoutY="45.0" prefHeight="18.0" prefWidth="170.0" text="None" textFill="WHITE" />
       <TableView fx:id="lstPlaylist" layoutX="20.0" layoutY="143.0" opacity="0.65" prefHeight="382.0" prefWidth="209.0">
         <columns>
           <TableColumn fx:id="nameColumn" prefWidth="83.20001220703125" text="Name" />
@@ -80,5 +79,6 @@
             <TableColumn fx:id="durationColumn" prefWidth="76.79998779296875" text="Time" />
         </columns>
       </TableView>
+      <Button layoutX="32.0" layoutY="86.0" mnemonicParsing="false" onAction="#onMute" prefHeight="25.0" prefWidth="26.0" text="Button" />
    </children>
 </AnchorPane>

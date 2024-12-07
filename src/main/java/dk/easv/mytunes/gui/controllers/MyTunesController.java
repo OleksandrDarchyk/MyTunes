@@ -149,14 +149,14 @@ public class MyTunesController implements Initializable {
     }
 
 
- @FXML
- private void onMute(ActionEvent actionEvent) {
-        if(mediaPlayer.isMute()){
-            mediaPlayer.setMute(false);
-        }else{
-            mediaPlayer.setMute(true);
-        }
- }
+     @FXML
+     private void onMute(ActionEvent actionEvent) {
+            if(mediaPlayer.isMute()){
+                mediaPlayer.setMute(false);
+            }else{
+                mediaPlayer.setMute(true);
+            }
+     }
 
     private void playSong(String songPath) {
         // Stop the current song if one is playing

@@ -38,6 +38,10 @@ public class SongEditorController implements Initializable {
     private final MyTunesModel myTunesModel = new MyTunesModel();
 
     public void initialize(URL location, ResourceBundle resources) {
+        displayCategory();
+    }
+
+    public void displayCategory(){
         try {
             // Fetch categories from the model
             ObservableList<String> categories = myTunesModel.getCategory();

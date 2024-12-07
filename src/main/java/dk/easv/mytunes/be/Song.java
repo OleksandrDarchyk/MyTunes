@@ -67,7 +67,6 @@ public class Song {
         this.songPath = songPath;
     }
 
-
     @Override
     public String toString() {
         return id + "," + title + "," + artist + "," + category + "," + time;

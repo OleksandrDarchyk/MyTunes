@@ -1,6 +1,5 @@
 package dk.easv.mytunes.dal.db;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dk.easv.mytunes.be.Song;
 import dk.easv.mytunes.dal.ISongDAO;
 
@@ -38,27 +37,50 @@ public class SongDAODB implements ISongDAO {
     }
 
     @Override
-    public void addSong(Song song) throws IOException {
-        String sql = "INSERT INTO Songs (title, artist, category, time, file_path) VALUES (?, ?, ?, ?, ?)";
+    public void createSong(Song song) throws IOException {
+        String sql = "INSERT INTO Songs (title, artist, category, time, songPath) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = con.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, song.getTitle());
-            ps.setString(2, song.getArtist());
-            ps.setString(3, song.getCategory());
-            ps.setTime(4, song.getTime());
-            ps.setString(5, song.getSongPath());
-            ps.executeUpdate();
+             ps.setString(1, song.getTitle());
+             ps.setString(2, song.getArtist());
+             ps.setString(3, song.getCategory());
+             ps.setTime(4, song.getTime());
+             ps.setString(5, song.getSongPath());
+             ps.executeUpdate();
         } catch (SQLException e) {
             throw new IOException("Error adding song to the database: " + e.getMessage(), e);
         }
     }
+
+/*    @Override
+    public List<String> getCategories() throws IOException{
+        List<String> categories = new ArrayList<>();
+        try {
+            Connection c = con.getConnection();
+            String sql = "SELECT DISTINCT category FROM song WHERE category IS NOT NULL";
+            PreparedStatement ps = c.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            System.out.println("Executing SQL query: " + sql);
+            while (rs.next()) {
+                String category = rs.getString("category");
+                System.out.println("Fetched category: " + category);
+                categories.add(category);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new IOException("Error fetching songs from the database: " + e.getMessage(), e);
+        }
+        return categories;
+    }*/
+
     @Override
     public void deleteSong(Song song) throws IOException {
         String sql = "DELETE FROM Songs WHERE id = ?";
         try (Connection connection = con.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, song.getId());
-            ps.executeUpdate();
+             ps.setInt(1, song.getId());
+             ps.executeUpdate();
         } catch (SQLException e) {
             throw new IOException(e);
         }

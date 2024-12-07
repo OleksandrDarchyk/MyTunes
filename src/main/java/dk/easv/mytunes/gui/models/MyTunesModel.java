@@ -10,7 +10,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MyTunesModel {
 
@@ -33,6 +36,7 @@ public class MyTunesModel {
         return songs;
     }
 
+    // Get observableList of filtered songs.
     public ObservableList<Song> getFilteredSongs(String query) {
         try {
             List<Song> filterResult = songManager.filterSongs(query); // Filter songs based on query
@@ -43,6 +47,7 @@ public class MyTunesModel {
         return filteredSongs;
     }
 
+    // Get ObservableList of playlist
     public ObservableList<Playlist> getAllPlaylists() {
         try {
             List<Playlist> allPlayists = playlistManager.getAllPlaylists();
@@ -53,16 +58,35 @@ public class MyTunesModel {
         return playlists;
     }
 
+    // Get ObservableList of songs on playlist
     public ObservableList<SongsOnPlaylist> getSongsOnPlaylist(int playlistId) {
         try {
             List<SongsOnPlaylist> songList = songsOnPlaylistManager.getSongsOnPlaylist(playlistId);
-            System.out.println("Songs fetched from SongOfPlaylistManager:");
             songsOnPlaylist.setAll(songList);
         } catch (IOException e) {
             System.out.println("Error loading songs on playlist: " + e.getMessage());
         }
         return songsOnPlaylist;
     }
+
+    // Add a new song
+    public void createSong(Song newSong) throws IOException {
+        songManager.createSong(newSong);
+    }
+
+    public ObservableList<String> getCategory() throws IOException {
+        Set<String> categorySet = new HashSet<>(); // Use a Set to automatically remove duplicates
+        List<Song> songs = songManager.getAllSongs();
+        for (Song song : songs) {
+            String category = song.getCategory();
+            if (category != null && !category.isEmpty()) { // Ensure the category is not null or empty
+                categorySet.add(category);
+            }
+        }
+        // Convert the Set to an ObservableList
+        return FXCollections.observableArrayList(categorySet);
+    }
+
 }
 
 

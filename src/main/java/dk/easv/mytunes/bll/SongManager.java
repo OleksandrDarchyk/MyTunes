@@ -14,7 +14,6 @@ import java.util.List;
 public class SongManager {
     private final ISongDAO songDAO = new SongDAODB();
     private SongFilter songFilter = new SongFilter();
-    private final IPlaylistDAO playlistDAO = new PlaylistDAODB();
 
     // Get all songs
     public List<Song> getAllSongs() throws IOException {
@@ -28,4 +27,11 @@ public class SongManager {
         return filterResult;
     }
 
+    // Create a new song
+    public void createSong(Song song) throws IOException {
+        songDAO.createSong(song);
+    }
+
+
 }
+

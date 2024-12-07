@@ -17,10 +17,6 @@ public class SongsOnPlaylistDAODB implements ISongsOnPlaylistDAO {
         List<SongsOnPlaylist> songsOnPlaylist = new ArrayList<>();
         try {
             Connection c = con.getConnection();
-            System.out.println("Executing SQL query for playlist ID: " + playlistId);
-/*            String sql = "SELECT s.id, s.title FROM Song s " +
-                    "JOIN SongOfPlaylist sp ON s.id = sp.song_id " +
-                    "WHERE sp.playlist_id = ?";*/
             String sql = "SELECT sp.id AS songsOnPlaylistId, s.title AS songTitle FROM Song s JOIN SongsOnPlaylist sp ON s.id = sp.song_id WHERE sp.playlist_id = ?;";
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setInt(1, playlistId);

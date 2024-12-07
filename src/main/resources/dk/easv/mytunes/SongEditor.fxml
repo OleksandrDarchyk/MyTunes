@@ -73,7 +73,7 @@
                         <Font size="17.0" />
                      </font>
                   </Text>
-                  <ComboBox fx:id="comboBox" prefHeight="26.0" prefWidth="152.0" promptText="Pop" />
+                  <ComboBox fx:id="comboBox" prefHeight="26.0" prefWidth="152.0" />
                   <Button mnemonicParsing="false" onAction="#onLoadMoreClick" prefHeight="26.0" prefWidth="66.0" text="More">
                      <HBox.margin>
                         <Insets left="20.0" />
@@ -116,7 +116,7 @@
                         <Font size="17.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="txtFile" alignment="CENTER" prefHeight="31.0" prefWidth="250.0">
+                  <TextField fx:id="txtFilePath" alignment="CENTER" prefHeight="31.0" prefWidth="250.0">
                      <font>
                         <Font size="15.0" />
                      </font>

@@ -17,8 +17,6 @@ public class PlaylistDAODB implements IPlaylistDAO {
         List<Playlist> playlists = new ArrayList<>();
         try {
             Connection c = con.getConnection();
-            //System.out.println("Connected to the database.");
-            //String sql = "SELECT * FROM playlist";
             String sql = "SELECT \n" +
                     "    p.id,\n" +
                     "    p.name,\n" +
@@ -31,7 +29,6 @@ public class PlaylistDAODB implements IPlaylistDAO {
                     "LEFT JOIN SongsOnPlaylist sp ON p.id = sp.playlist_id\n" +
                     "LEFT JOIN Song s ON sp.song_id = s.id\n" +
                     "GROUP BY p.id, p.name;";
-
             PreparedStatement stmt = c.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             //System.out.println("Query executed successfully.");

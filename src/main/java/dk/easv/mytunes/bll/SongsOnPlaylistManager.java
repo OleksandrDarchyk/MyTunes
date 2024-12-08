@@ -1,6 +1,5 @@
 package dk.easv.mytunes.bll;
 
-import dk.easv.mytunes.be.Song;
 import dk.easv.mytunes.be.SongsOnPlaylist;
 import dk.easv.mytunes.dal.ISongsOnPlaylistDAO;
 import dk.easv.mytunes.dal.db.SongsOnPlaylistDAODB;
@@ -13,6 +12,11 @@ public class SongsOnPlaylistManager {
 
     public List<SongsOnPlaylist> getSongsOnPlaylist(int playlistId) throws IOException{
         return songsOnPlaylistDAO.getSongsOnPlaylist(playlistId);
+    }
+
+    // Add a single song to a playlist
+    public void addSongToPlaylist(int playlistId, int songId) throws IOException {
+        songsOnPlaylistDAO.addSongToPlaylist(playlistId, songId);
     }
 
 }

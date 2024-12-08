@@ -4,6 +4,8 @@ import dk.easv.mytunes.be.Playlist;
 import dk.easv.mytunes.be.Song;
 import dk.easv.mytunes.be.SongsOnPlaylist;
 import dk.easv.mytunes.gui.models.MyTunesModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -63,9 +65,7 @@ public class MyTunesController implements Initializable {
     @FXML
     private Button btnAddPlaylist;
 
-
-
-    private final MyTunesModel myTunesModel = new MyTunesModel();
+    private MyTunesModel myTunesModel = new MyTunesModel();
     private MediaPlayer mediaPlayer;
 
     public void displayCurrentlyPlayingSong(Song song) {
@@ -73,18 +73,15 @@ public class MyTunesController implements Initializable {
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         btnClear.setDisable(true);
         initializeSongTable();
         initializePlaylistTable();
-        // Add listener for selection changes in the playlist TableView
-        lstPlaylist.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                handlePlaylistSelection();
-            } catch (IOException e) {
-                System.err.println("Error handling playlist selection: " + e.getMessage());
-            }
-        });
+        setSongsOnPlaylistTableId();
+        try {
+            handlePlaylistSelection();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void initializeSongTable() {
@@ -108,24 +105,22 @@ public class MyTunesController implements Initializable {
     }
 
     public void handlePlaylistSelection() throws IOException {
-        System.out.println("handlePlaylistSelection() called");
-        Playlist selectedPlaylist = (Playlist) lstPlaylist.getSelectionModel().getSelectedItem();
-        if (selectedPlaylist == null) {
-            System.out.println("No playlist selected.");
-            lstSongOnPlaylist.getItems().clear(); // Clear the ListView if no playlist is selected
-            return;
-        }
-        System.out.println("Selected Playlist: " + selectedPlaylist.getName() + " (ID: " + selectedPlaylist.getId() + ")");
-
-        // Fetch songs for the selected playlist from the database
+        // Add listener for playlist selection changes
+        lstPlaylist.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            //handlePlaylistSelection();
+            Playlist selectedPlaylist = (Playlist) lstPlaylist.getSelectionModel().getSelectedItem();
+            if (selectedPlaylist == null) {
+                lstSongOnPlaylist.getItems().clear(); // Clear the ListView if no playlist is selected
+                return;
+            }
+            // Fetch songs for the selected playlist from the database
             int playlistId = selectedPlaylist.getId();
             List<SongsOnPlaylist> songsOnPlaylist = myTunesModel.getSongsOnPlaylist(playlistId);
-        for (SongsOnPlaylist song : songsOnPlaylist) {
-            lstSongOnPlaylist.getItems().setAll(songsOnPlaylist);
-        }
-
+            for (SongsOnPlaylist song : songsOnPlaylist) {
+                lstSongOnPlaylist.getItems().setAll(songsOnPlaylist);
+            }
+        });
     }
-
     // Make play btn to play music
     public void onPlayButtonClick(ActionEvent actionEvent) {
         Song selectedSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
@@ -145,7 +140,6 @@ public class MyTunesController implements Initializable {
                 } else {
                     playSong(songPath);
                     displayCurrentlyPlayingSong(selectedSong);
-
                 }
             } else {
                 showWarningDialog("Invalid Song Path", "The selected song's file path is invalid or empty.");
@@ -154,7 +148,6 @@ public class MyTunesController implements Initializable {
             showWarningDialog("No Song Selected", "Please select a song from the list before playing.");
         }
     }
-
 
      @FXML
      private void onMute(ActionEvent actionEvent) {
@@ -192,7 +185,6 @@ public class MyTunesController implements Initializable {
     private void playNextSong() {
         //  Get the current index of the selected song
         int currentIndex = lstSongs.getSelectionModel().getSelectedIndex();
-
         // Ensure there is a song selected and have at least two songs in the list
         if (currentIndex >= 0 && currentIndex < lstSongs.getItems().size() - 1) {
             lstSongs.getSelectionModel().select(currentIndex + 1); //Select the next song in the list
@@ -318,7 +310,6 @@ public class MyTunesController implements Initializable {
         stage.close();
     }
 
-
     public void onDeleteSongsOnPlaylistClick(ActionEvent actionEvent) {
     }
 
@@ -331,7 +322,47 @@ public class MyTunesController implements Initializable {
     public void onDeletePlaylistClick(ActionEvent actionEvent) {
     }
 
-    public void onMoveFromSonglstToSongsOnPlaylistClick(ActionEvent actionEvent) {
+    public void onAddSongsToPlaylistClick(ActionEvent actionEvent) {
+        Playlist selectedPlaylist = (Playlist) lstPlaylist.getSelectionModel().getSelectedItem();
+        Song selectedSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
+        if (selectedPlaylist != null && selectedSong != null) {
+            try {
+                //MyTunesModel model= new MyTunesModel();
+                myTunesModel.addSongsToPlaylist(selectedPlaylist.getId(),selectedSong.getId());
+                refreshPlaylistTable();
+                refreshSongsOnPlaylistView(selectedPlaylist);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            showWarningDialog("Error", "Please select both a playlist and a song.");
+        }
+    }
+
+    private void setSongsOnPlaylistTableId(){
+        // Set up the cell factory for the ListView
+        lstSongOnPlaylist.setCellFactory(lv -> new ListCell<SongsOnPlaylist>() {
+            @Override
+            protected void updateItem(SongsOnPlaylist song, boolean empty) {
+                super.updateItem(song, empty);
+                if (empty || song == null) {
+                    setText(null);
+                } else {
+                    int index = getIndex() + 1; // Use the index for numbering
+                    setText(index + ". " + song.getTitle()); // Assuming SongsOnPlaylist has a getSong() method
+                }
+            }
+        });
+    }
+
+    private void refreshSongsOnPlaylistView(Playlist playlist) {
+        ObservableList<SongsOnPlaylist> sop = myTunesModel.getSongsOnPlaylist(playlist.getId());
+        lstSongOnPlaylist.setItems(FXCollections.observableArrayList(sop));
+    }
+
+    private void refreshPlaylistTable() throws IOException {
+        List<Playlist> playlists = myTunesModel.getAllPlaylists(); // Fetch updated playlists
+        lstPlaylist.setItems(FXCollections.observableArrayList(playlists)); // Update the table view
     }
 }
 

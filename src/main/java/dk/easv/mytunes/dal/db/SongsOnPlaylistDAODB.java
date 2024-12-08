@@ -25,16 +25,25 @@ public class SongsOnPlaylistDAODB implements ISongsOnPlaylistDAO {
             while (rs.next()) {
                 int id = rs.getInt("songsOnPlaylistId");
                 String title = rs.getString("songTitle"); // Fetch the song title
-                songsOnPlaylist.add(new SongsOnPlaylist(id,title));
-                System.out.println("Fetched Song: ");
+                songsOnPlaylist.add(new SongsOnPlaylist(id, title));
             }
-
         } catch (SQLException e) {
-            System.out.println("SQL error: " + e.getMessage());
             throw new IOException("Error fetching songs for playlist", e);
         }
         return songsOnPlaylist;
     }
 
-
+    @Override
+    public void addSongToPlaylist(int playlistId, int songId) throws IOException{
+        try {
+            Connection c = con.getConnection();
+            String sql = "INSERT INTO SongsOnPlaylist (playlist_id, song_id) VALUES (?, ?)";
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, playlistId);
+            ps.setInt(2, songId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new IOException("Error fetching songs for playlist", e);
+        }
+    }
 }

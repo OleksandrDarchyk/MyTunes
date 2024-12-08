@@ -29,7 +29,7 @@
       <Button layoutX="178.0" layoutY="537.0" mnemonicParsing="false" onAction="#onDeletePlaylistClick" opacity="0.71" prefHeight="26.0" prefWidth="50.0" text="Delete" />
       <Button fx:id="btnEditPlaylist" layoutX="100.0" layoutY="537.0" mnemonicParsing="false" onAction="#onEditPlaylistClick" opacity="0.71" prefHeight="26.0" prefWidth="50.0" text="Edit" />
       <Button fx:id="btnAddPlaylist" layoutX="20.0" layoutY="537.0" mnemonicParsing="false" onAction="#onAddPlaylistClick" opacity="0.71" prefHeight="26.0" prefWidth="50.0" text="New" />
-      <Button layoutX="458.0" layoutY="143.0" mnemonicParsing="false" onAction="#onMoveFromSonglstToSongsOnPlaylistClick" opacity="0.71" text="←">
+      <Button layoutX="458.0" layoutY="143.0" mnemonicParsing="false" onAction="#onAddSongsToPlaylistClick" opacity="0.71" text="←">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>

@@ -35,7 +35,7 @@ public class MyTunesController implements Initializable {
     @FXML
     private TableColumn durationColumn;
     @FXML
-    private Label lblTitle;
+    private Label labelCurrentSong;
     @FXML
     private Button btnClear;
     @FXML
@@ -63,13 +63,17 @@ public class MyTunesController implements Initializable {
     @FXML
     private Button btnAddPlaylist;
 
+
+
     private final MyTunesModel myTunesModel = new MyTunesModel();
     private MediaPlayer mediaPlayer;
 
-    public void displayCurrentlyPlayingSong() {
+    public void displayCurrentlyPlayingSong(Song song) {
+        labelCurrentSong.setText(song.getTitle() + " - " + song.getArtist());
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         btnClear.setDisable(true);
         initializeSongTable();
         initializePlaylistTable();
@@ -135,10 +139,13 @@ public class MyTunesController implements Initializable {
                         case STOPPED, READY, HALTED -> {
                             mediaPlayer.dispose();
                             playSong(songPath);
+                            displayCurrentlyPlayingSong(selectedSong);
                         }
                     }
                 } else {
                     playSong(songPath);
+                    displayCurrentlyPlayingSong(selectedSong);
+
                 }
             } else {
                 showWarningDialog("Invalid Song Path", "The selected song's file path is invalid or empty.");
@@ -192,6 +199,7 @@ public class MyTunesController implements Initializable {
             Song nextSong = (Song) lstSongs.getSelectionModel().getSelectedItem(); // Get the next song
             if (nextSong != null) {
                 playSong(nextSong.getSongPath());
+                displayCurrentlyPlayingSong(nextSong);
             }
         }
 
@@ -201,6 +209,7 @@ public class MyTunesController implements Initializable {
             Song firstSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
             if (firstSong != null) {
                 playSong(firstSong.getSongPath());
+                displayCurrentlyPlayingSong(firstSong);
             }
         }
     }
@@ -213,6 +222,7 @@ public class MyTunesController implements Initializable {
             Song previousSong = (Song) lstSongs.getSelectionModel().getSelectedItem(); // Get the previous song
             if (previousSong != null) {
                 playSong(previousSong.getSongPath());
+                displayCurrentlyPlayingSong(previousSong);
             }
         } else {
             showWarningDialog("Playback error", "No previous song. You are at the start of the playlist.");
@@ -227,6 +237,7 @@ public class MyTunesController implements Initializable {
             Song nextSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
             if (nextSong != null) {
                 playSong(nextSong.getSongPath());
+                displayCurrentlyPlayingSong(nextSong);
             }
         } else {
             showWarningDialog("Playback error", "No next song. You are at the end of the playlist.");

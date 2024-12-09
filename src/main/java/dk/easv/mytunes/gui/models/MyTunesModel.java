@@ -86,6 +86,9 @@ public class MyTunesModel {
         // Convert the Set to an ObservableList
         return FXCollections.observableArrayList(categorySet);
     }
+    public void deleteSong(int songId) throws IOException {
+        songManager.deleteSong(songId);
+    }
 
 }
 

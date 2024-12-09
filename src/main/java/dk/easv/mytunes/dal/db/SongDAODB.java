@@ -75,16 +75,24 @@ public class SongDAODB implements ISongDAO {
     }*/
 
     @Override
-    public void deleteSong(Song song) throws IOException {
-        String sql = "DELETE FROM Songs WHERE id = ?";
+    public void deleteSong(int songId) throws IOException {
+        String deleteFromSongsOnPlaylist = "DELETE FROM SongsOnPlaylist WHERE song_id = ?";
+        String deleteFromSong = "DELETE FROM Song WHERE id = ?";
         try (Connection connection = con.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
-             ps.setInt(1, song.getId());
-             ps.executeUpdate();
+             PreparedStatement ps1 = connection.prepareStatement(deleteFromSongsOnPlaylist);
+             PreparedStatement ps2 = connection.prepareStatement(deleteFromSong)) {
+
+            ps1.setInt(1, songId);
+            ps1.executeUpdate();
+
+            ps2.setInt(1, songId);
+            ps2.executeUpdate();
+
         } catch (SQLException e) {
-            throw new IOException(e);
+            throw new IOException("Error deleting song and its dependencies: " + e.getMessage(), e);
         }
     }
+
 
     @Override
     public void updateSong(Song song) throws IOException {
@@ -95,7 +103,6 @@ public class SongDAODB implements ISongDAO {
             ps.setString(2, song.getArtist());
             ps.setString(3, song.getCategory());
 
-            // Перевірка на відповідність типу поля time
             if (song.getTime() != null) {
                 ps.setTime(4, song.getTime());
             } else {

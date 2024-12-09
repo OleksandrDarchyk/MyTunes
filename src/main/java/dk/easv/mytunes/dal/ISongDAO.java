@@ -12,7 +12,7 @@ public interface ISongDAO {
 
 
 
-    void deleteSong(Song song) throws IOException;
+    void deleteSong(int song) throws IOException;
 
     void updateSong(Song song) throws IOException;
 }

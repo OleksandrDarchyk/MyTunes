@@ -57,7 +57,7 @@ public class MyTunesController implements Initializable {
     @FXML
     private TableColumn titleColumn;
     @FXML
-    private TableView lstSongs;
+    private TableView <Song> lstSongs;
     @FXML
     private Button btnEditSong;
     @FXML
@@ -218,6 +218,14 @@ public class MyTunesController implements Initializable {
         alert.showAndWait();
     }
 
+    public void showInfoDialog(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION); // Інформаційне повідомлення
+        alert.setTitle(title);
+        alert.setHeaderText(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     private void playNextSong() {
         //  Get the current index of the selected song
         int currentIndex = lstSongs.getSelectionModel().getSelectedIndex();
@@ -340,6 +348,16 @@ public class MyTunesController implements Initializable {
     }
 
     public void onDeleteSongClick(ActionEvent actionEvent) {
+        int selectedSongId = lstSongs.getSelectionModel().getSelectedItem().getId();
+        try {
+            myTunesModel.deleteSong(selectedSongId);
+            lstSongs.getItems().removeIf(song -> song.getId() == selectedSongId);
+            lstSongs.refresh();
+            showInfoDialog("Success", "The song was successfully deleted.");
+        }
+        catch (Exception e) {
+            showWarningDialog(e.getMessage(), "The selected song's file path is invalid or empty.");
+        }
     }
 
     public void onCloseBtnClick(ActionEvent actionEvent) {

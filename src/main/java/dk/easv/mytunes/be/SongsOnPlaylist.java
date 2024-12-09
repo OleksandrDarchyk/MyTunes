@@ -6,9 +6,11 @@ public class SongsOnPlaylist {
     private int songId;
     private String title;
 
-    public SongsOnPlaylist(int id, String title) {
+    public SongsOnPlaylist(int id, String title, int songId, int playlistId) {
         this.id = id;
         this.title = title;
+        this.songId = songId;
+        this.playlistId = playlistId;
     }
 
     public String getTitle() {

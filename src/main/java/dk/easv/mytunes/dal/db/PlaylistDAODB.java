@@ -98,10 +98,6 @@ public class PlaylistDAODB implements IPlaylistDAO {
     public List<Song> getSongInPlaylist(int playlistID) {
         List<Song> songs = new ArrayList<>();
         String sql = "SELECT * FROM playlist";
-
-        /*String sql = "SELECT s.* FROM Songs s " +
-                "JOIN SongsOfPlaylist sop ON s.SongID = sop.song_id " +
-                "WHERE sop.playlist_id = ?";*/
         try (Connection connection = con.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, playlistID);

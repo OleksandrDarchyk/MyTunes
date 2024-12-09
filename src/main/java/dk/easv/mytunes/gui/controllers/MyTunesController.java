@@ -3,6 +3,7 @@ package dk.easv.mytunes.gui.controllers;
 import dk.easv.mytunes.be.Playlist;
 import dk.easv.mytunes.be.Song;
 import dk.easv.mytunes.be.SongsOnPlaylist;
+import dk.easv.mytunes.dal.db.SongsOnPlaylistDAODB;
 import dk.easv.mytunes.gui.models.MyTunesModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -305,21 +306,12 @@ public class MyTunesController implements Initializable {
     public void onDeleteSongClick(ActionEvent actionEvent) {
     }
 
+    public void onDeletePlaylistClick(ActionEvent actionEvent) {
+    }
+
     public void onCloseBtnClick(ActionEvent actionEvent) {
         Stage stage = (Stage) btnClose.getScene().getWindow();
         stage.close();
-    }
-
-    public void onDeleteSongsOnPlaylistClick(ActionEvent actionEvent) {
-    }
-
-    public void onMoveDownClick(ActionEvent actionEvent) {
-    }
-
-    public void onMoveUpClick(ActionEvent actionEvent) {
-    }
-
-    public void onDeletePlaylistClick(ActionEvent actionEvent) {
     }
 
     public void onAddSongsToPlaylistClick(ActionEvent actionEvent) {
@@ -328,9 +320,11 @@ public class MyTunesController implements Initializable {
         if (selectedPlaylist != null && selectedSong != null) {
             try {
                 //MyTunesModel model= new MyTunesModel();
-                myTunesModel.addSongsToPlaylist(selectedPlaylist.getId(),selectedSong.getId());
+                myTunesModel.addSongToPlaylist(selectedPlaylist.getId(),selectedSong.getId());
                 refreshPlaylistTable();
                 refreshSongsOnPlaylistView(selectedPlaylist);
+                // Re-select the previously selected playlist
+                lstPlaylist.getSelectionModel().select(selectedPlaylist);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -356,13 +350,43 @@ public class MyTunesController implements Initializable {
     }
 
     private void refreshSongsOnPlaylistView(Playlist playlist) {
-        ObservableList<SongsOnPlaylist> sop = myTunesModel.getSongsOnPlaylist(playlist.getId());
+        List<SongsOnPlaylist> sop = myTunesModel.getSongsOnPlaylist(playlist.getId());
         lstSongOnPlaylist.setItems(FXCollections.observableArrayList(sop));
     }
 
     private void refreshPlaylistTable() throws IOException {
         List<Playlist> playlists = myTunesModel.getAllPlaylists(); // Fetch updated playlists
         lstPlaylist.setItems(FXCollections.observableArrayList(playlists)); // Update the table view
+    }
+
+    public void onDeleteSongsOnPlaylistClick(ActionEvent actionEvent) {
+        SongsOnPlaylist selectedSongsOnPlaylist = (SongsOnPlaylist) lstSongOnPlaylist.getSelectionModel().getSelectedItem();
+        Playlist selectedPlaylist = (Playlist) lstPlaylist.getSelectionModel().getSelectedItem();
+        if (selectedSongsOnPlaylist != null && selectedPlaylist != null) {
+            System.out.println("Deleting song from playlist...");
+            System.out.println("Selected Playlist ID: " + selectedPlaylist.getId());
+            System.out.println("Selected Song ID: " + selectedSongsOnPlaylist.getId());
+            try {
+                // Remove song from playlist
+                myTunesModel.removeSongFromPlaylist(selectedSongsOnPlaylist.getPlaylistId(), selectedSongsOnPlaylist.getSongId());
+                // Refresh both tables
+                refreshPlaylistTable();
+                refreshSongsOnPlaylistView(selectedPlaylist);
+                System.out.println("Updated songsOnPlaylist table for playlist ID: " + selectedPlaylist.getId());
+            } catch (IOException e) {
+                showWarningDialog("Error", "Failed to remove song from playlist.");
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("No song or playlist selected.");
+            showWarningDialog("Error", "No song selected.");
+        }
+    }
+
+    public void onMoveDownClick(ActionEvent actionEvent) {
+    }
+
+    public void onMoveUpClick(ActionEvent actionEvent) {
     }
 }
 

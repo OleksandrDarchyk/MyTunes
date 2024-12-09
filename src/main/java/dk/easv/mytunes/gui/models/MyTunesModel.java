@@ -87,8 +87,12 @@ public class MyTunesModel {
         return FXCollections.observableArrayList(categorySet);
     }
 
-    public void addSongsToPlaylist(int playlistId, int songId) throws IOException {
+    public void addSongToPlaylist(int playlistId, int songId) throws IOException {
         songsOnPlaylistManager.addSongToPlaylist(playlistId, songId);
+    }
+
+    public void removeSongFromPlaylist(int playlistId, int songId) throws IOException {
+        songsOnPlaylistManager.removeSongFromPlaylist(playlistId, songId);
     }
 
 }

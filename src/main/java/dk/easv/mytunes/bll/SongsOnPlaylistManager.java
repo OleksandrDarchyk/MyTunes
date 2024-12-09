@@ -5,6 +5,7 @@ import dk.easv.mytunes.dal.ISongsOnPlaylistDAO;
 import dk.easv.mytunes.dal.db.SongsOnPlaylistDAODB;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class SongsOnPlaylistManager {
@@ -17,6 +18,11 @@ public class SongsOnPlaylistManager {
     // Add a single song to a playlist
     public void addSongToPlaylist(int playlistId, int songId) throws IOException {
         songsOnPlaylistDAO.addSongToPlaylist(playlistId, songId);
+    }
+
+    // Delete a single song from a playlist
+    public void removeSongFromPlaylist(int playlistId, int songId) throws IOException {
+        songsOnPlaylistDAO.removeSongFromPlaylist(playlistId,songId);
     }
 
 }

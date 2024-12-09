@@ -36,7 +36,7 @@
     -fx-content-display: center;
   }
 
-  .txt-field {
+  .txt-field { 
     -fx-background-color: white;
     -fx-font-size: 12px;
     -fx-font-weight: bold;

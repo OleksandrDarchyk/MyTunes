@@ -1,13 +1,15 @@
 package dk.easv.mytunes;
 
 import javafx.application.Application;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class MyTunesApp extends Application {
+public class  MyTunesApp extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MyTunesApp.class.getResource("MyTunes.fxml"));

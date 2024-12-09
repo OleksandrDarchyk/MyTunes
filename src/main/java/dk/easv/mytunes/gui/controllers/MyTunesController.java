@@ -4,6 +4,8 @@ import dk.easv.mytunes.be.Playlist;
 import dk.easv.mytunes.be.Song;
 import dk.easv.mytunes.be.SongsOnPlaylist;
 import dk.easv.mytunes.gui.models.MyTunesModel;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +26,8 @@ import java.util.ResourceBundle;
 public class MyTunesController implements Initializable {
     @FXML
     private Button btnClose;
+    @FXML
+    private Button btnMute;
     @FXML
     private ListView lstSongOnPlaylist;
     @FXML
@@ -63,6 +67,9 @@ public class MyTunesController implements Initializable {
     @FXML
     private Button btnAddPlaylist;
 
+    @FXML
+    private Slider volumeSlider;
+
 
 
     private final MyTunesModel myTunesModel = new MyTunesModel();
@@ -73,6 +80,17 @@ public class MyTunesController implements Initializable {
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        Media media = new Media(new File("music/1.mp3").toURI().toString()); // file for volume slider
+        mediaPlayer = new MediaPlayer(media);
+
+        volumeSlider.setValue(mediaPlayer.getVolume() * 100); // volume slider
+        volumeSlider.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                mediaPlayer.setVolume(volumeSlider.getValue() / 100 );
+            }
+        });
 
         btnClear.setDisable(true);
         initializeSongTable();
@@ -158,11 +176,22 @@ public class MyTunesController implements Initializable {
 
      @FXML
      private void onMute(ActionEvent actionEvent) {
+
+
+
+        if (mediaPlayer != null) {
             if(mediaPlayer.isMute()){
                 mediaPlayer.setMute(false);
+                btnMute.setText("\uD83D\uDD0A");
+
             }else{
                 mediaPlayer.setMute(true);
+                btnMute.setText("\uD83D\uDD07");
             }
+
+        }
+
+
      }
 
     private void playSong(String songPath) {

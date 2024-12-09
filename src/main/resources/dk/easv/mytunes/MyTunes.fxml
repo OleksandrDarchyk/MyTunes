@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -35,7 +36,7 @@
          </font></Button>
       <Button fx:id="btnFilter" alignment="CENTER" contentDisplay="CENTER" layoutX="825.0" layoutY="31.0" mnemonicParsing="false" onAction="#onFilterBtnClick" prefHeight="26.0" prefWidth="40.0" style="-fx-background-image: url(&quot;dk/easv/mytunes/view/Pictures/search.png&quot;);" styleClass="filter-button" stylesheets="@view/Style.css" textAlignment="CENTER" />
       <TextField fx:id="txtQuery" layoutX="657.0" layoutY="30.0" opacity="0.79" styleClass="txt-field" stylesheets="@view/Style.css" />
-      <Slider layoutX="65.0" layoutY="91.0" prefHeight="1.0" prefWidth="136.0" />
+      <Slider fx:id="volumeSlider" layoutX="65.0" layoutY="91.0" prefHeight="1.0" prefWidth="136.0" showTickMarks="true" />
       <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="329.0" layoutY="44.0">
          <image>
             <Image url="@view/Pictures/download.png" />
@@ -79,6 +80,13 @@
             <TableColumn fx:id="durationColumn" prefWidth="76.79998779296875" text="Time" />
         </columns>
       </TableView>
-      <Button layoutX="32.0" layoutY="86.0" mnemonicParsing="false" onAction="#onMute" prefHeight="25.0" prefWidth="26.0" text="Button" />
+      <Button fx:id="btnMute" alignment="CENTER" contentDisplay="CENTER" layoutX="21.0" layoutY="78.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onMute" opacity="0.85" prefHeight="40.0" prefWidth="40.0" styleClass="radio-button" stylesheets="@view/Style.css" text=" 🔊">
+         <font>
+            <Font size="9.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Button>
    </children>
 </AnchorPane>

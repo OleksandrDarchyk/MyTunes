@@ -72,27 +72,24 @@ public class SongEditorController implements Initializable {
                 new FileChooser.ExtensionFilter("Audio Files", "*.mp3", "*.wav", "*.m4a")
         );
 
-        // Відкриваємо діалогове вікно для вибору файлу
         File selectedFile = fileChooser.showOpenDialog(btnChoose.getScene().getWindow());
         if (selectedFile != null) {
-            txtFilePath.setText(selectedFile.getAbsolutePath()); // Встановлюємо шлях до файлу у текстове поле
+            txtFilePath.setText(selectedFile.getAbsolutePath());
 
-            // Обчислюємо тривалість файлу
             try {
                 Media media = new Media(selectedFile.toURI().toString());
                 MediaPlayer mediaPlayer = new MediaPlayer(media);
 
-                // Використовуємо MediaPlayer, щоб отримати тривалість файлу, коли він готовий
                 mediaPlayer.setOnReady(() -> {
                     double durationInSeconds = media.getDuration().toSeconds();
                     int minutes = (int) (durationInSeconds / 60);
                     int seconds = (int) (durationInSeconds % 60);
                     String timeString = String.format("%d:%02d", minutes, seconds); // Формат 4:23
-                    txtTime.setText(timeString); // Встановлюємо тривалість у поле
+                    txtTime.setText(timeString);
                 });
             } catch (Exception e) {
                 myTunesController.showWarningDialog("File Error", "Unable to read the selected audio file.");
-                txtTime.setText("00:00"); // У разі помилки встановлюємо час за замовчуванням
+                txtTime.setText("00:00");
             }
         }
 
@@ -105,25 +102,19 @@ public class SongEditorController implements Initializable {
 
     public void onSaveSongClick(ActionEvent actionEvent) {
         try {
-            // Зчитуємо дані з текстових полів
             String title = txtTitle.getText();
             String artist = txtArtist.getText();
-            String category = comboBox.getValue(); // Обраний стиль пісні
+            String category = comboBox.getValue();
             String filePath = txtFilePath.getText();
 
-            // Автоматично обчислюємо час (приклад для заглушки)
-            Time time = Time.valueOf("00:04:00"); // Пізніше можна додати обчислення тривалості файлу
+            Time time = Time.valueOf("00:04:00");
 
-            // Створюємо нову пісню
             Song newSong = new Song(title, artist, category, time, filePath);
 
-            // Викликаємо метод для додавання пісні
             myTunesModel.createSong(newSong);
 
-            // Оновлюємо таблицю пісень в головному вікні
             myTunesController.initializeSongTable();
 
-            // Закриваємо вікно
             Stage stage = (Stage) btnSave.getScene().getWindow();
             stage.close();
         } catch (Exception e) {

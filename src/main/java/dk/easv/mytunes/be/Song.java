@@ -18,6 +18,13 @@ public class Song {
         this.time = time;
         this.songPath = songPath;
     }
+    public Song(String title, String artist, String category, Time time, String songPath) {
+        this.title = title;
+        this.artist = artist;
+        this.category = category;
+        this.time = time;
+        this.songPath = songPath;
+    }
 
     public int getId() {
         return id;

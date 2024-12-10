@@ -210,7 +210,7 @@ public class MyTunesController implements Initializable {
         }
     }
 
-    private void showWarningDialog(String title, String message) {
+    public void showWarningDialog(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Warning");
         alert.setHeaderText(title);

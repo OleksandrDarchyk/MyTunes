@@ -348,15 +348,18 @@ public class MyTunesController implements Initializable {
     }
 
     public void onDeleteSongClick(ActionEvent actionEvent) {
-        int selectedSongId = lstSongs.getSelectionModel().getSelectedItem().getId();
-        try {
-            myTunesModel.deleteSong(selectedSongId);
-            lstSongs.getItems().removeIf(song -> song.getId() == selectedSongId);
+
+        Song selectedSong = lstSongs.getSelectionModel().getSelectedItem();
+
+        if (selectedSong != null) {
+
+            lstSongs.getItems().remove(selectedSong);
+
             lstSongs.refresh();
-            showInfoDialog("Success", "The song was successfully deleted.");
-        }
-        catch (Exception e) {
-            showWarningDialog(e.getMessage(), "The selected song's file path is invalid or empty.");
+
+            showInfoDialog("Success", "The song was removed from the interface.");
+        } else {
+            showWarningDialog("No Song Selected", "Please select a song to delete.");
         }
     }
 

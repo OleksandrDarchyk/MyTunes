@@ -96,7 +96,7 @@ public class SongDAODB implements ISongDAO {
 
     @Override
     public void updateSong(Song song) throws IOException {
-        String sql = "UPDATE Songs SET title = ?, artist = ?, category = ?, time = ?, songPath = ? WHERE id = ?";
+        String sql = "UPDATE Song SET title = ?, artist = ?, category = ?, time = ?, songPath = ? WHERE id = ?";
         try (Connection connection = con.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, song.getTitle());

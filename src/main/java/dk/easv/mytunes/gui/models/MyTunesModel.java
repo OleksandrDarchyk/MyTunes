@@ -90,6 +90,10 @@ public class MyTunesModel {
         songManager.deleteSong(songId);
     }
 
+    public void updateSong(Song songToEdit) throws IOException {
+        songManager.updateSong(songToEdit); // Викликаємо метод у Manager
+    }
+
 }
 
 

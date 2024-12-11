@@ -34,6 +34,9 @@ public class SongManager {
     public void deleteSong(int songId) throws IOException {
         songDAO.deleteSong(songId);
     }
+    public void updateSong(Song song) throws IOException {
+        songDAO.updateSong(song); // Передаємо оновлення в DAO
+    }
 
 
 }

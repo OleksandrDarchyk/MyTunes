@@ -43,6 +43,7 @@ public class SongEditorController implements Initializable {
 
     private MyTunesController myTunesController;
     private final MyTunesModel myTunesModel = new MyTunesModel();
+    private Song songToEdit;
 
     public void initialize(URL location, ResourceBundle resources) {
         displayCategory();
@@ -107,7 +108,46 @@ public class SongEditorController implements Initializable {
     }
 
     public void onSaveSongClick(ActionEvent actionEvent) {
-        try {
+       try {
+           if(txtTitle.getText().isEmpty() || txtArtist.getText().isEmpty() ||
+                   txtTime.getText().isEmpty() || txtFilePath.getText().isEmpty()) {
+               myTunesController.showWarningDialog("Validation Error", "All fields must be filled!");
+               return;
+           }
+
+           Time time;
+           try {
+               time = Time.valueOf("00:" + txtTime.getText());
+           } catch (IllegalArgumentException e) {
+               myTunesController.showWarningDialog("Invalid Time Format", "Time must be in the format mm:ss.");
+               return;
+           }
+
+           String title = txtTitle.getText();
+           String artist = txtArtist.getText();
+           String category = comboBox.getValue();
+           String path = txtFilePath.getText();
+
+           if(songToEdit != null) {
+               songToEdit.setTitle(title);
+               songToEdit.setArtist(artist);
+               songToEdit.setCategory(category);
+               songToEdit.setSongPath(path);
+               songToEdit.setTime(time);
+
+               myTunesModel.updateSong(songToEdit);
+           }else {
+               Song newSong = new Song(title,artist,category,time,path);
+               myTunesModel.createSong(newSong);
+
+           } Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+           stage.close();
+
+       }catch (Exception e) {
+           myTunesController.showWarningDialog("Error", "An error occurred while saving the song: " + e.getMessage());
+       }
+
+        /* try {
             String title = txtTitle.getText();
             String artist = txtArtist.getText();
             String category = comboBox.getValue();
@@ -126,7 +166,7 @@ public class SongEditorController implements Initializable {
         } catch (Exception e) {
             //e.printStackTrace();
             System.out.println("Error saving song: " + e.getMessage());
-        }
+        } */
     }
 
 
@@ -134,4 +174,22 @@ public class SongEditorController implements Initializable {
         this.myTunesController = myTunesController;
     }
 
+    public void setSong(Song selectedSong) {
+        this.songToEdit = selectedSong;
+
+        txtTitle.setText(selectedSong.getTitle());
+        txtArtist.setText(selectedSong.getArtist());
+        comboBox.setValue(selectedSong.getCategory());
+        txtTime.setText(selectedSong.getTime().toString());
+        txtFilePath.setText(selectedSong.getSongPath());
+
+        java.sql.Time time = selectedSong.getTime();
+        String[] timeParts = time.toString().split(":");
+        String formattedTime = timeParts[1] + ":" + timeParts[2];
+        txtTime.setText(formattedTime);
+        txtTime.setEditable(false);
+
+        txtFilePath.setText(selectedSong.getSongPath());
+
+    }
 }

@@ -10,11 +10,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -325,7 +328,28 @@ public class MyTunesController implements Initializable {
     }
 
     public void onEditSongClick (ActionEvent actionEvent) throws IOException {
-        openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
+       // openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
+        Song selectedSong = lstSongs.getSelectionModel().getSelectedItem();
+        if (selectedSong == null) {
+            showWarningDialog("No Song Selected", "Please select a song to edit.");
+            return;
+        }
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/mytunes/SongEditor.fxml"));
+        Parent root = loader.load();
+
+        SongEditorController songEditorController = loader.getController();
+        songEditorController.setParentController(this);
+        songEditorController.setSong(selectedSong);
+
+        Stage stage = new Stage();
+        stage.setTitle("New/Edit Song");
+        stage.setScene(new Scene(root));
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
+        stage.showAndWait();
+
+        lstSongs.refresh();
     }
 
     public void onAddSongClick (ActionEvent actionEvent) throws IOException {

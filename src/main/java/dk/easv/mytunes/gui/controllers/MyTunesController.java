@@ -379,6 +379,7 @@ public class MyTunesController implements Initializable {
     }
 
     public void onMoveFromSonglstToSongsOnPlaylistClick(ActionEvent actionEvent) {
+
     }
 }
 

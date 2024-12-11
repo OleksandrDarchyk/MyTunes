@@ -140,7 +140,8 @@ public class SongEditorController implements Initializable {
                Song newSong = new Song(title,artist,category,time,path);
                myTunesModel.createSong(newSong);
 
-           } Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+           }   myTunesController.initializeSongTable();
+           Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
            stage.close();
 
        }catch (Exception e) {

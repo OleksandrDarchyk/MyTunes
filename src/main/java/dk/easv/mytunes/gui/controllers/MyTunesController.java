@@ -376,17 +376,38 @@ public class MyTunesController implements Initializable {
     }
 
     public void onDeleteSongClick(ActionEvent actionEvent) {
+        Song selectedSong = lstSongs.getSelectionModel().getSelectedItem();
 
-        int selectedSongId = lstSongs.getSelectionModel().getSelectedItem().getId();
-        try {
-            myTunesModel.deleteSong(selectedSongId);
-            lstSongs.getItems().removeIf(song -> song.getId() == selectedSongId);
-            lstSongs.refresh();
-            showInfoDialog("Success", "The song was successfully deleted.");
+        if (selectedSong != null) {
+            // Create a confirmation dialog
+            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationAlert.setTitle("Confirm Deletion");
+            confirmationAlert.setHeaderText("Are you sure you want to delete this song?");
+            confirmationAlert.setContentText("Song: " + selectedSong.getTitle() + " by " + selectedSong.getArtist());
+
+            // Wait for the user's response
+            var result = confirmationAlert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                try {
+                    // Delete the song from the database via the model
+                    myTunesModel.deleteSong(selectedSong.getId());
+
+                    lstSongs.getItems().remove(selectedSong);
+
+                    lstSongs.refresh();
+
+                    // Inform the user about the successful deletion
+                    showInfoDialog("Success", "The song was successfully deleted.");
+                } catch (Exception e) {
+                    showWarningDialog("Error", "An error occurred while deleting the song: " + e.getMessage());
+                }
+            }
+        } else {
+            // Show a warning if no song is selected
+            showWarningDialog("No Song Selected", "Please select a song to delete.");
         }
-        catch (Exception e) {
-            showWarningDialog(e.getMessage(), "The selected song's file path is invalid or empty.");
-        }
+
     }
 
     public void onCloseBtnClick(ActionEvent actionEvent) {

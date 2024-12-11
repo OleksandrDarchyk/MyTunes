@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ISongsOnPlaylistDAO {
-    //List<Song> getSongsOnPlaylist(int playlistId) throws IOException;
-
     List<SongsOnPlaylist> getSongsOnPlaylist(int playlistId) throws IOException;
+    void addSongToPlaylist(int playlistId, int songId) throws IOException;
+    void removeSongFromPlaylist(int playlistId, int songId) throws IOException;
 
 }

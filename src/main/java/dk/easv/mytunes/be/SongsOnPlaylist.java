@@ -5,10 +5,19 @@ public class SongsOnPlaylist {
     private int playlistId;
     private int songId;
     private String title;
-    private int sequentialId;
 
-    public SongsOnPlaylist(int id, String title) {
+    public SongsOnPlaylist(int id, String title, int songId, int playlistId) {
         this.id = id;
+        this.title = title;
+        this.songId = songId;
+        this.playlistId = playlistId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
         this.title = title;
     }
 
@@ -38,6 +47,6 @@ public class SongsOnPlaylist {
 
     @Override
     public String toString() {
-        return id + ". " + title;
+        return title;
     }
 }

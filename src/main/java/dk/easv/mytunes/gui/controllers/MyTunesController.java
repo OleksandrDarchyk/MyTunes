@@ -6,6 +6,7 @@ import dk.easv.mytunes.be.SongsOnPlaylist;
 import dk.easv.mytunes.gui.models.MyTunesModel;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -95,14 +96,12 @@ public class MyTunesController implements Initializable {
         btnClear.setDisable(true);
         initializeSongTable();
         initializePlaylistTable();
-        // Add listener for selection changes in the playlist TableView
-        lstPlaylist.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                handlePlaylistSelection();
-            } catch (IOException e) {
-                System.err.println("Error handling playlist selection: " + e.getMessage());
-            }
-        });
+        setSongsOnPlaylistTableId();
+        try {
+            handlePlaylistSelection();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void initializeSongTable() {
@@ -126,22 +125,21 @@ public class MyTunesController implements Initializable {
     }
 
     public void handlePlaylistSelection() throws IOException {
-        System.out.println("handlePlaylistSelection() called");
-        Playlist selectedPlaylist = (Playlist) lstPlaylist.getSelectionModel().getSelectedItem();
-        if (selectedPlaylist == null) {
-            System.out.println("No playlist selected.");
-            lstSongOnPlaylist.getItems().clear(); // Clear the ListView if no playlist is selected
-            return;
-        }
-        System.out.println("Selected Playlist: " + selectedPlaylist.getName() + " (ID: " + selectedPlaylist.getId() + ")");
-
-        // Fetch songs for the selected playlist from the database
+        // Add listener for playlist selection changes
+        lstPlaylist.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            //handlePlaylistSelection();
+            Playlist selectedPlaylist = (Playlist) lstPlaylist.getSelectionModel().getSelectedItem();
+            if (selectedPlaylist == null) {
+                lstSongOnPlaylist.getItems().clear(); // Clear the ListView if no playlist is selected
+                return;
+            }
+            // Fetch songs for the selected playlist from the database
             int playlistId = selectedPlaylist.getId();
             List<SongsOnPlaylist> songsOnPlaylist = myTunesModel.getSongsOnPlaylist(playlistId);
-        for (SongsOnPlaylist song : songsOnPlaylist) {
-            lstSongOnPlaylist.getItems().setAll(songsOnPlaylist);
-        }
-
+            for (SongsOnPlaylist song : songsOnPlaylist) {
+                lstSongOnPlaylist.getItems().setAll(songsOnPlaylist);
+            }
+        });
     }
 
     // Make play btn to play music
@@ -370,10 +368,6 @@ public class MyTunesController implements Initializable {
         stage.close();
     }
 
-
-    public void onDeleteSongsOnPlaylistClick(ActionEvent actionEvent) {
-    }
-
     public void onMoveDownClick(ActionEvent actionEvent) {
         int selectedIndex = lstSongOnPlaylist.getSelectionModel().getSelectedIndex();
 
@@ -408,8 +402,73 @@ public class MyTunesController implements Initializable {
     public void onDeletePlaylistClick(ActionEvent actionEvent) {
     }
 
-    public void onMoveFromSonglstToSongsOnPlaylistClick(ActionEvent actionEvent) {
+    public void onAddSongsToPlaylistClick(ActionEvent actionEvent) {
+        Playlist selectedPlaylist = (Playlist) lstPlaylist.getSelectionModel().getSelectedItem();
+        Song selectedSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
+        if (selectedPlaylist != null && selectedSong != null) {
+            try {
+                //MyTunesModel model= new MyTunesModel();
+                myTunesModel.addSongToPlaylist(selectedPlaylist.getId(),selectedSong.getId());
+                refreshPlaylistTable();
+                refreshSongsOnPlaylistView(selectedPlaylist);
+                // Re-select the previously selected playlist
+                lstPlaylist.getSelectionModel().select(selectedPlaylist);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            showWarningDialog("Error", "Please select both a playlist and a song.");
+        }
+    }
 
+    private void setSongsOnPlaylistTableId(){
+        // Set up the cell factory for the ListView
+        lstSongOnPlaylist.setCellFactory(lv -> new ListCell<SongsOnPlaylist>() {
+            @Override
+            protected void updateItem(SongsOnPlaylist song, boolean empty) {
+                super.updateItem(song, empty);
+                if (empty || song == null) {
+                    setText(null);
+                } else {
+                    int index = getIndex() + 1; // Use the index for numbering
+                    setText(index + ". " + song.getTitle()); // Assuming SongsOnPlaylist has a getSong() method
+                }
+            }
+        });
+    }
+
+    private void refreshSongsOnPlaylistView(Playlist playlist) {
+        List<SongsOnPlaylist> sop = myTunesModel.getSongsOnPlaylist(playlist.getId());
+        lstSongOnPlaylist.setItems(FXCollections.observableArrayList(sop));
+    }
+
+    private void refreshPlaylistTable() throws IOException {
+        List<Playlist> playlists = myTunesModel.getAllPlaylists(); // Fetch updated playlists
+        lstPlaylist.setItems(FXCollections.observableArrayList(playlists)); // Update the table view
+    }
+
+    public void onDeleteSongsOnPlaylistClick(ActionEvent actionEvent) {
+        SongsOnPlaylist selectedSongsOnPlaylist = (SongsOnPlaylist) lstSongOnPlaylist.getSelectionModel().getSelectedItem();
+        Playlist selectedPlaylist = (Playlist) lstPlaylist.getSelectionModel().getSelectedItem();
+        if (selectedSongsOnPlaylist != null && selectedPlaylist != null) {
+            System.out.println("Deleting song from playlist...");
+            System.out.println("Selected Playlist ID: " + selectedPlaylist.getId());
+            System.out.println("Selected Song ID: " + selectedSongsOnPlaylist.getId());
+            try {
+                // Remove song from playlist
+                myTunesModel.removeSongFromPlaylist(selectedSongsOnPlaylist.getPlaylistId(), selectedSongsOnPlaylist.getSongId());
+                // Refresh both tables
+                refreshPlaylistTable();
+                refreshSongsOnPlaylistView(selectedPlaylist);
+                System.out.println("Updated songsOnPlaylist table for playlist ID: " + selectedPlaylist.getId());
+            } catch (IOException e) {
+                showWarningDialog("Error", "Failed to remove song from playlist.");
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("No song or playlist selected.");
+            showWarningDialog("Error", "No song selected.");
+        }
     }
 
 

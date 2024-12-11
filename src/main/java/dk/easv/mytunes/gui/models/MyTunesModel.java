@@ -94,6 +94,14 @@ public class MyTunesModel {
         songManager.updateSong(songToEdit); // Викликаємо метод у Manager
     }
 
+    public void addSongToPlaylist(int playlistId, int songId) throws IOException {
+        songsOnPlaylistManager.addSongToPlaylist(playlistId, songId);
+    }
+
+    public void removeSongFromPlaylist(int playlistId, int songId) throws IOException {
+        songsOnPlaylistManager.removeSongFromPlaylist(playlistId, songId);
+    }
+
 }
 
 

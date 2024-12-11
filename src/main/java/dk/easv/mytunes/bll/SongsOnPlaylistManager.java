@@ -1,11 +1,11 @@
 package dk.easv.mytunes.bll;
 
-import dk.easv.mytunes.be.Song;
 import dk.easv.mytunes.be.SongsOnPlaylist;
 import dk.easv.mytunes.dal.ISongsOnPlaylistDAO;
 import dk.easv.mytunes.dal.db.SongsOnPlaylistDAODB;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class SongsOnPlaylistManager {
@@ -13,6 +13,16 @@ public class SongsOnPlaylistManager {
 
     public List<SongsOnPlaylist> getSongsOnPlaylist(int playlistId) throws IOException{
         return songsOnPlaylistDAO.getSongsOnPlaylist(playlistId);
+    }
+
+    // Add a single song to a playlist
+    public void addSongToPlaylist(int playlistId, int songId) throws IOException {
+        songsOnPlaylistDAO.addSongToPlaylist(playlistId, songId);
+    }
+
+    // Delete a single song from a playlist
+    public void removeSongFromPlaylist(int playlistId, int songId) throws IOException {
+        songsOnPlaylistDAO.removeSongFromPlaylist(playlistId,songId);
     }
 
 }

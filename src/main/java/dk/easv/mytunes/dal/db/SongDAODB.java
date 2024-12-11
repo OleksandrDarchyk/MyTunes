@@ -38,7 +38,7 @@ public class SongDAODB implements ISongDAO {
 
     @Override
     public void createSong(Song song) throws IOException {
-        String sql = "INSERT INTO Songs (title, artist, category, time, songPath) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Song (title, artist, category, time, songPath) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = con.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
              ps.setString(1, song.getTitle());
@@ -96,7 +96,7 @@ public class SongDAODB implements ISongDAO {
 
     @Override
     public void updateSong(Song song) throws IOException {
-        String sql = "UPDATE Songs SET title = ?, artist = ?, category = ?, time = ?, file_path = ? WHERE id = ?";
+        String sql = "UPDATE Songs SET title = ?, artist = ?, category = ?, time = ?, songPath = ? WHERE id = ?";
         try (Connection connection = con.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, song.getTitle());

@@ -14,7 +14,6 @@ import java.util.List;
 public class SongManager {
     private final ISongDAO songDAO = new SongDAODB();
     private SongFilter songFilter = new SongFilter();
-    private final SongDAODB songDAODB = new SongDAODB();
 
     // Get all songs
     public List<Song> getAllSongs() throws IOException {
@@ -33,7 +32,7 @@ public class SongManager {
         songDAO.createSong(song);
     }
     public void deleteSong(int songId) throws IOException {
-        songDAODB.deleteSong(songId);
+        songDAO.deleteSong(songId);
     }
 
 

@@ -121,7 +121,7 @@
                         <Font size="15.0" />
                      </font>
                   </TextField>
-                  <Button mnemonicParsing="false" onAction="#onChooseClick" prefHeight="26.0" prefWidth="66.0" text="Choose">
+                  <Button fx:id="btnChoose" mnemonicParsing="false" onAction="#onChooseClick" prefHeight="26.0" prefWidth="66.0" text="Choose">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>

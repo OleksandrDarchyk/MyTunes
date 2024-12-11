@@ -146,25 +146,27 @@ public class MyTunesController implements Initializable {
 
     // Make play btn to play music
     public void onPlayButtonClick(ActionEvent actionEvent) {
-        Song selectedSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
+        Song selectedSong = lstSongs.getSelectionModel().getSelectedItem();
         if (selectedSong != null) {
-            String songPath = selectedSong.getSongPath(); // Ensure Song class has the getFilePath method
+            String songPath = selectedSong.getSongPath();
             if (songPath != null && !songPath.isEmpty()) {
+                // Check if a song is already playing
                 if (mediaPlayer != null) {
-                    switch (mediaPlayer.getStatus()) {
-                        case PLAYING -> mediaPlayer.pause();
-                        case PAUSED -> mediaPlayer.play();
-                        case STOPPED, READY, HALTED -> {
-                            mediaPlayer.dispose();
-                            playSong(songPath);
-                            displayCurrentlyPlayingSong(selectedSong);
+                    // Pause or resume if the same song is selected
+                    if (mediaPlayer.getMedia().getSource().equals(new File(songPath).toURI().toString())) {
+                        switch (mediaPlayer.getStatus()) {
+                            case PLAYING -> mediaPlayer.pause();
+                            case PAUSED -> mediaPlayer.play();
                         }
+                        return; // Exit method since no new song needs to be started
                     }
-                } else {
-                    playSong(songPath);
-                    displayCurrentlyPlayingSong(selectedSong);
-
+                    // Stop and dispose of the current media player if a new song is selected
+                    mediaPlayer.stop();
+                    mediaPlayer.dispose();
                 }
+                // Play the new song
+                playSong(songPath);
+                displayCurrentlyPlayingSong(selectedSong);
             } else {
                 showWarningDialog("Invalid Song Path", "The selected song's file path is invalid or empty.");
             }

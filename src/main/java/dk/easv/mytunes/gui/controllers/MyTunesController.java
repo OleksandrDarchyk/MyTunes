@@ -373,9 +373,34 @@ public class MyTunesController implements Initializable {
     }
 
     public void onMoveDownClick(ActionEvent actionEvent) {
+        int selectedIndex = lstSongOnPlaylist.getSelectionModel().getSelectedIndex();
+
+        // Ensure it is not the last element
+        if (selectedIndex >= 0 && selectedIndex < lstSongOnPlaylist.getItems().size() - 1) {
+            var items = lstSongOnPlaylist.getItems();
+            // Swap the current song with the next one
+            var selectedSong = items.get(selectedIndex);
+            items.set(selectedIndex, items.get(selectedIndex + 1));
+            items.set(selectedIndex + 1, selectedSong);
+
+            // Update selection
+            lstSongOnPlaylist.getSelectionModel().select(selectedIndex + 1);
+        }
     }
 
     public void onMoveUpClick(ActionEvent actionEvent) {
+        int selectedIndex = lstSongOnPlaylist.getSelectionModel().getSelectedIndex();
+
+        if (selectedIndex > 0) { // Ensure it is not the first element
+            var items = lstSongOnPlaylist.getItems();
+            // Swap the current song with the previous one
+            var selectedSong = items.get(selectedIndex);
+            items.set(selectedIndex, items.get(selectedIndex - 1));
+            items.set(selectedIndex - 1, selectedSong);
+
+            // Update selection
+            lstSongOnPlaylist.getSelectionModel().select(selectedIndex - 1);
+        }
     }
 
     public void onDeletePlaylistClick(ActionEvent actionEvent) {
@@ -384,6 +409,8 @@ public class MyTunesController implements Initializable {
     public void onMoveFromSonglstToSongsOnPlaylistClick(ActionEvent actionEvent) {
 
     }
+
+
 }
 
 

@@ -109,6 +109,7 @@ public class SongEditorController implements Initializable {
 
     public void onSaveSongClick(ActionEvent actionEvent) {
        try {
+           // Validate if all required fields are filled
            if(txtTitle.getText().isEmpty() || txtArtist.getText().isEmpty() ||
                    txtTime.getText().isEmpty() || txtFilePath.getText().isEmpty()) {
                myTunesController.showWarningDialog("Validation Error", "All fields must be filled!");
@@ -117,6 +118,7 @@ public class SongEditorController implements Initializable {
 
            Time time;
            try {
+               // Convert user-entered time from "mm:ss" format to SQL Time format
                time = Time.valueOf("00:" + txtTime.getText());
            } catch (IllegalArgumentException e) {
                myTunesController.showWarningDialog("Invalid Time Format", "Time must be in the format mm:ss.");
@@ -125,10 +127,11 @@ public class SongEditorController implements Initializable {
 
            String title = txtTitle.getText();
            String artist = txtArtist.getText();
-           String category = comboBox.getValue();
+           String category = comboBox.getValue();// Get selected category from ComboBox
            String path = txtFilePath.getText();
 
            if(songToEdit != null) {
+               // If editing an existing song, update its properties
                songToEdit.setTitle(title);
                songToEdit.setArtist(artist);
                songToEdit.setCategory(category);
@@ -176,7 +179,7 @@ public class SongEditorController implements Initializable {
     }
 
     public void setSong(Song selectedSong) {
-        this.songToEdit = selectedSong;
+        this.songToEdit = selectedSong; // Assign the selected song to the local variable for editing
 
         txtTitle.setText(selectedSong.getTitle());
         txtArtist.setText(selectedSong.getArtist());
@@ -184,11 +187,12 @@ public class SongEditorController implements Initializable {
         txtTime.setText(selectedSong.getTime().toString());
         txtFilePath.setText(selectedSong.getSongPath());
 
+        // Extract and reformat the time (e.g., from "00:04:23" to "4:23")
         java.sql.Time time = selectedSong.getTime();
-        String[] timeParts = time.toString().split(":");
-        String formattedTime = timeParts[1] + ":" + timeParts[2];
-        txtTime.setText(formattedTime);
-        txtTime.setEditable(false);
+        String[] timeParts = time.toString().split(":"); // Split the time into hours, minutes, and seconds
+        String formattedTime = timeParts[1] + ":" + timeParts[2]; // Use only minutes and seconds
+        txtTime.setText(formattedTime);// Set the formatted time into the text field
+        txtTime.setEditable(false); // Make the time field non-editable
 
         txtFilePath.setText(selectedSong.getSongPath());
 

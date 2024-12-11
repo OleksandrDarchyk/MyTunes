@@ -327,6 +327,8 @@ public class MyTunesController implements Initializable {
 
     public void onEditSongClick (ActionEvent actionEvent) throws IOException {
        // openEditor("/dk/easv/mytunes/SongEditor.fxml", "New/Edit Song", this);
+
+        // Check if a song is selected for editing
         Song selectedSong = lstSongs.getSelectionModel().getSelectedItem();
         if (selectedSong == null) {
             showWarningDialog("No Song Selected", "Please select a song to edit.");
@@ -336,6 +338,7 @@ public class MyTunesController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/mytunes/SongEditor.fxml"));
         Parent root = loader.load();
 
+        // Get the controller for the SongEditor view and pass the selected song
         SongEditorController songEditorController = loader.getController();
         songEditorController.setParentController(this);
         songEditorController.setSong(selectedSong);
@@ -347,6 +350,7 @@ public class MyTunesController implements Initializable {
         stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
         stage.showAndWait();
 
+        // Refresh the song list to reflect changes made during editing
         lstSongs.refresh();
     }
 

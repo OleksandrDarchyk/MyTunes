@@ -35,7 +35,7 @@ public class MyTunesController implements Initializable {
     @FXML
     private ListView lstSongOnPlaylist;
     @FXML
-    private TableView lstPlaylist;
+    private TableView <Playlist> lstPlaylist;
     @FXML
     private TableColumn nameColumn;
     @FXML
@@ -447,6 +447,28 @@ public class MyTunesController implements Initializable {
     }
 
     public void onDeletePlaylistClick(ActionEvent actionEvent) {
+        Playlist selectedPlaylist = lstPlaylist.getSelectionModel().getSelectedItem();
+        if (selectedPlaylist != null) {
+            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationAlert.setTitle("Confirm Deletion");
+            confirmationAlert.setHeaderText("Are you sure you want to delete this Playlist?");
+            confirmationAlert.setContentText("Playlist" + selectedPlaylist.getName());
+
+            var result = confirmationAlert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                try {
+                    myTunesModel.deletePlaylist(selectedPlaylist.getId());
+                    lstPlaylist.getItems().remove(selectedPlaylist);
+                    lstPlaylist.refresh();
+                    showInfoDialog("Success", "The playlist was successfully deleted.");
+                }catch (Exception e){
+                    showWarningDialog("Error", "An error occurred while deleting the playlist: " + e.getMessage());
+                }
+            }
+        }else {
+            showWarningDialog("No Playlist Selected", "Please select a song to delete.");
+        }
     }
 
     public void onAddSongsToPlaylistClick(ActionEvent actionEvent) {

@@ -102,6 +102,9 @@ public class MyTunesModel {
         songsOnPlaylistManager.removeSongFromPlaylist(playlistId, songId);
     }
 
+    public void deletePlaylist(int playlistId) throws IOException {
+        playlistManager.deletePlaylist(playlistId);
+    }
 }
 
 

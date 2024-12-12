@@ -72,16 +72,24 @@ public class PlaylistDAODB implements IPlaylistDAO {
 
     @Override
     public void deletePlaylist(int playlistID) {
-        String sql = "DELETE FROM playlists WHERE id = ?";
-        try (Connection connection = con.getConnection();
-        PreparedStatement ps = connection.prepareStatement(sql)){
-            ps.setInt(1,playlistID);
-            ps.executeUpdate();
-        }
-        catch (SQLException e){
-            throw new RuntimeException(e);
+        String deleteSongsFromPlaylist = "DELETE FROM SongsOnPlaylist WHERE playlist_id = ?";
+        String deletePlaylist = "DELETE FROM playlist WHERE id = ?";
+
+        try (Connection connection = con.getConnection()) {
+            try (PreparedStatement ps1 = connection.prepareStatement(deleteSongsFromPlaylist)) {
+                ps1.setInt(1, playlistID);
+                ps1.executeUpdate();
+            }
+
+            try (PreparedStatement ps2 = connection.prepareStatement(deletePlaylist)) {
+                ps2.setInt(1, playlistID);
+                ps2.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error deleting playlist and associated songs: " + e.getMessage(), e);
         }
     }
+
 
     @Override
     public void updatePlaylist(Playlist playlist) {

@@ -17,4 +17,8 @@ public class PlaylistManager {
     public List<Playlist> getAllPlaylists() throws IOException {
         return playlistDAO.getAllPlaylists();
     }
+
+    public void deletePlaylist(int playlistId) {
+        playlistDAO.deletePlaylist(playlistId);
+    }
 }

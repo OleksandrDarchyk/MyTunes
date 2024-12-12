@@ -25,5 +25,9 @@ public class PlaylistManager {
     public void addPlaylist(Playlist playlist) throws IOException {
         playlistDAO.addPlaylist(playlist);
     }
+    public void updatePlaylist(Playlist playlist) {
+        playlistDAO.updatePlaylist(playlist);
+    }
+
 
 }

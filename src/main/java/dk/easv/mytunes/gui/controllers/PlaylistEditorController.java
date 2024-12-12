@@ -16,6 +16,8 @@ public class PlaylistEditorController {
 
     private MyTunesModel myTunesModel;
     private MyTunesController myTunesController;
+    private Playlist playlistToEdit;
+
 
 
 
@@ -38,23 +40,37 @@ public class PlaylistEditorController {
                 myTunesController.showWarningDialog("Validation Error", "Name cannot be empty!");
                 return;
             }
-            // Retrieve and trim the playlist name from the text field
-            String name = txtName.getText().trim();
-            // Create a new Playlist object with default values
-            Playlist newPlaylist = new Playlist(0, name, 0, null);
+            // Get the new name from the text field
+            String newName = txtName.getText().trim();
 
-            myTunesModel.createPlaylist(newPlaylist);
-            // Refresh the playlist table in the main controller
+            if (playlistToEdit != null) {
+                // If an existing playlist is being edited
+                playlistToEdit.setName(newName);
+                myTunesModel.updatePlaylist(playlistToEdit);
+            } else {
+                // If a new playlist is being created
+                Playlist newPlaylist = new Playlist(0, newName, 0, null);
+                myTunesModel.createPlaylist(newPlaylist);
+            }
+
             myTunesController.initializePlaylistTable();
+
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             stage.close();
         } catch (Exception e) {
             myTunesController.showWarningDialog("Error", "An error occurred while saving the playlist: " + e.getMessage());
         }
     }
+
     // Setter method to inject the MyTunesModel instance
     public void setMyTunesModel(MyTunesModel myTunesModel) {
         this.myTunesModel = myTunesModel;
+    }
+
+    public void setPlaylist(Playlist playlist) {
+        // Store the passed playlist for editing
+        this.playlistToEdit = playlist;
+        txtName.setText(playlist.getName());
     }
 
 }

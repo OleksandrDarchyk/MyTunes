@@ -109,6 +109,11 @@ public class MyTunesModel {
         playlistManager.addPlaylist(newPlaylist);
     }
 
+    public void updatePlaylist(Playlist playlist) throws IOException {
+        playlistManager.updatePlaylist(playlist);
+    }
+
+
 }
 
 

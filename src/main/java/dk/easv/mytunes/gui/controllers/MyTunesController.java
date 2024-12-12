@@ -318,7 +318,34 @@ public class MyTunesController implements Initializable {
     }
 
     public void onEditPlaylistClick (ActionEvent actionEvent) throws IOException {
-        openEditor("/dk/easv/mytunes/PlaylistEditor.fxml", "New/Edit Playlist", this);
+        //openEditor("/dk/easv/mytunes/PlaylistEditor.fxml", "New/Edit Playlist", this);
+        // Get the selected playlist
+        Playlist selectedPlaylist = lstPlaylist.getSelectionModel().getSelectedItem();
+        if (selectedPlaylist == null) {
+            showWarningDialog("No Playlist Selected", "Please select a playlist to edit.");
+            return;
+        }
+
+        // Load the FXML for the editor
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/mytunes/PlaylistEditor.fxml"));
+        Parent root = loader.load();
+
+        // Pass the selected playlist to the editor controller
+        PlaylistEditorController controller = loader.getController();
+        controller.setParentController(this);
+        controller.setMyTunesModel(myTunesModel);
+        controller.setPlaylist(selectedPlaylist); // Передаємо плейлист у редактор
+
+        // Display the editor
+        Stage stage = new Stage();
+        stage.setTitle("Edit Playlist");
+        stage.setScene(new Scene(root));
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
+        stage.showAndWait();
+
+        // Refresh the playlist table after editing
+        initializePlaylistTable();
     }
 
     public void onAddPlaylistClick (ActionEvent actionEvent) throws IOException {

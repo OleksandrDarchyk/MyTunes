@@ -322,7 +322,22 @@ public class MyTunesController implements Initializable {
     }
 
     public void onAddPlaylistClick (ActionEvent actionEvent) throws IOException {
-        openEditor("/dk/easv/mytunes/PlaylistEditor.fxml", "New/Edit Playlist", this);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/mytunes/PlaylistEditor.fxml"));
+        Parent root = loader.load();
+
+        // Get the controller associated with the PlaylistEditor
+        PlaylistEditorController controller = loader.getController();
+        // Set the parent controller to establish a connection
+        controller.setParentController(this);
+        controller.setMyTunesModel(myTunesModel);
+
+        Stage stage = new Stage();
+        stage.setTitle("New/Edit Playlist");
+        stage.setScene(new Scene(root));
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
+        stage.showAndWait();
+
     }
 
     public void onEditSongClick (ActionEvent actionEvent) throws IOException {

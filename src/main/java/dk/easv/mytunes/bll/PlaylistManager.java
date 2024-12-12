@@ -21,4 +21,9 @@ public class PlaylistManager {
     public void deletePlaylist(int playlistId) {
         playlistDAO.deletePlaylist(playlistId);
     }
+
+    public void addPlaylist(Playlist playlist) throws IOException {
+        playlistDAO.addPlaylist(playlist);
+    }
+
 }

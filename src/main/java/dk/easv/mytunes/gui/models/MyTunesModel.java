@@ -105,6 +105,10 @@ public class MyTunesModel {
     public void deletePlaylist(int playlistId) throws IOException {
         playlistManager.deletePlaylist(playlistId);
     }
+    public void createPlaylist(Playlist newPlaylist) throws IOException {
+        playlistManager.addPlaylist(newPlaylist);
+    }
+
 }
 
 

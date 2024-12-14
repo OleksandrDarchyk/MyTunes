@@ -89,6 +89,8 @@ public class MyTunesController implements Initializable {
         initializeSongTable();
         initializePlaylistTable();
         setSongsOnPlaylistTableId();
+
+        handleSongSelection();
         try {
             handlePlaylistSelection();
         } catch (IOException e) {
@@ -149,17 +151,19 @@ public class MyTunesController implements Initializable {
             Song selectedSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
             if (selectedSong == null) {
                 // Clear the song display or take appropriate action if no song is selected
+                labelCurrentSong.setText("");
                 return;
             }
 
-            // Call your existing play functionality to play the selected song
+          /*  // Call your existing play functionality to play the selected song
             String songPath = selectedSong.getSongPath();
             if (songPath != null && !songPath.isEmpty()) {
                 playSong(songPath);
                 displayCurrentlyPlayingSong(selectedSong);
             } else {
                 showWarningDialog("Invalid Song Path", "The selected song's file path is invalid or empty.");
-            }
+            }*/
+            displayCurrentlyPlayingSong(selectedSong);
         });
     }
 

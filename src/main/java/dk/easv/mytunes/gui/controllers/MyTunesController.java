@@ -178,10 +178,12 @@ public class MyTunesController implements Initializable {
                 if (mediaPlayer != null) {
                     // If the same song is selected again, pause or resume.
                     if (mediaPlayer.getMedia().getSource().equals(new File(songPath).toURI().toString())) {
-                        switch (mediaPlayer.getStatus()) {
-                            case PLAYING -> mediaPlayer.pause();
-                            case PAUSED -> mediaPlayer.play();
+                        if (mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
+                            mediaPlayer.pause();
+                        } else if (mediaPlayer.getStatus() == MediaPlayer.Status.PAUSED || mediaPlayer.getStatus() == MediaPlayer.Status.READY) {
+                            mediaPlayer.play();
                         }
+
                         return; // Exit method since no new song needs to be started
                     }
                     // Stop and dispose of the current media player if a new song is selected

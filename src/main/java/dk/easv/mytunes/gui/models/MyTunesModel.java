@@ -10,7 +10,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -59,7 +58,7 @@ public class MyTunesModel {
     }
 
     // Get ObservableList of songs on playlist
-    public ObservableList<SongsOnPlaylist> getSongsOnPlaylist(int playlistId) {
+    public List<SongsOnPlaylist> getSongsOnPlaylist(int playlistId) {
         try {
             List<SongsOnPlaylist> songList = songsOnPlaylistManager.getSongsOnPlaylist(playlistId);
             songsOnPlaylist.setAll(songList);

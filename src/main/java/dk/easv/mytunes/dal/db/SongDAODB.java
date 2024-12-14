@@ -52,28 +52,6 @@ public class SongDAODB implements ISongDAO {
         }
     }
 
-/*    @Override
-    public List<String> getCategories() throws IOException{
-        List<String> categories = new ArrayList<>();
-        try {
-            Connection c = con.getConnection();
-            String sql = "SELECT DISTINCT category FROM song WHERE category IS NOT NULL";
-            PreparedStatement ps = c.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            System.out.println("Executing SQL query: " + sql);
-            while (rs.next()) {
-                String category = rs.getString("category");
-                System.out.println("Fetched category: " + category);
-                categories.add(category);
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new IOException("Error fetching songs from the database: " + e.getMessage(), e);
-        }
-        return categories;
-    }*/
-
     @Override
     public void deleteSong(int songId) throws IOException {
         String deleteFromSongsOnPlaylist = "DELETE FROM SongsOnPlaylist WHERE song_id = ?";

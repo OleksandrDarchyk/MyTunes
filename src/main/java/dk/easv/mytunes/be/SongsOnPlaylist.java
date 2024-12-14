@@ -5,6 +5,7 @@ public class SongsOnPlaylist {
     private int playlistId;
     private int songId;
     private String title;
+    //private Song song;
 
     public SongsOnPlaylist(int id, String title, int songId, int playlistId) {
         this.id = id;
@@ -12,6 +13,10 @@ public class SongsOnPlaylist {
         this.songId = songId;
         this.playlistId = playlistId;
     }
+
+/*    public Song getSong() {
+        return song;
+    }*/
 
     public String getTitle() {
         return title;

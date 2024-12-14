@@ -350,7 +350,37 @@ public class MyTunesController implements Initializable {
         }
     }
 
-    public void onREWClick(ActionEvent actionEvent) {
+/*    public void onREWClick(ActionEvent actionEvent) {
+        // Check if the current selection is from lstSongs (the song list) or lstSongOnPlaylist (playlist)
+        if (!lstSongs.getSelectionModel().isEmpty()) {
+            int currentIndex = lstSongs.getSelectionModel().getSelectedIndex();
+            if (currentIndex > 0) { // Ensure the current song is not the 1st one
+                lstSongs.getSelectionModel().select(currentIndex - 1); // Select the previous song in list
+                Song previousSong = (Song) lstSongs.getSelectionModel().getSelectedItem(); // Get the previous song
+                if (previousSong != null) {
+                    playSong(previousSong.getSongPath());
+                    displayCurrentlyPlayingSong(previousSong);
+                }
+            } else {
+                showWarningDialog("Playback error", "No previous song. You are at the start of the playlist.");
+            }
+        } else if (!lstSongOnPlaylist.getSelectionModel().isEmpty()) {
+            int currentIndex = lstSongOnPlaylist.getSelectionModel().getSelectedIndex();
+            if (currentIndex > 0) { // Ensure the current song is not the 1st one in the playlist
+                lstSongOnPlaylist.getSelectionModel().select(currentIndex - 1); // Select the previous song in playlist
+                SongsOnPlaylist previousSongOnPlaylist = (SongsOnPlaylist) lstSongOnPlaylist.getSelectionModel().getSelectedItem(); // Get the previous song from the playlist
+                if (previousSongOnPlaylist != null) {
+                    Song previousSong = previousSongOnPlaylist.getSong(); // Get the actual song
+                    playSong(previousSong.getSongPath());
+                    displayCurrentlyPlayingSong(previousSong);
+                }
+            } else {
+                showWarningDialog("Playback error", "No previous song. You are at the start of the playlist.");
+            }
+        }
+    }*/
+
+public void onREWClick(ActionEvent actionEvent) {
         int currentIndex = lstSongs.getSelectionModel().getSelectedIndex();
         if (currentIndex > 0) // Ensure the current song is not the 1st one
         {

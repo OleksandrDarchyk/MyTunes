@@ -25,8 +25,8 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class MyTunesController implements Initializable {
     @FXML
@@ -90,7 +90,11 @@ public class MyTunesController implements Initializable {
         initializePlaylistTable();
         setSongsOnPlaylistTableId();
 
-        handleSongSelection();
+        try {
+            handleSongSelection();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         try {
             handlePlaylistSelection();
         } catch (IOException e) {
@@ -128,24 +132,29 @@ public class MyTunesController implements Initializable {
     }
 
     public void handlePlaylistSelection() throws IOException {
-        // Add listener for playlist selection changes
         lstPlaylist.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            //handlePlaylistSelection();
-            Playlist selectedPlaylist = (Playlist) lstPlaylist.getSelectionModel().getSelectedItem();
+            Playlist selectedPlaylist = lstPlaylist.getSelectionModel().getSelectedItem();
             if (selectedPlaylist == null) {
-                lstSongOnPlaylist.getItems().clear(); // Clear the ListView if no playlist is selected
+                lstSongOnPlaylist.getItems().clear();
                 return;
             }
-            // Fetch songs for the selected playlist from the database
             int playlistId = selectedPlaylist.getId();
             List<SongsOnPlaylist> songsOnPlaylist = myTunesModel.getSongsOnPlaylist(playlistId);
-            for (SongsOnPlaylist song : songsOnPlaylist) {
-                lstSongOnPlaylist.getItems().setAll(songsOnPlaylist);
-            }
+
+            // Map SongsOnPlaylist to Song objects
+            List<Song> songs = songsOnPlaylist.stream()
+                    .map(sop -> myTunesModel.getAllSongs().stream()
+                            .filter(song -> song.getId() == sop.getSongId())
+                            .findFirst()
+                            .orElse(null))
+                    .filter(Objects::nonNull)
+                    .toList();
+            lstSongOnPlaylist.getItems().setAll(songsOnPlaylist);
+            setSongsOnPlaylistTableId();
         });
     }
 
-    public void handleSongSelection() {
+    public void handleSongSelection() throws IOException{
         // Add listener for song selection changes
         lstSongs.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             Song selectedSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
@@ -154,54 +163,44 @@ public class MyTunesController implements Initializable {
                 labelCurrentSong.setText("");
                 return;
             }
+            displayCurrentlyPlayingSong(selectedSong);
+        });
+    }
 
-          /*  // Call your existing play functionality to play the selected song
+    public void onPlayButtonClick(ActionEvent actionEvent) {
+        SongsOnPlaylist selectedPlaylistSong = (SongsOnPlaylist) lstSongOnPlaylist.getSelectionModel().getSelectedItem();
+        Playlist selectedPlaylist = lstPlaylist.getSelectionModel().getSelectedItem();
+        Song selectedSong = lstSongs.getSelectionModel().getSelectedItem();
+
+        if (selectedPlaylistSong != null) {
+            // Play the selected song from the playlist
             String songPath = selectedSong.getSongPath();
             if (songPath != null && !songPath.isEmpty()) {
                 playSong(songPath);
                 displayCurrentlyPlayingSong(selectedSong);
             } else {
                 showWarningDialog("Invalid Song Path", "The selected song's file path is invalid or empty.");
-            }*/
-            displayCurrentlyPlayingSong(selectedSong);
-        });
-    }
-
-    // Make play btn to play music
-    public void onPlayButtonClick(ActionEvent actionEvent) {
-        Song selectedSong = lstSongs.getSelectionModel().getSelectedItem();
-        Playlist selectedPlaylist = lstPlaylist.getSelectionModel().getSelectedItem();
-        if (selectedPlaylist != null) {
-            // If a playlist is selected, play all songs in the playlist
-            playPlaylist(selectedPlaylist.getId());
+            }
+            return;
         }
-        else if (selectedSong != null) {
+
+        if (selectedPlaylist != null) {
+            // Play the playlist
+            playPlaylist(selectedPlaylist.getId());
+            return;
+        }
+
+        if (selectedSong != null) {
+            // Play a single song from the songs table
             String songPath = selectedSong.getSongPath();
             if (songPath != null && !songPath.isEmpty()) {
-                // Check if a song is already playing
-                if (mediaPlayer != null) {
-                    // If the same song is selected again, pause or resume.
-                    if (mediaPlayer.getMedia().getSource().equals(new File(songPath).toURI().toString())) {
-                        if (mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
-                            mediaPlayer.pause();
-                        } else if (mediaPlayer.getStatus() == MediaPlayer.Status.PAUSED || mediaPlayer.getStatus() == MediaPlayer.Status.READY) {
-                            mediaPlayer.play();
-                        }
-
-                        return; // Exit method since no new song needs to be started
-                    }
-                    // Stop and dispose of the current media player if a new song is selected
-                    mediaPlayer.stop();
-                    mediaPlayer.dispose();
-                }
-                // Play the new song
                 playSong(songPath);
                 displayCurrentlyPlayingSong(selectedSong);
             } else {
                 showWarningDialog("Invalid Song Path", "The selected song's file path is invalid or empty.");
             }
         } else {
-            showWarningDialog("No Song Selected", "Please select a song from the list before playing.");
+            showWarningDialog("No Selection", "Please select a playlist or song to play.");
         }
     }
 
@@ -248,55 +247,52 @@ public class MyTunesController implements Initializable {
             return;
         }
 
-        // Play songs in the playlist sequentially
-        new Thread(() -> {
-            for (SongsOnPlaylist songOnPlaylist : songsInPlaylist) {
-                int songId = songOnPlaylist.getSongId();
-                Song song = myTunesModel.getAllSongs().stream()
-                        .filter(s -> s.getId() == songId)
-                        .findFirst()
-                        .orElse(null);
+        // Convert playlist songs to a queue
+        Queue<Song> playlistQueue = new LinkedList<>();
+        for (SongsOnPlaylist songOnPlaylist : songsInPlaylist) {
+            int songId = songOnPlaylist.getSongId();
+            Song song = myTunesModel.getAllSongs().stream()
+                    .filter(s -> s.getId() == songId)
+                    .findFirst()
+                    .orElse(null);
 
-                if (song != null) {
-                    String songPath = song.getSongPath();
-
-                    if (songPath != null && !songPath.isEmpty()) {
-                        try {
-                            // Play the song
-                            playSong(songPath);
-
-                            // Update the UI on the JavaFX Application Thread
-                            Platform.runLater(() -> displayCurrentlyPlayingSong(song));
-
-                            // Wait until the song finishes
-                            waitForSongToEnd();
-
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                            System.out.println("Playback interrupted.");
-                            return;
-                        }
-                    } else {
-                        System.out.println("Invalid path for song: " + song.getTitle());
-                    }
-                } else {
-                    System.out.println("Song with ID " + songId + " not found.");
-                }
+            if (song != null) {
+                playlistQueue.add(song);
             }
-        }).start();
+        }
+
+        if (playlistQueue.isEmpty()) {
+            showWarningDialog("No Valid Songs in Playlist", "None of the songs in this playlist have a valid file path.");
+            return;
+        }
+
+        // Start playing the first song in the playlist
+        playPlaylistQueue(playlistQueue);
     }
 
-    private void waitForSongToEnd() throws InterruptedException {
-        if (mediaPlayer != null) {
-            Object lock = new Object();
-            mediaPlayer.setOnEndOfMedia(() -> {
-                synchronized (lock) {
-                    lock.notify();
-                }
-            });
+    private void playPlaylistQueue(Queue<Song> playlistQueue) {
+        if (playlistQueue.isEmpty()) {
+            System.out.println("Playlist finished.");
+            return; // End playback when the queue is empty
+        }
 
-            synchronized (lock) {
-                lock.wait(); // Wait until the song finishes
+        Song currentSong = playlistQueue.poll();
+        if (currentSong != null) {
+            String songPath = currentSong.getSongPath();
+            if (songPath != null && !songPath.isEmpty()) {
+                try {
+                    playSong(songPath);
+                    Platform.runLater(() -> displayCurrentlyPlayingSong(currentSong));
+
+                    // Wait for the current song to finish, then play the next song
+                    mediaPlayer.setOnEndOfMedia(() -> playPlaylistQueue(playlistQueue));
+                } catch (Exception e) {
+                    System.out.println("Error playing song: " + currentSong.getTitle() + " - " + e.getMessage());
+                    playPlaylistQueue(playlistQueue); // Skip to the next song if there's an error
+                }
+            } else {
+                System.out.println("Invalid song path for: " + currentSong.getTitle());
+                playPlaylistQueue(playlistQueue); // Skip to the next song if path is invalid
             }
         }
     }
@@ -638,7 +634,7 @@ public class MyTunesController implements Initializable {
                     setText(null);
                 } else {
                     int index = getIndex() + 1; // Use the index for numbering
-                    setText(index + ". " + song.getTitle()); // Assuming SongsOnPlaylist has a getSong() method
+                    setText(index + ". " + song.getTitle());
                 }
             }
         });

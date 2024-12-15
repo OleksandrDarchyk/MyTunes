@@ -35,7 +35,7 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
-      <Button fx:id="btnFilter" alignment="CENTER" contentDisplay="CENTER" layoutX="825.0" layoutY="31.0" mnemonicParsing="false" onAction="#onFilterBtnClick" prefHeight="26.0" prefWidth="40.0" style="-fx-background-image: url('@view/Pictures/search.png');" styleClass="filter-button" stylesheets="@view/Style.css" textAlignment="CENTER" />
+      <Button fx:id="btnFilter" alignment="CENTER" contentDisplay="CENTER" layoutX="825.0" layoutY="31.0" mnemonicParsing="false" onAction="#onFilterBtnClick" prefHeight="26.0" prefWidth="40.0" style="-fx-background-image: url(&quot;dk/easv/mytunes/view/Pictures/search.png&quot;);" styleClass="filter-button" stylesheets="@view/Style.css" textAlignment="CENTER" />
       <TextField fx:id="txtQuery" layoutX="657.0" layoutY="30.0" opacity="0.79" styleClass="txt-field" stylesheets="@view/Style.css" />
       <Slider fx:id="volumeSlider" layoutX="66.0" layoutY="91.0" prefHeight="24.0" prefWidth="120.0" showTickMarks="true" />
       <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="329.0" layoutY="44.0">

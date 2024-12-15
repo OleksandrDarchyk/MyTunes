@@ -105,6 +105,18 @@ public class MyTunesController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        lstSongs.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                lstSongOnPlaylist.getSelectionModel().clearSelection();
+            }
+        });
+
+        lstSongOnPlaylist.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                lstSongs.getSelectionModel().clearSelection();
+            }
+        });
     }
 
     public void setVolumeSlider(){

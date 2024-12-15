@@ -73,6 +73,11 @@ public class MyTunesController implements Initializable {
     private Button btnAddPlaylist;
     @FXML
     private Slider volumeSlider;
+    private boolean playingFromPlaylist = false;
+    private boolean playingFromSongs = false;
+    private List<Song> currentSongList;
+    private int currentSongIndex = -1;
+
 
     private final MyTunesModel myTunesModel = new MyTunesModel();
     private MediaPlayer mediaPlayer;
@@ -215,17 +220,14 @@ public class MyTunesController implements Initializable {
         Playlist selectedPlaylist = lstPlaylist.getSelectionModel().getSelectedItem();
         Song selectedSong = lstSongs.getSelectionModel().getSelectedItem();
 
-// Check if mediaPlayer exists
         if (mediaPlayer != null) {
             MediaPlayer.Status status = mediaPlayer.getStatus();
 
             if (status == MediaPlayer.Status.PLAYING) {
-                // Pause the song if it is currently playing
                 mediaPlayer.pause();
                 System.out.println("Music paused.");
                 return;
             } else if (status == MediaPlayer.Status.PAUSED) {
-                // Resume the paused song if no new selection is made
                 if (selectedPlaylistSong == null && selectedPlaylist == null && selectedSong == null) {
                     mediaPlayer.play();
                     System.out.println("Music resumed.");
@@ -234,18 +236,48 @@ public class MyTunesController implements Initializable {
             }
         }
 
-        // Handle new selection logic or play a new song/playlist
-        if (selectedPlaylistSong != null) {
-            // Play a new song from the playlist
-            playNewPlaylistSong(selectedPlaylistSong);
-        } else if (selectedPlaylist != null) {
-            // Play the selected playlist
-            playPlaylist(selectedPlaylist.getId());
-        } else if (selectedSong != null) {
-            // Play the selected song from the songs table
-            playNewSingleSong(selectedSong);
+        if (selectedPlaylistSong != null && selectedPlaylist != null) {
+            playingFromPlaylist = true;
+            playingFromSongs = false;
+
+            List<SongsOnPlaylist> sop = myTunesModel.getSongsOnPlaylist(selectedPlaylist.getId());
+            currentSongList = sop.stream()
+                    .map(item -> myTunesModel.getAllSongs().stream()
+                            .filter(s -> s.getId() == item.getSongId())
+                            .findFirst()
+                            .orElse(null))
+                    .filter(Objects::nonNull)
+                    .toList();
+
+            int selectedIndex = lstSongOnPlaylist.getSelectionModel().getSelectedIndex();
+            currentSongIndex = (selectedIndex >= 0) ? selectedIndex : 0;
+
+            if (currentSongList.isEmpty()) {
+                showWarningDialog("No Songs in Playlist", "This playlist has no valid songs to play.");
+                return;
+            }
+
+            Song songToPlay = currentSongList.get(currentSongIndex);
+            playSong(songToPlay.getSongPath());
+            displayCurrentlyPlayingSong(songToPlay);
+            return;
+        }
+
+        if (selectedSong != null) {
+            playingFromSongs = true;
+            playingFromPlaylist = false;
+
+            currentSongList = new ArrayList<>(lstSongs.getItems());
+            currentSongIndex = lstSongs.getSelectionModel().getSelectedIndex();
+            Song songToPlay = currentSongList.get(currentSongIndex);
+            if (songToPlay.getSongPath() != null && !songToPlay.getSongPath().isEmpty()) {
+                playSong(songToPlay.getSongPath());
+                displayCurrentlyPlayingSong(songToPlay);
+            } else {
+                showWarningDialog("Invalid Song Path", "The selected song's file path is invalid or empty.");
+            }
         } else {
-            showWarningDialog("No Selection", "Please select a playlist or song to play.");
+            showWarningDialog("No Selection", "Please select a playlist song or a regular song to play.");
         }
     }
 
@@ -427,20 +459,24 @@ public class MyTunesController implements Initializable {
     }
 
     public void onREWClick(ActionEvent actionEvent) {
-        int songTableIndex = lstSongs.getSelectionModel().getSelectedIndex();
-        int playlistTableIndex = lstSongOnPlaylist.getSelectionModel().getSelectedIndex();
-
-        // Ensure proper selection when switching between tables
-        if (songTableIndex >= 0) {  // If a song is selected in the song table
-            REWPlayForSongTable();
-            lstSongOnPlaylist.getSelectionModel().clearSelection();  // Clear selection from playlist table
-            lstSongOnPlaylist.getItems().clear(); // Optionally clear playlist items if needed
-        } else if (playlistTableIndex >= 0) {  // If a song is selected in the playlist table
-            REWPlayForPlaylistTable();
-            lstSongs.getSelectionModel().clearSelection();  // Clear selection from song table
-            lstSongs.getItems().clear(); // Optionally clear song items if needed
+        if (playingFromPlaylist && currentSongList != null && !currentSongList.isEmpty()) {
+            if (currentSongIndex > 0) {
+                currentSongIndex--;
+            }
+            Song prevSong = currentSongList.get(currentSongIndex);
+            playSong(prevSong.getSongPath());
+            displayCurrentlyPlayingSong(prevSong);
+        } else if (playingFromSongs && currentSongList != null && !currentSongList.isEmpty()) {
+            if (currentSongIndex > 0) {
+                currentSongIndex--;
+                Song prevSong = currentSongList.get(currentSongIndex);
+                playSong(prevSong.getSongPath());
+                displayCurrentlyPlayingSong(prevSong);
+            } else {
+                showWarningDialog("Playback Error", "No previous song. You are at the start of the song list.");
+            }
         } else {
-            showWarningDialog("Playback Error", "No song selected in either table. Please select a song to play.");
+            showWarningDialog("No Selection", "Please start playback first.");
         }
     }
 
@@ -505,17 +541,27 @@ public class MyTunesController implements Initializable {
 
 
     public void onFFClick(ActionEvent actionEvent) {
-        int currentIndex = lstSongs.getSelectionModel().getSelectedIndex();
-        if (currentIndex < lstSongs.getItems().size() - 1) // Ensure the current song is not the last one
-        {
-            lstSongs.getSelectionModel().select(currentIndex + 1);
-            Song nextSong = (Song) lstSongs.getSelectionModel().getSelectedItem();
-            if (nextSong != null) {
+        if (playingFromPlaylist && currentSongList != null && !currentSongList.isEmpty()) {
+            if (currentSongIndex < currentSongList.size() - 1) {
+                currentSongIndex++;
+            } else {
+                // За бажанням можна зациклити:
+                // currentSongIndex = 0;
+            }
+            Song nextSong = currentSongList.get(currentSongIndex);
+            playSong(nextSong.getSongPath());
+            displayCurrentlyPlayingSong(nextSong);
+        } else if (playingFromSongs && currentSongList != null && !currentSongList.isEmpty()) {
+            if (currentSongIndex < currentSongList.size() - 1) {
+                currentSongIndex++;
+                Song nextSong = currentSongList.get(currentSongIndex);
                 playSong(nextSong.getSongPath());
                 displayCurrentlyPlayingSong(nextSong);
+            } else {
+                showWarningDialog("Playback error", "No next song. You are at the end of the list.");
             }
         } else {
-            showWarningDialog("Playback error", "No next song. You are at the end of the playlist.");
+            showWarningDialog("No Selection", "Please start playback first.");
         }
     }
 

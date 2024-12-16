@@ -8,7 +8,6 @@ public class Playlist {
     private int songs;
     private Time totalDuration;
 
-
     public Playlist(int id, String name, int songs, Time totalDuration) {
         this.name = name;
         this.id = id;

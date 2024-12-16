@@ -24,5 +24,4 @@ public class SongsOnPlaylistManager {
     public void removeSongFromPlaylist(int playlistId, int songId) throws IOException {
         songsOnPlaylistDAO.removeSongFromPlaylist(playlistId,songId);
     }
-
 }

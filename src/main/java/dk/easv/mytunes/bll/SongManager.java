@@ -7,13 +7,18 @@ import dk.easv.mytunes.dal.IPlaylistDAO;
 import dk.easv.mytunes.dal.ISongDAO;
 import dk.easv.mytunes.dal.db.PlaylistDAODB;
 import dk.easv.mytunes.dal.db.SongDAODB;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class SongManager {
     private final ISongDAO songDAO = new SongDAODB();
-    private SongFilter songFilter = new SongFilter();
+    private final SongFilter songFilter = new SongFilter();
+    private final Set<String> categorySet = new HashSet<>(); // Local storage for categories
 
     // Get all songs
     public List<Song> getAllSongs() throws IOException {
@@ -37,7 +42,5 @@ public class SongManager {
     public void updateSong(Song song) throws IOException {
         songDAO.updateSong(song); // Передаємо оновлення в DAO
     }
-
-
 }
 

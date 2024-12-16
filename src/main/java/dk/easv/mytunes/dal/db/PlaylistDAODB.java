@@ -63,11 +63,9 @@ public class PlaylistDAODB implements IPlaylistDAO {
                     playlist.setId(rs.getInt(1));
                 }
             }
-
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
@@ -80,7 +78,6 @@ public class PlaylistDAODB implements IPlaylistDAO {
                 ps1.setInt(1, playlistID);
                 ps1.executeUpdate();
             }
-
             try (PreparedStatement ps2 = connection.prepareStatement(deletePlaylist)) {
                 ps2.setInt(1, playlistID);
                 ps2.executeUpdate();
@@ -89,7 +86,6 @@ public class PlaylistDAODB implements IPlaylistDAO {
             throw new RuntimeException("Error deleting playlist and associated songs: " + e.getMessage(), e);
         }
     }
-
 
     @Override
     public void updatePlaylist(Playlist playlist) {
@@ -105,14 +101,14 @@ public class PlaylistDAODB implements IPlaylistDAO {
         }
     }
 
-    @Override
+    /*@Override
     public List<Song> getSongInPlaylist(int playlistID) {
         List<Song> songs = new ArrayList<>();
         String sql = "SELECT * FROM playlist";
 
-        /*String sql = "SELECT s.* FROM Songs s " +
+        *//*String sql = "SELECT s.* FROM Songs s " +
                 "JOIN SongsOfPlaylist sop ON s.SongID = sop.song_id " +
-                "WHERE sop.playlist_id = ?";*/
+                "WHERE sop.playlist_id = ?";*//*
         try (Connection connection = con.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, playlistID);
@@ -157,5 +153,5 @@ public class PlaylistDAODB implements IPlaylistDAO {
         } catch (SQLException e) {
             throw new RuntimeException("Error removing song from playlist: " + e.getMessage(), e);
         }
-    }
+    }*/
 }

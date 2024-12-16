@@ -6,9 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
@@ -19,6 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Time;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class SongEditorController implements Initializable {
@@ -52,8 +51,8 @@ public class SongEditorController implements Initializable {
     public void displayCategory(){
         try {
             // Fetch categories from the model
-            ObservableList<String> categories = myTunesModel.getCategory();
-            comboBox.setItems(categories);
+            ObservableList<String> categories = myTunesModel.getCategory(); // Fetch updated list
+            comboBox.setItems(categories); // Update the ComboBox items
             if (!categories.isEmpty()) {
                 comboBox.setValue(categories.get(0)); // Set first category as default
             }
@@ -64,6 +63,34 @@ public class SongEditorController implements Initializable {
     }
 
     public void onLoadMoreClick(ActionEvent actionEvent) {
+        // Show an input dialog for the new category
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Add Category");
+        dialog.setHeaderText("Add a New Category");
+        dialog.setContentText("Enter category name:");
+
+        // Get the user input
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(category -> {
+            // Check if the category already exists
+            if (comboBox.getItems().contains(category)) {
+                showInfoDialog("Fail","Category already exists!");
+                System.out.println("Category already exists!");
+            } else {
+                // Add new category to the ComboBox
+                comboBox.getItems().add(category);
+                showInfoDialog("Success","Added category: " + category);
+                System.out.println("Added category: " + category);
+            }
+        });
+    }
+
+    public void showInfoDialog(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION); // Інформаційне повідомлення
+        alert.setTitle(title);
+        alert.setHeaderText(title);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     public void onChooseClick(ActionEvent actionEvent) {
@@ -99,7 +126,6 @@ public class SongEditorController implements Initializable {
                 txtTime.setText("00:00");// Set a default value for the time in case of an error
             }
         }
-
     }
 
     public void onCancelSongClick(ActionEvent actionEvent) {
@@ -150,29 +176,7 @@ public class SongEditorController implements Initializable {
        }catch (Exception e) {
            myTunesController.showWarningDialog("Error", "An error occurred while saving the song: " + e.getMessage());
        }
-
-        /* try {
-            String title = txtTitle.getText();
-            String artist = txtArtist.getText();
-            String category = comboBox.getValue();
-            String filePath = txtFilePath.getText();
-
-            Time time = Time.valueOf("00:"+txtTime.getText());
-
-            Song newSong = new Song(title, artist, category, time, filePath);
-
-            myTunesModel.createSong(newSong);
-
-            myTunesController.initializeSongTable();
-
-            Stage stage = (Stage) btnSave.getScene().getWindow();
-            stage.close();
-        } catch (Exception e) {
-            //e.printStackTrace();
-            System.out.println("Error saving song: " + e.getMessage());
-        } */
     }
-
 
     public void setParentController(MyTunesController myTunesController) {
         this.myTunesController = myTunesController;
@@ -193,8 +197,6 @@ public class SongEditorController implements Initializable {
         String formattedTime = timeParts[1] + ":" + timeParts[2]; // Use only minutes and seconds
         txtTime.setText(formattedTime);// Set the formatted time into the text field
         txtTime.setEditable(false); // Make the time field non-editable
-
         txtFilePath.setText(selectedSong.getSongPath());
-
     }
 }

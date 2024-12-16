@@ -28,6 +28,4 @@ public class PlaylistManager {
     public void updatePlaylist(Playlist playlist) {
         playlistDAO.updatePlaylist(playlist);
     }
-
-
 }

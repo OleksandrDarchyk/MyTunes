@@ -24,45 +24,5 @@ public class DBConnection {
     }
 
 
-    /*private static final String PROP_FILE = "config/config.settings";
-    private SQLServerDataSource dataSource;
-
-    public DBConnection() throws IOException {
-        Properties databaseProperties = new Properties();
-
-
-        // Use try-with-resources to safely close the FileInputStream
-        try (FileInputStream fis = new FileInputStream(new File(PROP_FILE))) {
-            databaseProperties.load(fis);
-        } catch (IOException e) {
-            throw new IOException("Error loading database properties file: " + e.getMessage(), e);
-        }
-
-        dataSource = new SQLServerDataSource();
-        dataSource.setServerName(databaseProperties.getProperty("Server"));
-        dataSource.setDatabaseName(databaseProperties.getProperty("Database"));
-        dataSource.setUser(databaseProperties.getProperty("User"));
-        dataSource.setPassword(databaseProperties.getProperty("Password"));
-        dataSource.setPortNumber(Integer.parseInt(databaseProperties.getProperty("Port", "1433"))); // Default to 1433
-        dataSource.setTrustServerCertificate(true); // Use caution for production environments
-    }
-
-    public Connection getConnection() throws SQLServerException {
-        return dataSource.getConnection();
-    }
-
-    public static void main(String[] args) {
-        try {
-            DBConnection databaseConnector = new DBConnection();
-
-            try (Connection connection = databaseConnector.getConnection()) {
-                System.out.println("Connection is open: " + !connection.isClosed());
-            } // Connection gets closed here
-        } catch (Exception e) {
-            System.err.println("Database connection error: " + e.getMessage());
-        }
-    }
-}*/
-
 
 

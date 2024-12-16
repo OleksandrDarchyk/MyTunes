@@ -10,5 +10,4 @@ public interface ISongsOnPlaylistDAO {
     List<SongsOnPlaylist> getSongsOnPlaylist(int playlistId) throws IOException;
     void addSongToPlaylist(int playlistId, int songId) throws IOException;
     void removeSongFromPlaylist(int playlistId, int songId) throws IOException;
-
 }

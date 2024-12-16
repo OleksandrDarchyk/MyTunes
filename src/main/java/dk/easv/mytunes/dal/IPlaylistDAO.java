@@ -11,7 +11,7 @@ public interface IPlaylistDAO {
     void addPlaylist(Playlist playlist);
     void deletePlaylist(int playlistID);
     void updatePlaylist(Playlist playlist);
-    List<Song> getSongInPlaylist(int playlistID);
+    /*List<Song> getSongInPlaylist(int playlistID);
     void addSongToPlaylist(int playlistID, int songID);
-    void deleteSongFromPlaylist(int playlistID, int songID);
+    void deleteSongFromPlaylist(int playlistID, int songID);*/
 }

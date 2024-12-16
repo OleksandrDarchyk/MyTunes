@@ -23,6 +23,7 @@ public class MyTunesModel {
     private final ObservableList<Song> filteredSongs = FXCollections.observableArrayList();
     private final ObservableList<Playlist> playlists = FXCollections.observableArrayList();
     private final ObservableList<SongsOnPlaylist> songsOnPlaylist = FXCollections.observableArrayList();
+    private final ObservableList<String> categoryList = FXCollections.observableArrayList();
 
     // Get observable list of songs
     public ObservableList<Song> getAllSongs() {
@@ -85,6 +86,7 @@ public class MyTunesModel {
         // Convert the Set to an ObservableList
         return FXCollections.observableArrayList(categorySet);
     }
+
     public void deleteSong(int songId) throws IOException {
         songManager.deleteSong(songId);
     }

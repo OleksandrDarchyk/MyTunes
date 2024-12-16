@@ -5,17 +5,12 @@ public class SongsOnPlaylist {
     private int playlistId;
     private int songId;
     private String title;
-    private String songPath;
 
     public SongsOnPlaylist(int id, String title, int songId, int playlistId) {
         this.id = id;
         this.title = title;
         this.songId = songId;
         this.playlistId = playlistId;
-    }
-
-    public String getSongPath() {
-        return songPath;
     }
 
     public String getTitle() {

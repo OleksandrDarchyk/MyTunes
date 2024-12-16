@@ -78,7 +78,6 @@ public class MyTunesController implements Initializable {
     private List<Song> currentSongList;
     private int currentSongIndex = -1;
 
-
     private final MyTunesModel myTunesModel = new MyTunesModel();
     private MediaPlayer mediaPlayer;
 
@@ -94,7 +93,6 @@ public class MyTunesController implements Initializable {
         initializeSongTable();
         initializePlaylistTable();
         setSongsOnPlaylistTableId();
-
         try {
             handleSongSelection();
         } catch (IOException e) {
@@ -184,49 +182,6 @@ public class MyTunesController implements Initializable {
         });
     }
 
-    /*public void onPlayButtonClick(ActionEvent actionEvent) {
-        SongsOnPlaylist selectedPlaylistSong = (SongsOnPlaylist) lstSongOnPlaylist.getSelectionModel().getSelectedItem();
-        Playlist selectedPlaylist = lstPlaylist.getSelectionModel().getSelectedItem();
-        Song selectedSong = lstSongs.getSelectionModel().getSelectedItem();
-        // Check if mediaPlayer exists and is paused
-        if (mediaPlayer != null && mediaPlayer.getStatus() == MediaPlayer.Status.PAUSED) {
-        // If no music is playing or paused, proceed with the regular play logic
-        if (selectedPlaylistSong != null && selectedPlaylist == null && selectedSong == null) {
-            // Play the selected song from the playlist
-            String songPath = selectedSong.getSongPath();
-            if (songPath != null && !songPath.isEmpty()) {
-                playSong(songPath);
-                displayCurrentlyPlayingSong(selectedSong);
-            } else {
-                showWarningDialog("Invalid Song Path", "The selected song's file path is invalid or empty.");
-            }
-            return;
-        }
-
-        if (selectedPlaylist != null) {
-            playPlaylist(selectedPlaylist.getId());
-            return;
-        }
-
-        if (selectedSong != null) {
-            // Play a single song from the songs table
-            String songPath = selectedSong.getSongPath();
-            if (songPath != null && !songPath.isEmpty()) {
-                playSong(songPath);
-                displayCurrentlyPlayingSong(selectedSong);
-            } else {
-                showWarningDialog("Invalid Song Path", "The selected song's file path is invalid or empty.");
-            }
-        } else {
-            showWarningDialog("No Selection", "Please select a playlist or song to play.");
-        }
-        // If no new selection, resume the currently paused song
-        mediaPlayer.play();
-        System.out.println("Music resumed.");
-        return;
-        }
-    }*/
-
     public void onPlayButtonClick(ActionEvent actionEvent) {
         SongsOnPlaylist selectedPlaylistSong = (SongsOnPlaylist) lstSongOnPlaylist.getSelectionModel().getSelectedItem();
         Playlist selectedPlaylist = lstPlaylist.getSelectionModel().getSelectedItem();
@@ -234,7 +189,6 @@ public class MyTunesController implements Initializable {
 
         if (mediaPlayer != null) {
             MediaPlayer.Status status = mediaPlayer.getStatus();
-
             if (status == MediaPlayer.Status.PLAYING) {
                 mediaPlayer.pause();
                 System.out.println("Music paused.");
@@ -293,38 +247,6 @@ public class MyTunesController implements Initializable {
         }
     }
 
-    // Play a new song from the playlist
-    private void playNewPlaylistSong(SongsOnPlaylist selectedPlaylistSong) {
-        Song song = (Song) myTunesModel.getSongsOnPlaylist(selectedPlaylistSong.getId());
-        if (song != null) {
-            // Only initialize a new MediaPlayer if a new song is selected
-            if (mediaPlayer == null || !mediaPlayer.getMedia().getSource().contains(song.getSongPath())) {
-                playSong(song.getSongPath());
-                displayCurrentlyPlayingSong(song);
-            } else {
-                mediaPlayer.play(); // Resume if the song is already loaded
-            }
-        } else {
-            showWarningDialog("Invalid Song", "The selected song from the playlist is not valid.");
-        }
-    }
-
-    // Play a new single song from the songs table
-    private void playNewSingleSong(Song selectedSong) {
-        String songPath = selectedSong.getSongPath();
-        if (songPath != null && !songPath.isEmpty()) {
-            // Only initialize a new MediaPlayer if a new song is selected
-            if (mediaPlayer == null || !mediaPlayer.getMedia().getSource().contains(songPath)) {
-                playSong(songPath);
-                displayCurrentlyPlayingSong(selectedSong);
-            } else {
-                mediaPlayer.play(); // Resume if the song is already loaded
-            }
-        } else {
-            showWarningDialog("Invalid Song Path", "The selected song's file path is invalid or empty.");
-        }
-    }
-
     private void playSong(String songPath) {
         try {
             if (songPath == null || songPath.isEmpty()) {
@@ -333,9 +255,16 @@ public class MyTunesController implements Initializable {
                 return;
             }
 
-            // If mediaPlayer is already initialized, stop and dispose of the current player
             if (mediaPlayer != null) {
-                System.out.println("Stopping current song: " + mediaPlayer.getMedia().getSource());
+                Media currentMedia = mediaPlayer.getMedia();
+                if (currentMedia != null && currentMedia.getSource().equals(new File(songPath).toURI().toString())) {
+                    // If the same song is already loaded, resume playback
+                    mediaPlayer.play();
+                    System.out.println("Resumed current song: " + currentMedia.getSource());
+                    return;
+                }
+
+                System.out.println("Stopping current song: " + currentMedia.getSource());
                 mediaPlayer.stop();
                 mediaPlayer.dispose();
             }
@@ -356,64 +285,6 @@ public class MyTunesController implements Initializable {
         } catch (Exception e) {
             System.out.println("Error during playback: " + e.getMessage());
             showWarningDialog("Playback Error", "Unable to play the selected song.");
-        }
-    }
-
-    public void playPlaylist(int playlistId) {
-        // Get the songs on the playlist
-        List<SongsOnPlaylist> songsInPlaylist = myTunesModel.getSongsOnPlaylist(playlistId);
-
-        if (songsInPlaylist.isEmpty()) {
-            showWarningDialog("No Songs in Playlist", "The selected playlist has no songs to play.");
-            return;
-        }
-
-        // Convert playlist songs to a queue
-        Queue<Song> playlistQueue = new LinkedList<>();
-        for (SongsOnPlaylist songOnPlaylist : songsInPlaylist) {
-            int songId = songOnPlaylist.getSongId();
-            Song song = myTunesModel.getAllSongs().stream()
-                    .filter(s -> s.getId() == songId)
-                    .findFirst()
-                    .orElse(null);
-
-            if (song != null) {
-                playlistQueue.add(song);
-            }
-        }
-
-        if (playlistQueue.isEmpty()) {
-            showWarningDialog("No Valid Songs in Playlist", "None of the songs in this playlist have a valid file path.");
-            return;
-        }
-
-        // Start playing the first song in the playlist
-        playPlaylistQueue(playlistQueue);
-    }
-
-    private void playPlaylistQueue(Queue<Song> playlistQueue) {
-        if (playlistQueue.isEmpty()) {
-            System.out.println("Playlist finished.");
-            return; // End playback when the queue is empty
-        }
-        Song currentSong = playlistQueue.poll();
-        if (currentSong != null) {
-            String songPath = currentSong.getSongPath();
-            if (songPath != null && !songPath.isEmpty()) {
-                try {
-                    playSong(songPath);
-                    Platform.runLater(() -> displayCurrentlyPlayingSong(currentSong));
-
-                    // Wait for the current song to finish, then play the next song
-                    mediaPlayer.setOnEndOfMedia(() -> playPlaylistQueue(playlistQueue));
-                } catch (Exception e) {
-                    System.out.println("Error playing song: " + currentSong.getTitle() + " - " + e.getMessage());
-                    playPlaylistQueue(playlistQueue); // Skip to the next song if there's an error
-                }
-            } else {
-                System.out.println("Invalid song path for: " + currentSong.getTitle());
-                playPlaylistQueue(playlistQueue); // Skip to the next song if path is invalid
-            }
         }
     }
 
@@ -491,66 +362,6 @@ public class MyTunesController implements Initializable {
             showWarningDialog("No Selection", "Please start playback first.");
         }
     }
-
-    public void REWPlayForSongTable() {
-        int currentIndex = lstSongs.getSelectionModel().getSelectedIndex();
-        if (currentIndex >= 0) { // Ensure a valid song is selected
-            if (currentIndex > 0) { // Ensure the current song is not the first one
-                lstSongs.getSelectionModel().select(currentIndex - 1); // Select the previous song in the list
-                Song previousSong = (Song) lstSongs.getSelectionModel().getSelectedItem(); // Get the previous song
-                if (previousSong != null) {
-                    playSong(previousSong.getSongPath());
-                    displayCurrentlyPlayingSong(previousSong);
-                }
-            } else {
-                showWarningDialog("Playback Error", "No previous song. You are at the start of the song list.");
-            }
-        } else {
-            showWarningDialog("Playback Error", "No song selected. Please select a song to play.");
-        }
-    }
-
-    public void REWPlayForPlaylistTable() {
-        try {
-            // Step 1: Get the current index of the selected song in the playlist
-            int currentIndex = lstSongOnPlaylist.getSelectionModel().getSelectedIndex();
-            System.out.println("Current index: " + currentIndex); // Debug log
-
-            // Step 2: Check if there is a previous song
-            if (currentIndex > 0) { // Ensure we're not at the start of the playlist
-                // Move selection to previous song
-                lstSongOnPlaylist.getSelectionModel().select(currentIndex - 1);
-
-                // Step 3: Get the previous SongsOnPlaylist item
-                SongsOnPlaylist previousSongOnPlaylist = (SongsOnPlaylist) lstSongOnPlaylist.getSelectionModel().getSelectedItem();
-                System.out.println("Previous SongsOnPlaylist: " + previousSongOnPlaylist); // Debug log
-
-                if (previousSongOnPlaylist != null) {
-                    // Step 4: Get the song's path directly from the SongsOnPlaylist item
-                    String songPath = previousSongOnPlaylist.getSongPath(); // Assuming this is directly in SongsOnPlaylist
-                    System.out.println("Song Path: " + songPath); // Debug log
-
-                    if (songPath != null && !songPath.isEmpty()) {
-                        // Play the previous song
-                        playSong(songPath);
-                        //displayCurrentlyPlayingSong(previousSongOnPlaylist); // Update UI to show the current song
-                    } else {
-                        showWarningDialog("Playback Error", "The selected song's file path is invalid or empty.");
-                    }
-                } else {
-                    showWarningDialog("Playback Error", "No previous song could be found in the playlist.");
-                }
-            } else {
-                showWarningDialog("Playback Error", "You are already at the start of the playlist.");
-            }
-        } catch (Exception e) {
-            // Catch any unexpected errors and log them
-            System.err.println("Error while playing previous song: " + e.getMessage());
-            e.printStackTrace();
-            showWarningDialog("Playback Error", "An unexpected error occurred while trying to play the previous song.");
-        }
-    }
-
 
     public void onFFClick(ActionEvent actionEvent) {
         if (playingFromPlaylist && currentSongList != null && !currentSongList.isEmpty()) {

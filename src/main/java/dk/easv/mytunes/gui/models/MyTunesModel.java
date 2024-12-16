@@ -111,8 +111,6 @@ public class MyTunesModel {
     public void updatePlaylist(Playlist playlist) throws IOException {
         playlistManager.updatePlaylist(playlist);
     }
-
-
 }
 
 

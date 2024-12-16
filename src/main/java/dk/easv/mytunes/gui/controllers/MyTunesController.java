@@ -268,7 +268,6 @@ public class MyTunesController implements Initializable {
                 mediaPlayer.stop();
                 mediaPlayer.dispose();
             }
-
             // Log the song path being used
             System.out.println("Playing song with path: " + songPath);
 
@@ -318,6 +317,7 @@ public class MyTunesController implements Initializable {
     }
 
     private void playNextSong() {
+        synchronizeSelection();
         //  Get the current index of the selected song
         int currentIndex = lstSongs.getSelectionModel().getSelectedIndex();
         // Ensure there is a song selected and have at least two songs in the list
@@ -338,6 +338,36 @@ public class MyTunesController implements Initializable {
                 playSong(firstSong.getSongPath());
                 displayCurrentlyPlayingSong(firstSong);
             }
+        }
+    }
+
+    public void synchronizeSelection() {
+        if (playingFromSongs) {
+            // Move to the next song or restart if at the end of the list
+            if (currentSongIndex < currentSongList.size() - 1) {
+                currentSongIndex++;
+            } else {
+                currentSongIndex = 0; // Restart from the beginning
+            }
+
+            // Update selection and play the next song
+            lstSongs.getSelectionModel().select(currentSongIndex);
+            Song nextSong = currentSongList.get(currentSongIndex);
+            playSong(nextSong.getSongPath());
+            displayCurrentlyPlayingSong(nextSong);
+        } else if (playingFromPlaylist) {
+            // Move to the next song or restart if at the end of the playlist
+            if (currentSongIndex < currentSongList.size() - 1) {
+                currentSongIndex++;
+            } else {
+                currentSongIndex = 0; // Restart from the beginning
+            }
+
+            // Update selection and play the next song
+            lstSongOnPlaylist.getSelectionModel().select(currentSongIndex);
+            Song nextSong = currentSongList.get(currentSongIndex);
+            playSong(nextSong.getSongPath());
+            displayCurrentlyPlayingSong(nextSong);
         }
     }
 

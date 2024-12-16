@@ -91,7 +91,7 @@ public class MyTunesModel {
     }
 
     public void updateSong(Song songToEdit) throws IOException {
-        songManager.updateSong(songToEdit); // Викликаємо метод у Manager
+        songManager.updateSong(songToEdit);
     }
 
     public void addSongToPlaylist(int playlistId, int songId) throws IOException {

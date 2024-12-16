@@ -25,13 +25,9 @@ public class PlaylistEditorController {
         this.myTunesController = myTunesController;
     }
 
-
-
     public void onCancelPlaylistClick(ActionEvent actionEvent) {
         Stage stage = (Stage) btnCancelPlaylist.getScene().getWindow();
         stage.close();
-
-
     }
 
     public void onSavePlaylistClick(ActionEvent actionEvent) {
@@ -72,5 +68,4 @@ public class PlaylistEditorController {
         this.playlistToEdit = playlist;
         txtName.setText(playlist.getName());
     }
-
 }

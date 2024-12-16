@@ -4,7 +4,6 @@ import dk.easv.mytunes.be.Playlist;
 import dk.easv.mytunes.be.Song;
 import dk.easv.mytunes.be.SongsOnPlaylist;
 import dk.easv.mytunes.gui.models.MyTunesModel;
-import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
@@ -26,7 +25,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class MyTunesController implements Initializable {
     @FXML
@@ -61,6 +59,7 @@ public class MyTunesController implements Initializable {
     private TableView <Song> lstSongs;
     @FXML
     private Slider volumeSlider;
+    
     private boolean playingFromPlaylist = false;
     private boolean playingFromSongs = false;
     private List<Song> currentSongList;

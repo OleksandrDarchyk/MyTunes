@@ -16,7 +16,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Time;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -35,10 +34,6 @@ public class SongEditorController implements Initializable {
     private Button btnCancelSong;
     @FXML
     private Button btnChoose;
-    @FXML
-    private Button btnCancel;
-    @FXML
-    private Button btnSave;
 
     private MyTunesController myTunesController;
     private final MyTunesModel myTunesModel = new MyTunesModel();

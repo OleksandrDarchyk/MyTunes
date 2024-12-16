@@ -1,9 +1,7 @@
 package dk.easv.mytunes.dal.db;
 
 import dk.easv.mytunes.be.Playlist;
-import dk.easv.mytunes.be.Song;
 import dk.easv.mytunes.dal.IPlaylistDAO;
-
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -100,58 +98,4 @@ public class PlaylistDAODB implements IPlaylistDAO {
             throw new RuntimeException(e);
         }
     }
-
-    /*@Override
-    public List<Song> getSongInPlaylist(int playlistID) {
-        List<Song> songs = new ArrayList<>();
-        String sql = "SELECT * FROM playlist";
-
-        *//*String sql = "SELECT s.* FROM Songs s " +
-                "JOIN SongsOfPlaylist sop ON s.SongID = sop.song_id " +
-                "WHERE sop.playlist_id = ?";*//*
-        try (Connection connection = con.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, playlistID);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                songs.add(new Song(
-                        rs.getInt("SongID"),
-                        rs.getString("Title"),
-                        rs.getString("Artist"),
-                        rs.getString("Category"),
-                        rs.getTime("Time"),
-                        rs.getString("FilePath")
-                ));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Error fetching songs from playlist: " + e.getMessage(), e);
-        }
-        return songs;
-    }
-
-    @Override
-    public void addSongToPlaylist(int playlistID, int songID) {
-        String sql = "INSERT INTO SongsOfPlaylist (playlist_id, song_id) VALUES (?, ?)";
-        try (Connection connection = con.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, playlistID);
-            ps.setInt(2, songID);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Error adding song to playlist: " + e.getMessage(), e);
-        }
-    }
-
-    @Override
-    public void deleteSongFromPlaylist(int playlistID, int songID) {
-        String sql = "DELETE FROM SongsOfPlaylist WHERE playlist_id = ? AND song_id = ?";
-        try (Connection connection = con.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, playlistID);
-            ps.setInt(2, songID);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Error removing song from playlist: " + e.getMessage(), e);
-        }
-    }*/
 }

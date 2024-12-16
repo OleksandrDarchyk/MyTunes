@@ -48,11 +48,7 @@ public class MyTunesController implements Initializable {
     @FXML
     private Button btnClear;
     @FXML
-    private Button btnFilter;
-    @FXML
     private TextField txtQuery;
-    @FXML
-    private Label lblFilter;
     @FXML
     private TableColumn artistColumn;
     @FXML
@@ -63,14 +59,6 @@ public class MyTunesController implements Initializable {
     private TableColumn titleColumn;
     @FXML
     private TableView <Song> lstSongs;
-    @FXML
-    private Button btnEditSong;
-    @FXML
-    private Button btnAddSong;
-    @FXML
-    private Button btnEditPlaylist;
-    @FXML
-    private Button btnAddPlaylist;
     @FXML
     private Slider volumeSlider;
     private boolean playingFromPlaylist = false;
@@ -329,7 +317,6 @@ public class MyTunesController implements Initializable {
                 displayCurrentlyPlayingSong(nextSong);
             }
         }
-
         // I wanna the playlist to restart from the beginning after the last song is played.
         if (currentIndex == lstSongs.getItems().size() - 1) {
             lstSongs.getSelectionModel().select(0); // Restart from the 1st song
@@ -397,9 +384,6 @@ public class MyTunesController implements Initializable {
         if (playingFromPlaylist && currentSongList != null && !currentSongList.isEmpty()) {
             if (currentSongIndex < currentSongList.size() - 1) {
                 currentSongIndex++;
-            } else {
-                // За бажанням можна зациклити:
-                // currentSongIndex = 0;
             }
             Song nextSong = currentSongList.get(currentSongIndex);
             playSong(nextSong.getSongPath());

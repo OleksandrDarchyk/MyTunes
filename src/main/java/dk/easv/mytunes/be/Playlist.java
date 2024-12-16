@@ -15,11 +15,21 @@ public class Playlist {
         this.totalDuration = totalDuration;
     }
 
-    public int getId() {return id;}
-    public void setId(int id) {this.id = id;}
+    public int getId() {
+        return id;
+    }
 
-    public String getName() {return name;}
-    public void setName(String name) {this.name = name;}
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getSongs() {
         return songs;
@@ -30,10 +40,12 @@ public class Playlist {
     }
 
     public Time getTotalDuration() {
+
         return totalDuration;
     }
 
     public void setTotalDuration(Time totalDuration) {
+
         this.totalDuration = totalDuration;
     }
 

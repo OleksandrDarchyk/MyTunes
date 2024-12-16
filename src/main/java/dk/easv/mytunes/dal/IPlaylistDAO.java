@@ -11,5 +11,4 @@ public interface IPlaylistDAO {
     void addPlaylist(Playlist playlist);
     void deletePlaylist(int playlistID);
     void updatePlaylist(Playlist playlist);
-
 }

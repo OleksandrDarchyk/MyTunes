@@ -5,7 +5,6 @@ import dk.easv.mytunes.dal.ISongsOnPlaylistDAO;
 import dk.easv.mytunes.dal.db.SongsOnPlaylistDAODB;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 public class SongsOnPlaylistManager {

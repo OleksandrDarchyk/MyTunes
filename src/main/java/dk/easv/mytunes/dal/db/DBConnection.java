@@ -3,11 +3,7 @@ package dk.easv.mytunes.dal.db;
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.Connection;
-import java.util.Properties;
 
 public class DBConnection {
     public Connection getConnection() throws SQLServerException {
